@@ -26,9 +26,6 @@ jobs:
       with:
         java-version: '1.8'
         distribution: 'temurin'
-  
-    - name: Build with Maven
-      run: mvn clean test
       
     - name: Build with Maven
       run: attunedlabs/services/maven-build.bat
