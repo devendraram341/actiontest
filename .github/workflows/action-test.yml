@@ -10,9 +10,9 @@ name: test CI with Maven build
 
 on:
   push:
-    branches: [ "leap-src-code" ]
+    branches: [ "test" ]
   pull_request:
-    branches: [ "leap-src-code" ]
+    branches: [ "test" ]
 
 jobs:
   build:
@@ -29,7 +29,7 @@ jobs:
         cache: maven
     - name: Build with Maven
       run: .github/workflows/maven-build.bat
-      shell: bash
+      shell: cmd
 
     # Optional: Uploads the full dependency graph to GitHub to improve the quality of Dependabot alerts this repository can receive
     #- name: Update dependency graph
