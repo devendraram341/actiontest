@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<EventFramework
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="eventframework.xsd"
+	xmlns:dis="http://attunedlabs.com/internalevents/Dispatcher">
+
+	<DispatchChannels>
+		<DispatchChannel id="HAZELCAST_TOPIC"
+			description="dispatch data to below mentioned hazel cast"
+			isEnabled="true" processingWay="ASYNC">
+			<ChannelImplementation
+				fqcn="com.attunedlabs.eventframework.dispatcher.channel.HazelcastTopicDispatchChannel"
+				beanRefid="hazelcastTopicDispatchChanel" />
+			<ChannelConfiguration>
+				{"queueName":"hzEventsTopic"}
+			</ChannelConfiguration>
+		</DispatchChannel>
+	</DispatchChannels>
+	
+	<Events>
+		<!-- Camel Producer Config for Service Producer -->
+		<Event id="PRINT_SERVICE_XSLT_HZ" type="internal"
+			description="print service" isEnabled="true">
+			<EventParams />
+			<dis:EventDispatchers>
+				<dis:EventDispatcher>
+					<dis:DispatchChannelId>HAZELCAST_TOPIC</dis:DispatchChannelId>
+					<dis:EventTransformation Type="XML-XSLT">
+						<dis:XSLTName>XSLT/TestXSLTTransform.xslt</dis:XSLTName>
+					</dis:EventTransformation>
+				</dis:EventDispatcher>
+			</dis:EventDispatchers>
+		</Event>
+	
+		<Event id="PRINT_SERVICE_CUSTOM_HZ" type="internal"
+			description="print service" isEnabled="true">
+			<EventParams />
+			<dis:EventDispatchers>
+				<dis:EventDispatcher>
+					<dis:DispatchChannelId>HAZELCAST_TOPIC</dis:DispatchChannelId>
+					<dis:EventTransformation Type="CUSTOM">
+						<dis:CustomTransformer
+							fqcn="com.attunedlabs.eventframework.dispatcher.TransformationTest" />
+					</dis:EventTransformation>
+				</dis:EventDispatcher>
+			</dis:EventDispatchers>
+		</Event>
+
+
+		<Event id="PRINT_SERVICE_JSON_HZ" type="internal"
+			description="print service" isEnabled="true">
+			<EventParams />
+			<dis:EventDispatchers>
+				<dis:EventDispatcher>
+					<dis:DispatchChannelId>HAZELCAST_TOPIC</dis:DispatchChannelId>
+					<dis:EventTransformation Type="JSON" />
+				</dis:EventDispatcher>
+			</dis:EventDispatchers>
+		</Event>
+	</Events>
+</EventFramework>
+

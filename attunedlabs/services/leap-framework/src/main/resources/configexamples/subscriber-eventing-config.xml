@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EventFramework xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="eventframework.xsd"
+	xmlns:dis="http://attunedlabs.com/internalevents/Dispatcher">
+	<EventSubscription>
+		<SubscribeEvent subscriptionId="PublishEMSEventsToMastadon_Subscriber"
+			isEnabled="true" parallelProcessing="true">
+			<SubscribeTo>processEMSEvents_all_all</SubscribeTo>
+			<EventRoutingRules>
+				<EventRoutingRule>
+					<InvokeCamelRoute featureGroup="sitelinez"
+						featureName="sitelinezservice" serviceName="publishEMSEvents" />
+				</EventRoutingRule>
+			</EventRoutingRules>
+			<FailureHandlingStrategy>
+				<FailureStrategyName>LeapDefaultRetryStrategy</FailureStrategyName>
+				<FailureStrategyConfig>
+					{
+					"retryCount": "4",
+					"retryInterval": "1"
+					"retryIntervalMultiplier": "1",
+					"maximumRetryInterval": "30",
+					"timeIntervalUnit": "MINUTES",
+					"retryTopRecords":5
+					}
+				</FailureStrategyConfig>
+			</FailureHandlingStrategy>
+		</SubscribeEvent>
+		<SubscribeEvent subscriptionId="PublishWMSEventsToMastadon_Subscriber"
+			isEnabled="true" parallelProcessing="true">
+			<SubscribeTo>processWMSEvents_all_all</SubscribeTo>
+			<EventRoutingRules>
+				<EventRoutingRule>
+					<InvokeCamelRoute featureGroup="sitelinez"
+						featureName="sitelinezservice" serviceName="publishWMSEvents" />
+				</EventRoutingRule>
+			</EventRoutingRules>
+			<FailureHandlingStrategy>
+				<FailureStrategyName>LeapDefaultRetryStrategy</FailureStrategyName>
+				<FailureStrategyConfig>
+					{
+					"retryCount": "4",
+					"retryInterval": "1"
+					"retryIntervalMultiplier": "1",
+					"maximumRetryInterval": "30",
+					"timeIntervalUnit": "MINUTES",
+					"retryTopRecords":5
+					}
+				</FailureStrategyConfig>
+			</FailureHandlingStrategy>
+		</SubscribeEvent>
+		<SubscribeEvent subscriptionId="PublishWMSEventsToMastadon_GetusroiSubscriber"
+			isEnabled="true" parallelProcessing="true">
+			<SubscribeTo>processWMSEvents_getusroi_getusroi1</SubscribeTo>
+			<EventRoutingRules>
+				<EventRoutingRule>
+					<InvokeCamelRoute featureGroup="sitelinez"
+						featureName="sitelinezservice" serviceName="publishWMSEvents" />
+				</EventRoutingRule>
+			</EventRoutingRules>
+			<FailureHandlingStrategy>
+				<FailureStrategyName>LeapDefaultRetryStrategy</FailureStrategyName>
+				<FailureStrategyConfig>
+					{
+					"retryCount": "4",
+					"retryInterval": "1"
+					"retryIntervalMultiplier": "1",
+					"maximumRetryInterval": "30",
+					"timeIntervalUnit": "MINUTES",
+					"retryTopRecords":5
+					}
+				</FailureStrategyConfig>
+			</FailureHandlingStrategy>
+		</SubscribeEvent>
+	</EventSubscription>
+
+
+	<DispatchChannels>
+
+		<DispatchChannel id="FILE_STORE" description="file store"
+			isEnabled="false" processingWay="ASYNC">
+			<ChannelImplementation
+				fqcn="com.attunedlabs.eventframework.dispatcher.channel.FileStoreDispatchChannel"
+				beanRefid="fileStoreDispatcher" />
+			<ChannelConfiguration>
+				{"filepath":"E:\\Events","filename":"LogDispatchChannel.txt"}
+			</ChannelConfiguration>
+		</DispatchChannel>
+	</DispatchChannels>
+</EventFramework>
+	

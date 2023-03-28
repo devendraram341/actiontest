@@ -1,0 +1,91 @@
+{
+	"swagger": "2.0",
+	"info": {
+		"description": "Employee swagger description",
+		"version": "1.0",
+		"title": "Employee Swagger",
+		"termsOfService": "https://www.attunedlabs.com/terms/",
+		"contact": {
+			"name": "ATTUNED LABS",
+			"url": "https://www.attunedlabs.com",
+			"email": "contact@testswagger.com"
+		},
+		"license": {
+			"name": "Apache 2.0",
+			"url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+		}
+	},
+	"host": "localhost:9060",
+	"basePath": "/ecomm/rest",
+	"tags": [
+		{
+			"name": "Test Tag",
+			"description": "Test Tag Description"
+		}
+	],
+	"schemes": [
+		"http"
+	],
+	"consumes": [
+		"application/json"
+	],
+	"produces": [
+		"application/json"
+	],
+	"paths": {
+		"/TestFeatureGroup/TestFeature/TestService": {
+			"post": {
+				"tags": [
+					"data Tag"
+				],
+				"summary": "helloworldservice's ",
+				"description": "helloworldservice's ",
+				"parameters": [
+					{
+						"name": "test-Header",
+						"in": "header",
+						"description": "test header description.",
+						"required": false,
+						"type": "string",
+						"x-example": "test_value"
+					},
+					{
+						"in": "body",
+						"name": "body",
+						"required": true,
+						"schema": {
+							"$ref": "#/definitions/test-request"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"schema": {
+							"$ref": "#/definitions/test200-response"
+						}
+					}
+				},
+			"x-leapProjection": "[test.TaxonomyData, test.checkData.third, test.checkData.four]"
+			}
+		}
+	},
+	"definitions": {
+		"test-request": {
+			"properties": {
+				"greeting": {
+					"type": "string",
+					"example": "string"
+				}
+			}
+		},
+		"test200-response": {
+			"properties": {
+				"SmartBOL-response": {
+					"type": "string",
+					"example": "string"
+				}
+			}
+		}
+	}
+}

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<FeaturesServiceInfo xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="featureService.xsd">
+	<Features featureGroup="TestFeatureGroup">
+		<Feature enabled="true" featureName="TestFeature" interfaceName=""
+			version="1.0">
+			<Service Description="" enabled="true"
+				name="TestService1" vendorName="TestVendor">
+				<GenericRestEndpoint httpMethod="POST"
+					urlMappingScheme="TestFeatureGroup/TestFeature/TestService1">TestService1-TestFeatureGroup-IR
+				</GenericRestEndpoint>
+			</Service>
+			<Service Description="" enabled="true"
+				name="TestService2" vendorName="TestVendor">
+				<GenericRestEndpoint httpMethod="POST"
+					urlMappingScheme="TestFeatureGroup/TestFeature/TestService2">TestService2-TestFeatureGroup-IR
+				</GenericRestEndpoint>
+			</Service>
+			<Service Description="" enabled="true"
+				name="TestService3" vendorName="TestVendor">
+				<GenericRestEndpoint httpMethod="POST"
+					urlMappingScheme="TestFeatureGroup/TestFeature/TestService3">TestService3-TestFeatureGroup-IR
+				</GenericRestEndpoint>
+			</Service>
+		</Feature>
+	</Features>
+</FeaturesServiceInfo>

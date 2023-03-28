@@ -1,0 +1,22 @@
+{
+	"schema": {
+		"test": {
+			"uniqueBy": [
+				"TaxonomyData"
+			]
+		},
+		"checkData": {
+			"uniqueBy": [
+				"TaxonomyData"
+			],
+			"relationship": {
+				"childOf": "test",
+				"referenceKey": [
+					"TaxonomyData"
+				]
+			}
+		}
+	},
+	"structuralType": "Nested",
+	"Content-Type": "application/json"
+}

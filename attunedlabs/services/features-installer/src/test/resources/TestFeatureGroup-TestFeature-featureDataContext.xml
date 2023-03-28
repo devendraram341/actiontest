@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<FeatureDataContext xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="featureDataContext.xsd">
+
+	<DataContexts contextName="TestFeatureGroup-TestFeature">
+		<DataContext dbBeanRefName="testDataSource" dbType='MYSQL'
+			dbHost="localhost" dbPort="3306" dbSchema="reactiveworks" />
+	</DataContexts>
+
+</FeatureDataContext>

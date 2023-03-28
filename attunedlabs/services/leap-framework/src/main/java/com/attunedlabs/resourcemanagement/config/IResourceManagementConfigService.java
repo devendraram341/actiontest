@@ -1,0 +1,15 @@
+package com.attunedlabs.resourcemanagement.config;
+
+import com.attunedlabs.config.ConfigurationContext;
+import com.attunedlabs.config.RequestContext;
+import com.attunedlabs.resourcemanagement.jaxb.ConnectionInfo;
+import com.attunedlabs.resourcemanagement.jaxb.GetResourceContent;
+
+public interface IResourceManagementConfigService {
+	public void addGetResourceContentConfiguration(ConfigurationContext configurationContext,GetResourceContent getResourceContent) throws ResourceManagementConfigurationException;
+	public void addConnectionInfoConfiguration(ConfigurationContext configurationContext,ConnectionInfo connectionInfo) throws ResourceManagementConfigurationException;
+	public GetResourceContent getGetResourceContentConfiguration(RequestContext requestContext, String configName) throws ResourceManagementConfigurationException;
+	public ConnectionInfo getConnectionInfoConfiguration(RequestContext requestContext) throws ResourceManagementConfigurationException;
+	
+
+}

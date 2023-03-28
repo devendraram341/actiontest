@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ServiceHandlerConfiguration
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="servicehandlerconfig.xsd">
+
+	<FeatureServiceHandler>
+		<ServiceHandler type="*" execute="sync"
+			handlerId="testFeatureHandler1">
+			<Description>This is async service call tracker handler...
+			</Description>
+			<HandlerImplementation
+				fqcn="com.attunedlabs.servicehandlers.util.LoggingHandler" />
+			<IncludedServices>
+				<Service featureGroup="TestFeatureGroup"
+					featureName="TestFeature" serviceName="TestService1" />
+				<Service featureGroup="TestFeatureGroup"
+					featureName="TestFeature" serviceName="TestService3" />
+			</IncludedServices>
+		</ServiceHandler>
+	</FeatureServiceHandler>
+</ServiceHandlerConfiguration>

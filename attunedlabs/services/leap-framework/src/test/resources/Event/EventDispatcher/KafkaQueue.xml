@@ -1,0 +1,59 @@
+<EventFramework
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="eventframework.xsd"
+	xmlns:dis="http://attunedlabs.com/internalevents/Dispatcher">
+	
+	<DispatchChannels>
+		<DispatchChannel id="KAFKA_QUEUE"
+			description="kafka Queue" isEnabled="true" processingWay="ASYNC">
+			<ChannelImplementation
+				fqcn="com.attunedlabs.eventframework.dispatcher.channel.KafkaQueueDispatchChannel"
+				beanRefid="kafkaQueue" />
+			<ChannelConfiguration>{"bootstrapservers":"localhost:9094","queue":"testQueue",
+				"isTenantAware":false}
+			</ChannelConfiguration>
+		</DispatchChannel>
+	</DispatchChannels>
+
+	<Events>
+		<!-- Camel Producer Config for Service Producer -->
+		<Event id="PRINT_SERVICE_XSLT" type="internal"
+			description="print service" isEnabled="true">
+			<EventParams />
+			<dis:EventDispatchers>
+				<dis:EventDispatcher>
+					<dis:DispatchChannelId>KAFKA_QUEUE</dis:DispatchChannelId>
+					<dis:EventTransformation Type="XML-XSLT">
+						<dis:XSLTName>XSLT/TestXSLTTransform.xslt</dis:XSLTName>
+					</dis:EventTransformation>
+				</dis:EventDispatcher>
+			</dis:EventDispatchers>
+		</Event>
+	
+		<Event id="PRINT_SERVICE_CUSTOM" type="internal"
+			description="print service" isEnabled="true">
+			<EventParams />
+			<dis:EventDispatchers>
+				<dis:EventDispatcher>
+					<dis:DispatchChannelId>KAFKA_QUEUE</dis:DispatchChannelId>
+					<dis:EventTransformation Type="CUSTOM">
+						<dis:CustomTransformer
+							fqcn="com.attunedlabs.eventframework.dispatcher.TransformationTest" />
+					</dis:EventTransformation>
+				</dis:EventDispatcher>
+			</dis:EventDispatchers>
+		</Event>
+
+
+		<Event id="PRINT_SERVICE_JSON" type="internal"
+			description="print service" isEnabled="true">
+			<EventParams />
+			<dis:EventDispatchers>
+				<dis:EventDispatcher>
+					<dis:DispatchChannelId>KAFKA_QUEUE</dis:DispatchChannelId>
+					<dis:EventTransformation Type="JSON" />
+				</dis:EventDispatcher>
+			</dis:EventDispatchers>
+		</Event>
+	</Events>
+</EventFramework>

@@ -1,0 +1,37 @@
+<EventFramework
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="eventframework.xsd"
+	xmlns:dis="http://attunedlabs.com/internalevents/Dispatcher">
+
+	<SystemEvents>
+		<SystemEvent id="SERVICE_COMPLETION_SUCCESS"
+			description="Standard Event for sucess of every service Type"
+			isEnabled="true">
+			<CamelSystemEventBuilder
+				fqcn="com.attunedlabs.eventframework.camel.eventproducer.ServiceCompletionSuccessEventBuilder"
+				beanRefid="ServiceSuccessEventBuilder" />
+			<dis:EventDispatchers>
+				<dis:EventDispatcher>
+					<dis:DispatchChannelId>FILE_STORE</dis:DispatchChannelId>
+					<dis:EventTransformation Type="JSON" />
+				</dis:EventDispatcher>
+			</dis:EventDispatchers>
+		</SystemEvent>
+
+		<SystemEvent id="SERVICE_COMPLETION_FAILURE"
+			description="Standard Event for failure of every service Type"
+			isEnabled="true">
+			<CamelSystemEventBuilder
+				fqcn="com.attunedlabs.eventframework.camel.eventproducer.ServiceCompletionFailureEventBuilder"
+				beanRefid="ServiceFailEventBuilder" />
+			<dis:EventDispatchers>
+				<dis:EventDispatcher>
+					<dis:DispatchChannelId>FILE_STORE</dis:DispatchChannelId>
+					<dis:EventTransformation Type="JSON" />
+				</dis:EventDispatcher>
+			</dis:EventDispatchers>
+		</SystemEvent>
+
+
+	</SystemEvents>
+</EventFramework>

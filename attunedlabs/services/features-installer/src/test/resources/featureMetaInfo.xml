@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Feature-Metainfo
+	xmlns:fms="http://attunedlabs.com/internal/FeatureMetaInfoSupporting"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	productVersion="WMS2.0"
+	xsi:noNamespaceSchemaLocation="featureMetaInfo.xsd">
+	<FeatureGroup>
+		<Name>TestFeatureGroup</Name>
+		<Features>
+			<Feature implementationName="TestImpl"
+				vendorName="TestVendor" vendorVersion="1.0">
+				<Name>TestFeature</Name>
+				<FeatureImplementations>
+					<FeatureImplementation
+						resourceName="TestFeatureGroup-TestFeature-TestImpl-TestVendor-1.0-featureservice.xml" />
+				</FeatureImplementations>
+				<fms:PermaStoreConfigurations>
+					<fms:PermaStoreConfiguration
+						resourceName="PermaStore-PermaStoreService-permastoreconfig.xml" />
+				</fms:PermaStoreConfigurations>
+				<fms:EventResources>
+					<fms:EventResource
+						resourceName="TestFeatureGroup-TestFeature-eventframework.xml" />
+				</fms:EventResources>
+				<FeatureDataContexts>
+					<DataContexts
+						resourceName="TestFeatureGroup-TestFeature-featureDataContext.xml" />
+				</FeatureDataContexts>
+				<fms:ServiceHandlerConfiguration>
+					<fms:HandlerConfiguration
+						resourceName="servicehandler-impl.xml" />
+				</fms:ServiceHandlerConfiguration>
+			</Feature>
+		</Features>
+	</FeatureGroup>
+</Feature-Metainfo>

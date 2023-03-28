@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd">
+
+	<camelContext xmlns="http://camel.apache.org/schema/spring">
+		<route streamCache="true">
+			<from uri="direct:service-test-route" />
+			<choice>
+				<when>
+					<simple>${header.service} == 'tenant'</simple>
+					<to
+						uri="restlet:http://localhost:9080/ecomm/json/authorization/authorizationservice/createTenant?restletMethod=post" />
+				</when>
+				<when>
+					<simple>${header.service} == 'resourceType'</simple>
+					<to
+						uri="restlet:http://localhost:9080/ecomm/json/authorization/authorizationservice/createResourceType?restletMethod=post" />
+				</when>
+				<when>
+					<simple>${header.service} == 'userList'</simple>
+					<to
+						uri="restlet:http://localhost:9080/ecomm/json/authorization/authorizationservice/registerUsers?restletMethod=post" />
+				</when>
+				<when>
+					<simple>${header.service} == 'user'</simple>
+					<to
+						uri="restlet:http://localhost:9080/ecomm/json/authorization/authorizationservice/registerUser?restletMethod=post" />
+				</when>
+				<when>
+					<simple>${header.service} == 'resources'</simple>
+					<to
+						uri="restlet:http://localhost:9080/ecomm/json/authorization/authorizationservice/createResources?restletMethod=post" />
+				</when>
+				<when>
+					<simple>${header.service} == 'resource'</simple>
+					<to
+						uri="restlet:http://localhost:9080/ecomm/json/authorization/authorizationservice/createResource?restletMethod=post" />
+				</when>
+				<when>
+					<simple>${header.service} == 'menuItems'</simple>
+					<to
+						uri="restlet:http://localhost:9080/ecomm/json/authorization/authorizationservice/createMenuItems?restletMethod=post" />
+				</when>
+				<when>
+					<simple>${header.service} == 'roles'</simple>
+					<to
+						uri="restlet:http://localhost:9080/ecomm/json/authorization/authorizationservice/registerRoles?restletMethod=post" />
+				</when>
+				<when>
+					<simple>${header.service} == 'role'</simple>
+					<to
+						uri="restlet:http://localhost:9080/ecomm/json/authorization/authorizationservice/registerRole?restletMethod=post" />
+				</when>
+				<when>
+					<simple>${header.service} == 'createResTypePermission'</simple>
+					<to
+						uri="restlet:http://localhost:9080/ecomm/json/authorization/authorizationservice/createResourceTypePermission?restletMethod=post" />
+				</when>
+				<when>
+					<simple>${header.service} == 'resorceUserPermission'</simple>
+					<to
+						uri="restlet:http://localhost:9080/ecomm/json/authorization/authorizationservice/grantPermissionForUser?restletMethod=post" />
+				</when>
+				<when>
+					<simple>${header.service} == 'resorceRolePermission'</simple>
+					<to
+						uri="restlet:http://localhost:9080/ecomm/json/authorization/authorizationservice/grantPermissionForRole?restletMethod=post" />
+				</when>
+				<when>
+					<simple>${header.service} == 'associateRole'</simple>
+					<to
+						uri="restlet:http://localhost:9080/ecomm/json/authorization/authorizationservice/associateRoleToUser?restletMethod=post" />
+				</when>
+				<when>
+					<simple>${header.service} == 'getUserPermission'</simple>
+					<to
+						uri="restlet:http://localhost:9060/ecomm/rest/authorization/authorizationservice/getPermissionForUser?User=John&amp;ResourceName=Shipping" />
+				</when>
+				<when>
+					<simple>${header.service} == 'getResTypePermission'</simple>
+					<to
+						uri="restlet:http://localhost:9060/ecomm/rest/authorization/authorizationservice/getResourceTypePermission?ResourceType=Users" />
+				</when>
+				<when>
+					<simple>${header.service} == 'hasUserPermission'</simple>
+					<to
+						uri="restlet:http://localhost:9060/ecomm/rest/authorization/authorizationservice/hasUserPermission?User=John&amp;Resource=Inventory&amp;Permission=View" />
+				</when>
+				<when>
+					<simple>${header.service} == 'hasRolePermission'</simple>
+					<to
+						uri="restlet:http://localhost:9060/ecomm/rest/authorization/authorizationservice/hasRolePermission?Role=Admin&amp;Resource=Putaway&amp;Permission=View" />
+				</when>
+				<when>
+					<simple>${header.service} == 'hasMenuItemPermission'</simple>
+					<to
+						uri="restlet:http://localhost:9060/ecomm/rest/authorization/authorizationservice/hasMenuItemUserPermission?User=John&amp;MenuItem=Outbound&amp;Permission=READ" />
+				</when>
+				<when>
+					<simple>${header.service} == 'getAllUserResource'</simple>
+					<to
+						uri="restlet:http://localhost:9060/ecomm/rest/authorization/authorizationservice/getAllUserAccessibleResource?User=John&amp;ResourceType=Item&amp;Tenant=GetUsRoi&amp;Permissions=[View,Delete]" />
+				</when>
+				<when>
+					<simple>${header.service} == 'getAllRoleResource'</simple>
+					<to
+						uri="restlet:http://localhost:9060/ecomm/rest/authorization/authorizationservice/getAllRoleAccessibleResource?Role=Admin&amp;ResourceType=Item&amp;Tenant=GetUsRoi&amp;Permissions=[View,Delete]" />
+				</when>
+				<when>
+					<simple>${header.service} == 'getAllUserMenuItem'</simple>
+					<to
+						uri="restlet:http://localhost:9060/ecomm/rest/authorization/authorizationservice/getAllAccessibleMenuItemsForUser?User=John&amp;Tenant=GetUsRoi" />
+				</when>
+				<when>
+					<simple>${header.service} == 'getAllRoleMenuItem'</simple>
+					<to
+						uri="restlet:http://localhost:9060/ecomm/rest/authorization/authorizationservice/getAllAccessibleMenuItemsForRole?Role=Admin&amp;Tenant=GetUsRoi" />
+				</when>
+			</choice>
+			<convertBodyTo type="java.lang.String" />
+			<to uri="mock:response" />
+		</route>
+	</camelContext>
+
+</beans>

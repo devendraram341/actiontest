@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ServiceHandlerConfiguration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="servicehandlerconfig.xsd">
+	<FeatureServiceHandler>
+		<ServiceHandler execute="async" handlerId="123445"
+			type="post-service">
+			<Description>Handler’s description here…</Description>
+			<HandlerImplementation fqcn="com.wherewerks.pipelineactivity.bean.ServiceHandlerLoggingBean">
+				<HandlerConfig>{"tenant":"all"}</HandlerConfig>
+			</HandlerImplementation>
+			
+			<IncludedServices>
+				<Service featureGroup="pipelinetesting" featureName="pipelineservice"
+				serviceName="helloworld" />
+<!-- 				<Service featureGroup="pipelinetesting" featureName="pipelineservice" -->
+<!-- 					serviceName="internalservice" /> -->
+			</IncludedServices>
+		</ServiceHandler>
+		<ServiceHandler execute="sync" handlerId="123446" type="pre-service">
+		<Description>Handler’s description here…</Description>
+		<HandlerImplementation beanId="servicehandlerloggingbeanpreservice" 
+			/>
+		<IncludedServices>
+		<Service featureGroup="pipelinetesting" featureName="pipelineservice"
+		serviceName="internalservice" />
+		</IncludedServices>
+		</ServiceHandler>
+		<ServiceHandler execute="async" handlerId="123447"
+		type="pre-service">
+		<Description>Handler’s description here…</Description>
+		<HandlerImplementation beanId="servicehandlerloggingbeanpreservice" 
+			/>
+		<IncludedServices>
+		<Service featureGroup="pipelinetesting" featureName="pipelineservice"
+		serviceName="internalservice" />
+		</IncludedServices>
+		</ServiceHandler>
+	</FeatureServiceHandler>
+
+</ServiceHandlerConfiguration>

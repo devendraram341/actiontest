@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<FeaturesServiceInfo xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="featureService.xsd">
+	<Features featureGroup="TestFeatureGroup">
+		<Feature enabled="true" featureName="TestFeature" interfaceName=""
+			version="1.0">
+			<Service Description="testService through leap" enabled="true"
+				name="testService1" vendorName="attunedlabs">
+				<GenericRestEndpoint httpMethod="POST"
+					urlMappingScheme="TestFeatureGroup/TestFeature/testService1">testService1-TestFeatureGroup-IR
+				</GenericRestEndpoint>
+			</Service>
+		</Feature>
+	</Features>
+</FeaturesServiceInfo>

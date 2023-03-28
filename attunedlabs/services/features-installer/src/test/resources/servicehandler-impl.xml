@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ServiceHandlerConfiguration
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="servicehandlerconfig.xsd">
+
+	<FeatureServiceHandler>
+		<ServiceHandler type="*"
+			execute="async" handlerId="Testing">
+			<Description>This is * Async event generation handler...
+			</Description>
+			<HandlerImplementation fqcn="com.attunedlabs.featureinstaller.util.TestServiceHandler">
+				<HandlerConfig>{"brokerconfig":"localhost:9092","topic":"camel-test-0"}
+				</HandlerConfig>
+			</HandlerImplementation>
+			<IncludedServices>
+				<Service featureGroup="TestFeatureGroup"
+					featureName="TestFeature" serviceName="TestService" />
+			</IncludedServices>
+		</ServiceHandler>
+	</FeatureServiceHandler>
+
+</ServiceHandlerConfiguration>

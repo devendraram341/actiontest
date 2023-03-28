@@ -1,0 +1,703 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:context="http://www.springframework.org/schema/context" xmlns:camel="http://camel.apache.org/schema/spring" xmlns:camelcxf="http://camel.apache.org/schema/cxf" xmlns:cxf="http://cxf.apache.org/core" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://cxf.apache.org/core http://cxf.apache.org/schemas/core.xsd  http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring-2.22.0.xsd http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd http://camel.apache.org/schema/cxf http://camel.apache.org/schema/cxf/camel-cxf.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd">
+	<import resource="beans.xml"/>
+	<bean class="org.springframework.context.support.PropertySourcesPlaceholderConfigurer" id="globalApp">
+		<property name="locations">
+			<list>
+				<value>file:///#{systemProperties['base_config_path']}/globalAppDeploymentConfig.properties
+				</value>
+			</list>
+		</property>
+	</bean>
+	<bean class="org.springframework.jdbc.datasource.DriverManagerDataSource" id="dataSourceSQL">
+		<property name="driverClassName" value="${DB_DRIVER_CLASS}"/>
+		<property name="url" value="${DB_URL}"/>
+		<property name="username" value="${DB_USER}"/>
+		<property name="password" value="${DB_PASSWORD}"/>
+	</bean>
+	<!-- ActiveMq broker configuration -->
+	<bean id="activeMqJmsConnectionFactory"
+		class="org.apache.activemq.ActiveMQConnectionFactory">
+	<property name="brokerURL" value="tcp://localhost:61616" />
+	</bean>
+	<!-- rabbitmq broker configuration -->
+	<bean class="com.rabbitmq.jms.admin.RMQConnectionFactory" id="jmsConnectionFactory">
+		<property name="username" value="${JMS_USER_NAME}"/>
+		<property name="password" value="${JMS_PASSWORD}"/>
+		<property name="virtualHost" value="/"/>
+		<property name="host" value="${JMS_HOST_NAME}"/>
+		<property name="port" value="${JMS_PORT}"/>
+	</bean>
+	<bean class="org.apache.camel.util.jsse.SSLContextParameters" id="sslContextParameters">
+		<property name="keyManagers">
+			<bean class="org.apache.camel.util.jsse.KeyManagersParameters">
+				<property name="keyPassword" value="${keyManagers_password}"/>
+				<property name="keyStore">
+					<bean class="org.apache.camel.util.jsse.KeyStoreParameters">
+						<property name="resource" value="${jks_file_location}"/>
+						<property name="password" value="${jks_file_password}"/>
+					</bean>
+				</property>
+			</bean>
+		</property>
+	</bean>
+	<!-- spring transaction manager -->
+	<bean class="org.springframework.jdbc.datasource.DataSourceTransactionManager" id="txManager">
+		<property name="dataSource" ref="dataSourceSQL"/>
+	</bean>
+	<!-- policy for required spring transaction used in our Camel routes -->
+	<bean class="org.apache.camel.spring.spi.SpringTransactionPolicy" id="PROPAGATION_REQUIRED">
+		<property name="transactionManager" ref="txManager"/>
+		<property name="propagationBehaviorName" value="PROPAGATION_REQUIRED"/>
+	</bean>
+	<bean class="org.springframework.jms.support.destination.DynamicDestinationResolver" id="dynamicDestinationResolverBean"/>
+	<!-- initializing transaction jta attribute -->
+	<!-- <bean id="PROPAGATION_REQUIRED" class="org.apache.camel.spring.spi.SpringTransactionPolicy"> 
+		<property name="transactionManager" ref="jtaTransactionManager" /> </bean> -->
+	<bean class="com.attunedlabs.leap.base.ComputeTimeBean" id="computeTime"/>
+	<!-- <bean id="authServiceHandler" class="com.attunedlabs.applicationservicehandlers.sample.test.AuthServiceHandler" 
+		/> -->
+	<!-- Camel notifier bean declaralation -->
+	<!-- <bean id="lognotifier" class="com.attunedlabs.leap.notifier.LeapCamelEventNotifier" 
+		/> -->
+	<!-- Camel notifier for performance number -->
+	<bean class="com.attunedlabs.leap.loggingfeature.bean.PerformanceLoggingEventNotifer" id="performanceLoggingNotifier"/>
+	<bean class="com.attunedlabs.leap.loggingfeature.bean.LoggingFeatureUtilitiesBean" id="loggingFeatureUtil"/>
+	<!-- This bean is used to route to execution route -->
+	<bean class="com.attunedlabs.leap.base.LeapBaseRouting" id="basedynamicExecution"/>
+	<!-- processor to update the failure log table for subscription -->
+	<bean class="com.attunedlabs.leap.eventsubscription.lifecylce.bean.SubscriptionFailureHandlerBean" id="subscriptionFailureHandlerBean"/>
+	<!-- processor to update the failure log table for jms subscription -->
+	<bean class="com.attunedlabs.leap.eventsubscription.lifecylce.bean.JMSSubscriptionFailureHandlerBean" id="jmsSubscriptionFailureHandlerBean"/>
+	<!-- This bean is used to get configuration data for leap -->
+	<bean class="com.attunedlabs.leap.util.LeapConfigurationUtil" id="leapConfigUtil">
+	</bean>
+	<!-- This bean is used to generated unique request id -->
+	<bean class="com.attunedlabs.leap.randomuuid.RandomStringUUID" id="requestIdGenrator"/>
+	<!-- This bean is used to route to implementation route by loading requested 
+		feature -->
+	<bean class="com.attunedlabs.leap.feature.routing.ExecutionFeatureDynamic" id="executionFeatureDynamic"/>
+	<!-- This bean is used to initialize leap header with request data -->
+	<bean class="com.attunedlabs.leap.header.initializer.FeatureHeaderInitializer" id="featureHeaderInit">
+	</bean>
+	<!-- This bean is used to transform data into the format understand by framework -->
+	<bean class="com.attunedlabs.leap.transform.TransformData" id="dataTransform"/>
+	<!-- This bean is used to transform error response -->
+	<bean class="com.attunedlabs.leap.generic.LeapResponseExceptionHandler" id="responseHandler"/>
+	<bean class="com.attunedlabs.leap.integrationpipeline.IntegrationPipelineInitializer" id="getPipeConfigurationFromCache"/>
+	<bean class="org.apache.camel.spring.spi.TransactionErrorHandlerBuilder" id="exceptionHandler">
+	</bean>
+	<bean class="com.attunedlabs.leap.identityservice.IdentityServiceBean" id="identityService">
+	</bean>
+	<bean class="com.attunedlabs.leap.corsheaders.CORSHeadersInitializer" id="corsHeaders"/>
+	<bean class="com.attunedlabs.leap.header.initializer.SubscriptionPropertyInitializer" id="setSubscriptionProperty">
+	</bean>
+	<!-- persists event details for every request (in global tx) -->
+	<bean class="com.attunedlabs.leap.eventtracker.initializer.PersistEventDetails" id="persistEventDetails"/>
+	<!-- retry logic for failed events job called by scheduler on trigger in 
+		cluster -->
+	<bean class="com.attunedlabs.leap.eventtracker.initializer.RetryFailedEventTask" id="retryFailedEvents"/>
+	<!-- camel quartz scheduler properties assigned for quartz component -->
+	<bean class="org.apache.camel.component.quartz2.QuartzComponent" id="quartz2">
+		<property name="propertiesFile" value="file:///#{systemProperties['base_config_path']}/quartz.properties"/>
+	</bean>
+	<bean class="java.lang.Exception" id="exec"/>
+	<!-- this bean is for perform entity services -->
+	<bean class="com.attunedlabs.leapentity.service.LeapEntityRequestService" id="entityBean"/>
+	<!-- this bean is for entity final response -->
+	<bean class="com.attunedlabs.leapentity.service.LeapEntityResponseService" id="entityResponseBean"/>
+	<!-- leap DataContext initializer to initialize leapDataContext -->
+	<bean class="com.attunedlabs.leap.context.initializer.LeapDataContextInitializer" id="leapDataContextInit"/>
+	<!-- leap dispatcher bean to dispatch events -->
+	<bean class="com.attunedlabs.leap.notifier.LeapEventDispatcher" id="leapEventDispatcher"/>
+	<!-- leap resource retention bean to free all the connection -->
+	<bean class="com.attunedlabs.leap.notifier.LeapResourceRetention" id="leapResourceRetention"/>
+	<bean class="com.attunedlabs.leap.endpoint.LeapEndpoint" id="leapEndpoint"/>
+	<bean class="com.attunedlabs.leap.servicehandlers.bean.ServiceHandlersBean" id="handlersBean">
+	</bean>
+	<bean class="com.attunedlabs.leap.context.bean.helper.LeapDataContextConfigurationHelper" id="leapDataContextConfigHelper"/>
+	<!-- <bean id="leapDataContextBean" -->
+	<!-- class="com.attunedlabs.leap.LeapDataContext" scope="prototype"> -->
+	<!-- </bean> -->
+	<!-- camelcontext start here -->
+	<camel:camelContext xmlns="http://camel.apache.org/schema/spring" id="baseroute">
+		<!-- service handler ctx is maditory for handlers to be invoked -->
+		<camel:propertyPlaceholder id="properties" location="ref:globalApp"/>
+		<routeContextRef ref="servicehandlersCtx"/>
+		<!-- enricherContext is mandatory for pipeline execution -->
+		<routeContextRef ref="enricherContext"/>
+		<!-- It is mandatory for internal service call, part of framework -->
+		<routeContextRef ref="internal-serviceCall-routecontext"/>
+		<!-- other route context reference -->
+		<!-- Rolling back the transaction when any of the exception occurred -->
+		<onException>
+			<exception>java.lang.Exception</exception>
+			<handled>
+				<constant>true</constant>
+			</handled>
+			<setHeader headerName="isServiceCompleted">
+				<constant>false</constant>
+			</setHeader>
+			<to uri="direct:resourceClosingAndDispatcher"/>
+			<to uri="bean:responseHandler"/>
+			<!-- subscription retry logic -->
+			<choice>
+				<when>
+					<simple>${property[subscriptionInvocation]} == "true"</simple>
+					<log message="subscription log to set old leap header..."/>
+					<to uri="bean:subscriptionFailureHandlerBean"/>
+				</when>
+				<when>
+					<simple>${property[jmsSubscriptionInvocation]} == "true"</simple>
+					<log message="jms subscription log to set old leap header..."/>
+					<to uri="bean:jmsSubscriptionFailureHandlerBean"/>
+				</when>
+			</choice>
+			<rollback markRollbackOnly="true"/>
+		</onException>
+		<!-- This route takes json request data -->
+		<route id="subscriber-execution-route">
+			<from uri="direct:baseEntryForSubscriber"/>
+			<log message="!!!!!!!!BASEROUTE-STARTS!!!!!!!"/>
+			<log message="${date:now:yyyy:MM:dd hh:mm:ss:SSS}"/>
+			<to uri="direct:transactionForSubscriber"/>
+			<setHeader headerName="isServiceCompleted">
+				<constant>true</constant>
+			</setHeader>
+			<to uri="direct:resourceClosingAndDispatcher"/>
+			<log message="!!!!!!!!BASEROUTE-STOPS!!!!!!!"/>
+			<log message="${date:now:yyyy:MM:dd hh:mm:ss:SSS}"/>
+		</route>
+		<!-- This route will apply transaction for subscriber -->
+		<route id="subscriber-transaction-route">
+			<from uri="direct:transactionForSubscriber"/>
+			<transacted ref="PROPAGATION_REQUIRED">
+				<doTry>
+					<!-- camel processor to process json data from request -->
+					<!-- <to uri="bean:featureHeaderInit?method=process" /> -->
+					<to uri="bean:leapDataContextInit?method=createAndInitializeLeapContext"/>
+					<to uri="bean:handlersBean?method=fetchHandlers"/>
+					<to uri="direct:preServiceHandlersInvocation"/>
+					<!-- <unmarshal ref="httpData" /> -->
+					<setHeader headerName="Access-Control-Allow-Origin">
+						<constant>*</constant>
+					</setHeader>
+					<setHeader headerName="Access-Control-Allow-Methods">
+						<constant>POST</constant>
+					</setHeader>
+					<setHeader headerName="Access-Control-Allow-Headers">
+						<constant>*</constant>
+					</setHeader>
+					<setHeader headerName="Exchange.HTTP_METHOD">
+						<constant>POST</constant>
+					</setHeader>
+					<!-- camel exchange exception -->
+					<doCatch>
+						<exception>org.apache.camel.CamelExchangeException</exception>
+					</doCatch>
+					<doCatch>
+						<exception>com.attunedlabs.eventframework.abstractbean.util.CassandraConnectionException
+						</exception>
+						<exception>com.datastax.driver.core.exceptions.NoHostAvailableException
+						</exception>
+						<exception>org.apache.metamodel.MetaModelException</exception>
+						<handled>
+							<constant>false</constant>
+						</handled>
+						<to uri="bean:serviceRequestUtil?method=setResponseCodeOnError(500,'Internal Server Error, Connection to Database refused')"/>
+					</doCatch>
+				</doTry>
+				<to uri="direct:entryroute"/>
+				<to uri="direct:postServiceHandlersInvocation"/>
+			</transacted>
+		</route>
+		<!-- This route takes json request data -->
+		<route id="rest-call-json">
+			<!-- get data from rest call -->
+			<from uri="restlet:http://0.0.0.0:9080/ecomm/json/{featuregroup}/{feature}/{serviceName}?restletMethod=post"/>
+			<from uri="direct:baseEntry"/>
+			<log message="!!!!!!!!BASEROUTE-STARTS!!!!!!!"/>
+			<log message="${date:now:yyyy:MM:dd hh:mm:ss:SSS}"/>
+			<to uri="direct:baseTransactionForService"/>
+			<setHeader headerName="isServiceCompleted">
+				<constant>true</constant>
+			</setHeader>
+			<to uri="direct:resourceClosingAndDispatcher"/>
+			<log message="!!!!!!!!BASEROUTE-STOPS!!!!!!!"/>
+			<log message="${date:now:yyyy:MM:dd hh:mm:ss:SSS}"/>
+		</route>
+		<route id="base-transaction">
+			<from uri="direct:baseTransactionForService"/>
+			<transacted ref="PROPAGATION_REQUIRED">
+				<setHeader headerName="performaceLogNotifier">
+					<simple resultType="com.attunedlabs.leap.loggingfeature.bean.PerformanceLoggingEventNotifer">ref:performanceLoggingNotifier</simple>
+				</setHeader>
+				<to uri="bean:loggingFeatureUtil?method=controlNotifierLogging(${exchange},${header.performaceLogNotifier})"/>
+				<to uri="bean:identityService?method=isAuthenticated"/>
+				<to uri="direct:identityServiceRouteEntry"/>
+				<!-- camel processor to process json data from request <to uri="bean:featureHeaderInit?method=process" 
+					/> -->
+				<to uri="bean:leapDataContextInit?method=createAndInitializeLeapContext"/>
+				<to uri="bean:handlersBean?method=fetchHandlers"/>
+				<to uri="direct:preServiceHandlersInvocation"/>
+				<choice>
+					<when>
+						<simple>${in.header.serviceName} == 'data'</simple>
+						<to uri="bean:setSubscriptionProperty"/>
+						<to uri="direct:entryroute"/>
+					</when>
+					<otherwise>
+						<doTry>
+							<!-- <unmarshal ref="httpData" /> -->
+							<setHeader headerName="Access-Control-Allow-Origin">
+								<constant>*</constant>
+							</setHeader>
+							<setHeader headerName="access-control-allow-origin">
+								<constant>*</constant>
+							</setHeader>
+							<setHeader headerName="Access-Control-Allow-Methods">
+								<constant>POST</constant>
+							</setHeader>
+							<setHeader headerName="Access-Control-Allow-Headers">
+								<constant>formdestination</constant>
+							</setHeader>
+							<setHeader headerName="Exchange.HTTP_METHOD">
+								<constant>POST</constant>
+							</setHeader>
+							<!-- camel exchange exception -->
+							<doCatch>
+								<exception>org.apache.camel.CamelExchangeException</exception>
+							</doCatch>
+							<doCatch>
+								<exception>com.attunedlabs.eventframework.abstractbean.util.CassandraConnectionException
+								</exception>
+								<exception>com.datastax.driver.core.exceptions.NoHostAvailableException
+								</exception>
+								<exception>org.apache.metamodel.MetaModelException</exception>
+								<handled>
+									<constant>false</constant>
+								</handled>
+								<to uri="bean:serviceRequestUtil?method=setResponseCodeOnError(500,'Internal Server Error, Connection to Database refused')"/>
+							</doCatch>
+						</doTry>
+						<to uri="direct:entryroute"/>
+						<to uri="direct:postServiceHandlersInvocation"/>
+					</otherwise>
+				</choice>
+			</transacted>
+		</route>
+		<route id="rest-call-json-options">
+			<from uri="restlet:http://0.0.0.0:9080/ecomm/json/{featuregroup}/{feature}/{serviceName}?restletMethod=options"/>
+			<to uri="bean:corsHeaders?method=setCorsHeaders"/>
+			<setHeader headerName="Access-Control-Allow-Origin">
+				<simple>${in.header.originHeader}</simple>
+			</setHeader>
+			<setHeader headerName="access-control-allow-origin">
+				<simple>${in.header.originHeader}</simple>
+			</setHeader>
+			<setHeader headerName="access-control-allow-headers">
+				<constant>formdestination,username,
+					password,accept-language,userName,domain,Authorization,Content-Type,Access-Control-Allow-Headers,access_token,account_id,siteid,tenant_token,tenant_token_expiration,tenant_token_expiration_time,Tenant_token,Tenant_token_expiration_time,Account_id,Siteid,accountid,accountId,siteId
+				</constant>
+			</setHeader>
+			<setHeader headerName="Access-Control-Allow-Headers">
+				<constant>formdestination,username,
+					password,accept-language,userName,domain,Authorization,Content-Type,Access-Control-Allow-Headers,access_token,account_id,siteid,tenant_token,tenant_token_expiration,tenant_token_expiration_time,Tenant_token,Tenant_token_expiration_time,Account_id,Siteid,accountid,accountId,siteId
+				</constant>
+			</setHeader>
+			<setHeader headerName="Access-control-request-method">
+				<constant>POST</constant>
+			</setHeader>
+			<setHeader headerName="Access-control-request-method">
+				<constant>POST</constant>
+			</setHeader>
+			<setHeader headerName="Access-control-allow-methods">
+				<constant>POST</constant>
+			</setHeader>
+			<setHeader headerName="Access-Control-Allow-Methods">
+				<constant>POST</constant>
+			</setHeader>
+			<setHeader headerName="access-control-allow-methods">
+				<constant>POST</constant>
+			</setHeader>
+			<setHeader headerName="Access-Control-Allow-Credentials">
+				<constant>true</constant>
+			</setHeader>
+			<setHeader headerName="Access-control-allow-origin">
+				<simple>${in.header.originHeader}</simple>
+			</setHeader>
+			<log message="check"/>
+			<setHeader headerName="CamelHttpMethod">
+				<constant>POST</constant>
+			</setHeader>
+		</route>
+		<!-- This route is used for Identity service -->
+		<route id="identity-service">
+			<from uri="direct:identityServiceRouteEntry"/>
+			<choice>
+				<when>
+					<simple>${in.header.isAccessTokenValidationEnabled}== 'true'</simple>
+					<to uri="direct:accessTokenValidationRoute"/>
+				</when>
+			</choice>
+			<choice>
+				<when>
+					<simple>${in.header.isTenantTokenValidationEnabled}== 'true'</simple>
+					<to uri="direct:tenantTokenValidationRoute"/>
+				</when>
+			</choice>
+		</route>
+		<!-- This route is used for Identity service tenant validation -->
+		<route id="tenant-token-validation-route">
+			<from uri="direct:tenantTokenValidationRoute"/>
+			<log message="TenantTokenValidationRoute[start]: ${date:now:yyyyMMdd hh:mm:ss:SSS}"/>
+			<doTry>
+				<to uri="bean:identityService?method=validateTenantToken"/>
+				<log message="TenantTokenValidationRoute[stop]: ${date:now:yyyyMMdd hh:mm:ss:SSS}"/>
+				<doCatch>
+					<exception>java.lang.Exception</exception>
+					<handled>
+						<constant>false</constant>
+					</handled>
+					<to uri="bean:responseHandler"/>
+					<rollback markRollbackOnly="true"/>
+				</doCatch>
+			</doTry>
+		</route>
+		<!-- This route is used for Identity service access token validation -->
+		<route id="access-token-validation-route">
+			<from uri="direct:accessTokenValidationRoute"/>
+			<log message="AccessTokenValidationRoute[start]: ${date:now:yyyyMMdd hh:mm:ss:SSS}"/>
+			<doTry>
+				<to uri="bean:identityService?method=validateAccessToken"/>
+				<log message="AccessTokenValidationRoute[stop]: ${date:now:yyyyMMdd hh:mm:ss:SSS}"/>
+				<doCatch>
+					<exception>java.lang.Exception</exception>
+					<handled>
+						<constant>false</constant>
+					</handled>
+					<to uri="bean:responseHandler"/>
+					<rollback markRollbackOnly="true"/>
+				</doCatch>
+			</doTry>
+		</route>
+		<!-- This route takes xml based request data -->
+		<route id="rest-call-xml">
+			<!-- get data from rest call -->
+			<from uri="restlet:http://0.0.0.0:9090/ecomm/xml/{featuregroup}/{feature}/{serviceName}?restletMethod=post"/>
+			<to uri="bean:dataTransform?method=marshalXmltoJson"/>
+			<log message="log message : ${body}"/>
+			<!-- <marshal ref="xmljsonWithOptions" /> -->
+			<setHeader headerName="endpointType">
+				<simple>HTTP-XML</simple>
+			</setHeader>
+			<!-- <choice> <when> <simple>${in.header.serviceName} == 'data'</simple> 
+				<to uri="bean:setSubscriptionProperty"></to> <to uri="bean:dataTransform?method=transformRestRequestData" 
+				/> <to uri="direct:dataEntry" /> </when> <otherwise> <to uri="direct:baseEntry" 
+				/> </otherwise> </choice> -->
+			<to uri="direct:baseEntry"/>
+			<!--<unmarshal ref="xmljsonWithOptions" /> -->
+			<to uri="bean:dataTransform?method=unmarshalJsonToXMLForXmlEndpoint"/>
+		</route>
+		<route id="rest-call-xml-options">
+			<from uri="restlet:http://0.0.0.0:9090/ecomm/xml/{featuregroup}/{feature}/{serviceName}?restletMethod=options"/>
+			<to uri="bean:corsHeaders?method=setCorsHeaders"/>
+			<setHeader headerName="Access-Control-Allow-Origin">
+				<simple>${in.header.originHeader}</simple>
+			</setHeader>
+			<setHeader headerName="access-control-allow-origin">
+				<simple>${in.header.originHeader}</simple>
+			</setHeader>
+			<setHeader headerName="access-control-allow-headers">
+				<constant>formdestination,username,
+					password,accept-language,userName,domain,Authorization,Content-Type,Access-Control-Allow-Headers,access_token,account_id,siteid,tenant_token,tenant_token_expiration,tenant_token_expiration_time,Tenant_token,Tenant_token_expiration_time,Account_id,Siteid,accountid,accountId,siteId
+				</constant>
+			</setHeader>
+			<setHeader headerName="Access-Control-Allow-Headers">
+				<constant>formdestination,username,
+					password,accept-language,userName,domain,Authorization,Content-Type,Access-Control-Allow-Headers,access_token,account_id,siteid,tenant_token,tenant_token_expiration,tenant_token_expiration_time,Tenant_token,Tenant_token_expiration_time,Account_id,Siteid,accountid,accountId,siteId
+				</constant>
+			</setHeader>
+			<setHeader headerName="Access-control-request-method">
+				<constant>POST</constant>
+			</setHeader>
+			<setHeader headerName="Access-control-request-method">
+				<constant>POST</constant>
+			</setHeader>
+			<setHeader headerName="Access-control-allow-methods">
+				<constant>POST</constant>
+			</setHeader>
+			<setHeader headerName="Access-Control-Allow-Methods">
+				<constant>POST</constant>
+			</setHeader>
+			<setHeader headerName="access-control-allow-methods">
+				<constant>POST</constant>
+			</setHeader>
+			<setHeader headerName="Access-Control-Allow-Credentials">
+				<constant>true</constant>
+			</setHeader>
+			<setHeader headerName="Access-control-allow-origin">
+				<simple>${in.header.originHeader}</simple>
+			</setHeader>
+			<log message="check"/>
+			<setHeader headerName="CamelHttpMethod">
+				<constant>POST</constant>
+			</setHeader>
+		</route>
+		<!-- This route support GET/POST request of rest -->
+		<route id="rest-get-post">
+			<from uri="restlet:http://0.0.0.0:9060/ecomm/rest/{featuregroup}/{feature}/{serviceName}?restletMethods=get,post"/>
+			<setHeader headerName="LeapEndPointHttpMethod">
+				<simple>${in.header.CamelHttpMethod}</simple>
+			</setHeader>
+			<to uri="bean:setSubscriptionProperty"/>
+			<to uri="bean:dataTransform?method=transformRestRequestData"/>
+			<!-- <choice> <when> <simple>${in.header.serviceName} == 'data'</simple> 
+				<log message="Input request data :: ${body}" /> <to uri="direct:dataEntry" 
+				/> </when> <otherwise> <to uri="direct:baseEntry" /> </otherwise> </choice> -->
+			<to uri="direct:baseEntry"/>
+		</route>
+		<!-- <route id="dataEntry-route"> <from uri="direct:dataEntry" /> <to uri="direct:identityServiceRouteEntry"></to> 
+			camel processor to process json data from request <to uri="bean:featureHeaderInit?method=process" 
+			/> <to uri="direct:dataEntryRoute" /> <to uri="direct:dataAccessRoute" /> 
+			</route> <route id="dataEntityServiceRoute"> <from uri="direct:dataEntityService" 
+			/> <log message="inside dataEntityServiceRoute" /> <to uri="direct:dataEntryRoute" 
+			/> <to uri="direct:dataAccessRoute" /> <log message="inside entityExecution 
+			executionroute after calling feature execution" /> </route> -->
+		<!-- <route id="dataEntryRoute"> <from uri="direct:dataEntryRoute" /> <log 
+			message="inside dataEntryRoute" /> <to uri="bean:archivalBean?method=entryMethod" 
+			/> <to uri="bean:entityBean?method=executeEntity" /> </route> <route id="dataAccessRoute"> 
+			<from uri="direct:dataAccessRoute" /> <log message="inside dataAccessRoute" 
+			/> <to uri="bean:entityBean?method=getArchivedDataFromAccessMethod" /> </route> -->
+		<route id="rest-options">
+			<from uri="restlet:http://0.0.0.0:9060/ecomm/rest/{featuregroup}/{feature}/{serviceName}?restletMethod=options"/>
+			<to uri="bean:corsHeaders?method=setCorsHeaders"/>
+			<setHeader headerName="Access-Control-Allow-Origin">
+				<simple>${in.header.originHeader}</simple>
+			</setHeader>
+			<setHeader headerName="access-control-allow-origin">
+				<simple>${in.header.originHeader}</simple>
+			</setHeader>
+			<setHeader headerName="access-control-allow-headers">
+				<constant>formdestination,username,cache-control,provider,leap_auth_token,
+					password,accept-language,userName,domain,Authorization,Content-Type,Access-Control-Allow-Headers,access_token,account_id,siteid,tenant_token,tenant_token_expiration,tenant_token_expiration_time,Tenant_token,Tenant_token_expiration_time,Account_id,Siteid,accountid,accountId,siteId
+				</constant>
+			</setHeader>
+			<setHeader headerName="Access-Control-Allow-Headers">
+				<constant>formdestination,username,cache-control,provider,leap_auth_token,
+					password,accept-language,userName,domain,Authorization,Content-Type,Access-Control-Allow-Headers,access_token,account_id,siteid,tenant_token,tenant_token_expiration,tenant_token_expiration_time,Tenant_token,Tenant_token_expiration_time,Account_id,Siteid,accountid,accountId,siteId
+				</constant>
+			</setHeader>
+			<setHeader headerName="Access-control-request-method">
+				<constant>POST</constant>
+			</setHeader>
+			<setHeader headerName="Access-control-request-method">
+				<constant>POST</constant>
+			</setHeader>
+			<setHeader headerName="Access-control-allow-methods">
+				<constant>POST</constant>
+			</setHeader>
+			<setHeader headerName="Access-Control-Allow-Methods">
+				<constant>POST</constant>
+			</setHeader>
+			<setHeader headerName="access-control-allow-methods">
+				<constant>POST</constant>
+			</setHeader>
+			<setHeader headerName="Access-Control-Allow-Credentials">
+				<constant>true</constant>
+			</setHeader>
+			<setHeader headerName="Access-control-allow-origin">
+				<simple>${in.header.originHeader}</simple>
+			</setHeader>
+			<log message="check"/>
+			<setHeader headerName="LeapEndPointHttpMethod">
+				<simple>${in.header.CamelHttpMethod}</simple>
+			</setHeader>
+			<setHeader headerName="CamelHttpMethod">
+				<constant>POST</constant>
+			</setHeader>
+		</route>
+		<!-- This route support GET/POST request of leap request of rest -->
+		<route id="rest-call-options">
+			<from uri="restlet:http://0.0.0.0:9050/ecomm/leap/{featuregroup}/{feature}/{serviceName}?restletMethod=options"/>
+			<to uri="bean:corsHeaders?method=setCorsHeaders"/>
+			<setHeader headerName="Access-Control-Allow-Origin">
+				<simple>${in.header.originHeader}</simple>
+			</setHeader>
+			<setHeader headerName="access-control-allow-origin">
+				<simple>${in.header.originHeader}</simple>
+			</setHeader>
+			<setHeader headerName="access-control-allow-headers">
+				<constant>formdestination,username,
+					password,accept-language,userName,domain,Authorization,Content-Type,Access-Control-Allow-Headers,access_token,account_id,siteid,tenant_token,tenant_token_expiration,tenant_token_expiration_time,Tenant_token,Tenant_token_expiration_time,Account_id,Siteid,accountid,accountId,siteId
+				</constant>
+			</setHeader>
+			<setHeader headerName="Access-Control-Allow-Headers">
+				<constant>formdestination,username,
+					password,accept-language,userName,domain,Authorization,Content-Type,Access-Control-Allow-Headers,access_token,account_id,siteid,tenant_token,tenant_token_expiration,tenant_token_expiration_time,Tenant_token,Tenant_token_expiration_time,Account_id,Siteid,accountid,accountId,siteId
+				</constant>
+			</setHeader>
+			<setHeader headerName="Access-control-request-method">
+				<constant>POST</constant>
+			</setHeader>
+			<setHeader headerName="Access-control-request-method">
+				<constant>POST</constant>
+			</setHeader>
+			<setHeader headerName="Access-control-allow-methods">
+				<constant>POST</constant>
+			</setHeader>
+			<setHeader headerName="Access-Control-Allow-Methods">
+				<constant>POST</constant>
+			</setHeader>
+			<setHeader headerName="access-control-allow-methods">
+				<constant>POST</constant>
+			</setHeader>
+			<setHeader headerName="Access-Control-Allow-Credentials">
+				<constant>true</constant>
+			</setHeader>
+			<setHeader headerName="Access-control-allow-origin">
+				<simple>${in.header.originHeader}</simple>
+			</setHeader>
+			<log message="check"/>
+			<setHeader headerName="LeapEndPointHttpMethod">
+				<simple>${in.header.CamelHttpMethod}</simple>
+			</setHeader>
+			<setHeader headerName="CamelHttpMethod">
+				<constant>POST</constant>
+			</setHeader>
+		</route>
+		<!-- This route support GET/POST request of leap request of rest -->
+		<route id="leap-get-post">
+			<from uri="restlet:http://0.0.0.0:9050/ecomm/leap/{featuregroup}/{feature}/{serviceName}?restletMethods=get,post"/>
+			<setHeader headerName="LeapEndPoint">
+				<constant>true</constant>
+			</setHeader>
+			<setHeader headerName="LeapEndPointHttpMethod">
+				<simple>${in.header.CamelHttpMethod}</simple>
+			</setHeader>
+			<log message="Inside leap endpoint "/>
+			<to uri="bean:setSubscriptionProperty"/>
+			<to uri="bean:dataTransform?method=transformRestRequestData"/>
+			<!-- <choice> <when> <simple>${in.header.serviceName} == 'data'</simple> 
+				<log message="Input request data :: ${body}" /> <to uri="direct:dataEntry" 
+				/> </when> <otherwise> <to uri="direct:baseEntry" /> </otherwise> </choice> -->
+			<to uri="direct:baseEntry"/>
+		</route>
+		<!-- This is the first route to be called and generate unique request id,load 
+			bean which decide which execution route to call and call other routes -->
+		<route id="entryRoute">
+			<from uri="direct:entryroute"/>
+			<to uri="bean:requestIdGenrator?method=uuidgenrate"/>
+			<to uri="direct:basetransformation"/>
+			<to uri="bean:leapEndpoint?method=validateLeapEndpointRequest"/>
+			<to uri="bean:leapConfigUtil?method=storePermastoreConfigurationInServiceContext('LeapDefault_Taxonomy.json')"/>
+			<to uri="bean:basedynamicExecution?method=route"/>
+			<toD uri="direct:${in.header.exeroute}"/>
+			<to uri="bean:leapEndpoint?method=getResponseForLeapEndpoint"/>
+			<to uri="direct:exitRoute"/>
+		</route>
+		<camel:route id="rest-prettyUri">
+			<camel:from uri="restlet:http://0.0.0.0:9070/{prettyUri}?restletMethods=get,post"/>
+			<setHeader headerName="LeapEndPointHttpMethod">
+				<simple>${in.header.CamelHttpMethod}</simple>
+			</setHeader>
+			<camel:to uri="bean:dataTransform?method=loadActualUri"/>
+			<to uri="bean:setSubscriptionProperty"/>
+			<to uri="bean:dataTransform?method=transformRestRequestData"/>
+			<!-- <choice> <when> <simple>${in.header.servicetype} == 'data'</simple> 
+				<log message="Input request data :: ${body}" /> <to uri="direct:dataEntry" 
+				/> </when> <otherwise> <to uri="direct:baseEntry" /> </otherwise> </choice> -->
+			<to uri="direct:baseEntry"/>
+		</camel:route>
+		<!-- This is base transformation route -->
+		<route id="BaseTransformation">
+			<from uri="direct:basetransformation"/>
+			<log message="inside basetransaformation route"/>
+		</route>
+		<!-- This is exit route which will be called at last -->
+		<route id="ExitRoute">
+			<from uri="direct:exitRoute"/>
+			<log message="inside ExitRoute route"/>
+			<!-- removing the tenant token details from exchange headers -->
+			<to uri="bean:identityService?method=setAccountDetailsInHeader"/>
+			<!-- Setting the request Id in header and persisting the event record -->
+			<to uri="bean:persistEventDetails"/>
+			<!-- <choice> <when> <simple>${property.subscriptionInvocation}== 'true'</simple> 
+				<to uri="bean:leapConfigUtil?method=setLeapDataContextForSubscriber"></to> 
+				</when> </choice> -->
+		</route>
+		<!-- This route is called when request feature doesn't exist and send related 
+			error code -->
+		<route id="featureNotExistRoute">
+			<from uri="direct:${in.header.implroute}"/>
+			<log message="body : ${body}"/>
+		</route>
+		<!-- This route is used for close all the resources and dispatching events -->
+		<route id="resourceClosingAndDispatcherRoute">
+			<from uri="direct:resourceClosingAndDispatcher"/>
+			<log message="inside resource closing and dispatcher route"/>
+			<to uri="seda:leapResourceRetentionRoute?waitForTaskToComplete=never"/>
+			<to uri="seda:leapEventDispatcherServiceRoute?waitForTaskToComplete=never"/>
+			<camel:removeHeader headerName="FeatureDeployment"/>
+		</route>
+		<!-- This route is used for dispatching events through SEDA endPoint -->
+		<route id="leapEventDispatcherServiceRoute">
+			<from uri="seda:leapEventDispatcherServiceRoute"/>
+			<log message="inside leap event dispatcher service route"/>
+			<doTry>
+				<to uri="bean:leapEventDispatcher?method=dispatchEvents"/>
+				<doCatch>
+					<exception>java.lang.Exception</exception>
+					<camel:log loggingLevel="ERROR" message="Failed during dispatching of Events : ${exception.message} with this stack\n${exception.stacktrace}\n${body}"/>
+				</doCatch>
+			</doTry>
+		</route>
+		<!-- This route is used for close all the resources that are created during 
+			the service execution -->
+		<route id="leapResourceRetentionRoute">
+			<from uri="seda:leapResourceRetentionRoute"/>
+			<log message="inside leapResourceRetention route"/>
+			<doTry>
+				<to uri="bean:leapResourceRetention"/>
+				<doCatch>
+					<exception>java.lang.Exception</exception>
+					<camel:log loggingLevel="ERROR" message="Failed during Closing of resources : ${exception.message} with this stack\n${exception.stacktrace}\n${body}"/>
+				</doCatch>
+			</doTry>
+		</route>
+		<route id="JMSRequestResponseQueue">
+			<from uri="direct:baseJMSRequestResponseQueue"/>
+			<doTry>
+				<to uri="jms:queue:requestQueue?requestTimeout=4s&amp;exchangePattern=InOut&amp;replyTo=responseQueue&amp;jmsMessageType=Text&amp;replyToType=Exclusive"/>
+				<doCatch>
+					<exception>org.apache.camel.ExchangeTimedOutException</exception>
+					<handled>
+						<constant>true</constant>
+					</handled>
+					<camel:bean ref="responseHandler"/>
+					<setHeader headerName="Content-Type">
+						<constant>application/vnd.leap+json</constant>
+					</setHeader>
+					<to uri="bean:leapEndpoint?method=getResponseForLeapEndpoint"/>
+					<setHeader headerName="Content-Type">
+						<constant>application/json</constant>
+					</setHeader>
+				</doCatch>
+			</doTry>
+		</route>
+		
+		<!-- on load startup process if we want to load and call the external service 
+			when the camel context is started -->
+		<camel:route id="startup-baseroute">
+			<camel:from uri="direct:startup-baseroute"></camel:from>
+			<camel:log message="============ DEFAULT ROUTE IN BASEROUTE ==============="></camel:log>
+			<camel:log message="execution default logic"></camel:log>
+		</camel:route>
+
+		<!-- This route is used for retrying all the failed events -->
+		<!-- <route id="eventDispatcherTrackingRoute"> <from uri="quartz2://eventTracking/retryFailedEvents?cron=0/5+0/1+*+1/1+*+?+*&amp;stateful=true" 
+			/> <log message="body : ${body}" /> <setHeader headerName="quartzTrigger"> 
+			<simple resultType="java.lang.String">yes</simple> </setHeader> <to uri="bean:retryFailedEvents?method=performTask" 
+			/> </route> -->
+	</camel:camelContext>
+</beans>

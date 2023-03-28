@@ -1,0 +1,550 @@
+{
+	"variables": [],
+	"info": {
+		"name": "AuthRequest5.3.0",
+		"_postman_id": "0acda6dc-f5c2-b302-17af-ed01ddd5f820",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "userExist",
+			"request": {
+				"url": "http://192.168.1.248:9060/ecomm/rest/authentication/authenticationservice/userExist",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "accountId",
+						"value": "ALL",
+						"description": ""
+					},
+					{
+						"key": "siteId",
+						"value": "all",
+						"description": ""
+					},
+					{
+						"key": "leap_auth_token",
+						"value": "eyJ0eXBlIjoiand0IiwiYWxnbyI6IkhTMjU2In0=.eyJ1c2VyRGF0YSI6eyJ1c2VybmFtZSI6ImFkbWluQHdzbzIuY29tIn0sImF1dGhEYXRhIjp7ImFjY2Vzc190b2tlbiI6IjIxYmM5MTczLThmMzMtM2U1Yi04NjBiLTBkMzg1M2Y2ZjU4MyIsInJlZnJlc2hfdG9rZW4iOiI1OTY2ZDA0MS0zZmI3LTMxNWMtOGJiNS01ZmE4MmFiYTE2MTIiLCJpc0F1dGhlbnRpY2F0ZWQiOnRydWUsImV4cGlyZXNfaW4iOiI1NzAifSwidGVuYW50U2l0ZUluZm8iOnsidGVuYW50X3Rva2VuX2V4cGlyYXRpb24iOjE1NjE1NDM5MzYsInRlbmFudF90b2tlbiI6IjBjOWQxOTczZjcyMGVmNDQ5ZGNkY2Q1MzUxMjc5M2MyIn19.Xz/PhzM/V3DRZgj2etiNGQ==",
+						"description": "",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"username\":\"admin@wso2.com\",\"domain\":\"carbon.super\"}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "changeUserPassword",
+			"request": {
+				"url": "http://192.168.1.248:9060/ecomm/rest/authentication/authenticationservice/changeUserPassword",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "accountId",
+						"value": "ALL",
+						"description": ""
+					},
+					{
+						"key": "siteId",
+						"value": "all",
+						"description": ""
+					},
+					{
+						"key": "leap_auth_token",
+						"value": "eyJ0eXBlIjoiand0IiwiYWxnbyI6IkhTMjU2In0=.eyJ1c2VyRGF0YSI6eyJ1c2VybmFtZSI6ImFkbWluQHdzbzIuY29tIn0sImF1dGhEYXRhIjp7ImFjY2Vzc190b2tlbiI6IjIwZGE5MDc1LTkwYWMtMzljNy1hN2YxLTg4Mzc1NGEyNTdkNCIsInJlZnJlc2hfdG9rZW4iOiI1OTY2ZDA0MS0zZmI3LTMxNWMtOGJiNS01ZmE4MmFiYTE2MTIiLCJpc0F1dGhlbnRpY2F0ZWQiOnRydWUsImV4cGlyZXNfaW4iOiIzNjAwIn0sInRlbmFudFNpdGVJbmZvIjp7InRlbmFudF90b2tlbl9leHBpcmF0aW9uIjoiMTU2MTUzNzYzOCIsInRlbmFudF90b2tlbiI6Ijg0NWM4YTIyMTVhNDE0NWIzNzVkMTE5MDFmNTAzNjBhIn19.Xz/PhzM/V3DRZgj2etiNGQ==",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"username\":\"u007@interdesign.com\",\"oldpassword\":\"Reactive@123\",\"newpassword\":\"Reactive@124\",\"domain\":\"carbon.super\"}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "getUserInfoByNameAndDomain",
+			"request": {
+				"url": "http://192.168.1.248:9060/ecomm/rest/authentication/authenticationservice/getUserInfoByNameAndDomain",
+				"method": "POST",
+				"header": [
+					{
+						"key": "accountId",
+						"value": "ALL",
+						"description": ""
+					},
+					{
+						"key": "siteId",
+						"value": "all",
+						"description": ""
+					},
+					{
+						"key": "leap_auth_token",
+						"value": "eyJ0eXBlIjoiand0IiwiYWxnbyI6IkhTMjU2In0=.eyJ1c2VyRGF0YSI6eyJ1c2VybmFtZSI6ImFkbWluQHdzbzIuY29tIn0sImF1dGhEYXRhIjp7ImFjY2Vzc190b2tlbiI6IjIxYmM5MTczLThmMzMtM2U1Yi04NjBiLTBkMzg1M2Y2ZjU4MyIsInJlZnJlc2hfdG9rZW4iOiI1OTY2ZDA0MS0zZmI3LTMxNWMtOGJiNS01ZmE4MmFiYTE2MTIiLCJpc0F1dGhlbnRpY2F0ZWQiOnRydWUsImV4cGlyZXNfaW4iOiIzMDg4In0sInRlbmFudFNpdGVJbmZvIjp7InRlbmFudF90b2tlbl9leHBpcmF0aW9uIjoiMTU2MTU0MTM2NCIsInRlbmFudF90b2tlbiI6ImM1YTk4ZTM3ODJlYTY5OGYwNTE0NzRkMjgyZjI5OTYzIn19.Xz/PhzM/V3DRZgj2etiNGQ==",
+						"description": "",
+						"disabled": true
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"domain\":\"carbon.super\",\"username\":\"u007@interdesign.com\"}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "updateUser",
+			"request": {
+				"url": "http://192.168.1.248:9060/ecomm/rest/authentication/authenticationservice/updateUser",
+				"method": "POST",
+				"header": [
+					{
+						"key": "domain",
+						"value": "carbon.super",
+						"description": ""
+					},
+					{
+						"key": "accountId",
+						"value": "ALL",
+						"description": ""
+					},
+					{
+						"key": "siteId",
+						"value": "all",
+						"description": ""
+					},
+					{
+						"key": "leap_auth_token",
+						"value": "eyJ0eXBlIjoiand0IiwiYWxnbyI6IkhTMjU2In0=.eyJ1c2VyRGF0YSI6eyJ1c2VybmFtZSI6ImFkbWluQHdzbzIuY29tIn0sImF1dGhEYXRhIjp7ImFjY2Vzc190b2tlbiI6IjIxYmM5MTczLThmMzMtM2U1Yi04NjBiLTBkMzg1M2Y2ZjU4MyIsInJlZnJlc2hfdG9rZW4iOiI1OTY2ZDA0MS0zZmI3LTMxNWMtOGJiNS01ZmE4MmFiYTE2MTIiLCJpc0F1dGhlbnRpY2F0ZWQiOnRydWUsImV4cGlyZXNfaW4iOiIzNjAwIn0sInRlbmFudFNpdGVJbmZvIjp7InRlbmFudF90b2tlbl9leHBpcmF0aW9uIjoxNTYxNTQxMTg3LCJ0ZW5hbnRfdG9rZW4iOiI0Y2Y2MDRhMjU3OTM5YWIxMDUyMjhlY2Y2ZThiYTI5NCJ9fQ==.Xz/PhzM/V3DRZgj2etiNGQ==",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"username\": \"u007@interdesign.com\",\r\n\t\"firstname\": \"u007\",\r\n\t\"lastname\": \"u007\",\r\n\t\"title\": \"DEV\",\r\n\t\"password\": \"Reactive@123\",\r\n\t\"email\": \"u007@interdesign.com\",\r\n\t\"isactive\": \"true\",\r\n\t\"islocked\" : \"false\",\r\n\t\"company\": {\r\n\t\t\"contactnumber\": \"90000\",\r\n\t\t\"name\": \"TWO\",\r\n\t\t\"address\": {\r\n\t\t\t\"address1\": \"pwd\",\r\n\t\t\t\"locality\": \"hsr layout\",\r\n\t\t\t\"postalcode\": \"556001\",\r\n\t\t\t\"city\": \"Bangalore\",\r\n\t\t\t\"state\": \"Karnataka\",\r\n\t\t\t\"country\": \"India\",\r\n\t\t\t\"region\" : \"xyz-region\"\r\n\t\t}\r\n\t}\r\n}\r\n"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "findUsersByEmail",
+			"request": {
+				"url": "http://192.168.1.248:9060/ecomm/rest/authentication/authenticationservice/findUsersByEmail",
+				"method": "POST",
+				"header": [
+					{
+						"key": "accountId",
+						"value": "ALL",
+						"description": ""
+					},
+					{
+						"key": "siteId",
+						"value": "all",
+						"description": ""
+					},
+					{
+						"key": "leap_auth_token",
+						"value": "eyJ0eXBlIjoiand0IiwiYWxnbyI6IkhTMjU2In0=.eyJ1c2VyRGF0YSI6eyJ1c2VybmFtZSI6ImFkbWluQHdzbzIuY29tIn0sImF1dGhEYXRhIjp7ImFjY2Vzc190b2tlbiI6IjIxYmM5MTczLThmMzMtM2U1Yi04NjBiLTBkMzg1M2Y2ZjU4MyIsInJlZnJlc2hfdG9rZW4iOiI1OTY2ZDA0MS0zZmI3LTMxNWMtOGJiNS01ZmE4MmFiYTE2MTIiLCJpc0F1dGhlbnRpY2F0ZWQiOnRydWUsImV4cGlyZXNfaW4iOiIxODQyIn0sInRlbmFudFNpdGVJbmZvIjp7InRlbmFudF90b2tlbl9leHBpcmF0aW9uIjoxNTYxNTQyNjU3LCJ0ZW5hbnRfdG9rZW4iOiIwYjdiNGJkYjhiZDMwMmI0MjY0NDdjYWIwOThkNzRkMSJ9fQ==.Xz/PhzM/V3DRZgj2etiNGQ==",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"emailkeyword\":\"*\",\"domain\":\"carbon.super\",\"pageindex\":\"0\",\"pagesize\":\"6\"}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "findUsersByName",
+			"request": {
+				"url": "http://192.168.1.247:9080/ecomm/rest/authentication/authenticationservice/findUsersByName",
+				"method": "POST",
+				"header": [
+					{
+						"key": "accountId",
+						"value": "ALL",
+						"description": ""
+					},
+					{
+						"key": "siteId",
+						"value": "all",
+						"description": ""
+					},
+					{
+						"key": "leap_auth_token",
+						"value": "eyJ0eXBlIjoiand0IiwiYWxnbyI6IkhTMjU2In0=.eyJ1c2VyRGF0YSI6eyJ1c2VybmFtZSI6ImFkbWluQHdzbzIuY29tIn0sImF1dGhEYXRhIjp7ImFjY2Vzc190b2tlbiI6Ijk5ODViNWRkLWIwNmItMzM2Ny1iMTcxLWJjNjBjMmMyN2M3NCIsInJlZnJlc2hfdG9rZW4iOiI3NWIzY2ZkMS0yNTU3LTNkODctYTI3Yi00NzhjYjgwMWZjZjQiLCJpc0F1dGhlbnRpY2F0ZWQiOnRydWUsImV4cGlyZXNfaW4iOiIzNjAwIn0sInRlbmFudFNpdGVJbmZvIjp7InRlbmFudF90b2tlbl9leHBpcmF0aW9uIjoiMTU2ODIwNjgwNiIsInRlbmFudF90b2tlbiI6ImJiY2E2NmJiZmZhYTlkNTRlYTVmMmY1MmRmZDIyYWIwIn19.Xz/PhzM/V3DRZgj2etiNGQ==",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"namekeyword\":\"*\",\"pageindex\":\"0\",\"pagesize\":\"20\",\"domain\":\"carbon.super\"}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "getAllUsers",
+			"request": {
+				"url": "http://192.168.1.248:9060/ecomm/rest/authentication/authenticationservice/getAllUsers",
+				"method": "POST",
+				"header": [
+					{
+						"key": "accountId",
+						"value": "ALL",
+						"description": ""
+					},
+					{
+						"key": "siteId",
+						"value": "all",
+						"description": ""
+					},
+					{
+						"key": "leap_auth_token",
+						"value": "eyJ0eXBlIjoiand0IiwiYWxnbyI6IkhTMjU2In0=.eyJ1c2VyRGF0YSI6eyJ1c2VybmFtZSI6ImFkbWluQHdzbzIuY29tIn0sImF1dGhEYXRhIjp7ImFjY2Vzc190b2tlbiI6IjIxYmM5MTczLThmMzMtM2U1Yi04NjBiLTBkMzg1M2Y2ZjU4MyIsInJlZnJlc2hfdG9rZW4iOiI1OTY2ZDA0MS0zZmI3LTMxNWMtOGJiNS01ZmE4MmFiYTE2MTIiLCJpc0F1dGhlbnRpY2F0ZWQiOnRydWUsImV4cGlyZXNfaW4iOiI1NzAifSwidGVuYW50U2l0ZUluZm8iOnsidGVuYW50X3Rva2VuX2V4cGlyYXRpb24iOiIxNTYxNTQzODgxIiwidGVuYW50X3Rva2VuIjoiNmU1MGYxZGE0Y2MwMzQ5MmFhNzk3MDE3Y2FmNmQ3ZDUifX0=.Xz/PhzM/V3DRZgj2etiNGQ==",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"pageindex\":\"0\",\"pagesize\":\"20\",\"domains\":\"carbon.super\"}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "getUserInfo",
+			"request": {
+				"url": "http://localhost:9060/ecomm/rest/authentication/authenticationservice/getUserInfo",
+				"method": "GET",
+				"header": [
+					{
+						"key": "accountId",
+						"value": "ALL",
+						"description": ""
+					},
+					{
+						"key": "siteId",
+						"value": "all",
+						"description": ""
+					},
+					{
+						"key": "jwtToken",
+						"value": "eyJ0eXBlIjoiand0IiwiYWxnbyI6IkhTMjU2In0=.eyJ1c2VyRGF0YSI6eyJ1c2VybmFtZSI6ImFkbWluQHJlYWN0aXZlLmNvbSJ9LCJhdXRoRGF0YSI6eyJhY2Nlc3NfdG9rZW4iOiJjZjU2Y2RiMy0wZTJjLTNhNzEtYTVmZC05ZjhhNmQ1NTliZDUiLCJyZWZyZXNoX3Rva2VuIjoiNDBkZTk5MzgtZDBmZC0zOWE2LTg2MDUtMTcxNmQ3MzQ0NzIxIiwiaXNBdXRoZW50aWNhdGVkIjp0cnVlLCJleHBpcmVzX2luIjoiMzYwMCJ9LCJ0ZW5hbnRTaXRlSW5mbyI6eyJ0ZW5hbnRfdG9rZW5fZXhwaXJhdGlvbiI6IjE1NjE1NDQ5NTUiLCJ0ZW5hbnRfdG9rZW4iOiI5N2RhYWZkNTJhMGI2OTUzN2E1NzUzMjQzNjFkNTVlYiJ9fQ==.HibLQRR8tj9NmrHk1lzZcA==",
+						"description": "",
+						"disabled": true
+					}
+				],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "getAllDomains",
+			"request": {
+				"url": "http://192.168.1.248:9060/ecomm/rest/authentication/authenticationservice/getAllDomains",
+				"method": "GET",
+				"header": [
+					{
+						"key": "accountId",
+						"value": "ALL",
+						"description": ""
+					},
+					{
+						"key": "siteId",
+						"value": "all",
+						"description": ""
+					},
+					{
+						"key": "leap_auth_token",
+						"value": "eyJ0eXBlIjoiand0IiwiYWxnbyI6IkhTMjU2In0=.eyJ1c2VyRGF0YSI6eyJ1c2VybmFtZSI6ImFkbWluQHdzbzIuY29tIn0sImF1dGhEYXRhIjp7ImFjY2Vzc190b2tlbiI6IjIxYmM5MTczLThmMzMtM2U1Yi04NjBiLTBkMzg1M2Y2ZjU4MyIsInJlZnJlc2hfdG9rZW4iOiI1OTY2ZDA0MS0zZmI3LTMxNWMtOGJiNS01ZmE4MmFiYTE2MTIiLCJpc0F1dGhlbnRpY2F0ZWQiOnRydWUsImV4cGlyZXNfaW4iOiIzNjAwIn0sInRlbmFudFNpdGVJbmZvIjp7InRlbmFudF90b2tlbl9leHBpcmF0aW9uIjoiMTU2MTU0MTE1MyIsInRlbmFudF90b2tlbiI6IjcyYzc4ODQxNTEzOTcxNDVlMGY5NDE0NjRiYjMwZjg5In19.Xz/PhzM/V3DRZgj2etiNGQ==",
+						"description": ""
+					}
+				],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "getAllUserDomains",
+			"request": {
+				"url": {
+					"raw": "http://192.168.1.248:9060/ecomm/rest/authentication/authenticationservice/getAllUserDomains?username=u007@interdesign.com",
+					"protocol": "http",
+					"host": [
+						"192",
+						"168",
+						"1",
+						"248"
+					],
+					"port": "9060",
+					"path": [
+						"ecomm",
+						"rest",
+						"authentication",
+						"authenticationservice",
+						"getAllUserDomains"
+					],
+					"query": [
+						{
+							"key": "username",
+							"value": "u007@interdesign.com",
+							"equals": true,
+							"description": ""
+						}
+					],
+					"variable": []
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "accountId",
+						"value": "ALL",
+						"description": ""
+					},
+					{
+						"key": "siteId",
+						"value": "all",
+						"description": ""
+					},
+					{
+						"key": "leap_auth_token",
+						"value": "eyJ0eXBlIjoiand0IiwiYWxnbyI6IkhTMjU2In0=.eyJ1c2VyRGF0YSI6eyJ1c2VybmFtZSI6ImFkbWluQHdzbzIuY29tIn0sImF1dGhEYXRhIjp7ImFjY2Vzc190b2tlbiI6IjNlY2FjN2ViLWUwNGMtM2NjOC1iYTQ4LWJhOWY0ZTc2NTlkMSIsInJlZnJlc2hfdG9rZW4iOiI1YTlhZWUwNi03NzA5LTM0OWUtYTMwNi0wNjlhNWU2NzUxM2QiLCJpc0F1dGhlbnRpY2F0ZWQiOnRydWUsImV4cGlyZXNfaW4iOiIzNjAwIn0sInRlbmFudFNpdGVJbmZvIjp7InRlbmFudF90b2tlbl9leHBpcmF0aW9uIjoiMTU2MTQ0NTQyNCIsInRlbmFudF90b2tlbiI6IjcwZDE2YzEzYjJjNTdiNzJmNTgxYmU3M2ZjNzJkYTIzIn19.Xz/PhzM/V3DRZgj2etiNGQ==",
+						"description": ""
+					}
+				],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "selfRegisterUser",
+			"request": {
+				"url": "http://192.168.1.248:9060/ecomm/rest/authentication/authenticationservice/selfRegisterUser",
+				"method": "POST",
+				"header": [
+					{
+						"key": "domain",
+						"value": "carbon.super",
+						"description": ""
+					},
+					{
+						"key": "accountId",
+						"value": "ALL",
+						"description": ""
+					},
+					{
+						"key": "siteId",
+						"value": "all",
+						"description": ""
+					},
+					{
+						"key": "tenant_token",
+						"value": "a8deb42f816b8ae8948754296de85381",
+						"description": "",
+						"disabled": true
+					},
+					{
+						"key": "tenant_token_expiration",
+						"value": "1525851122",
+						"description": "",
+						"disabled": true
+					},
+					{
+						"key": "access_token",
+						"value": "986f1442-ca7d-3758-920c-fb197af59b90",
+						"description": "",
+						"disabled": true
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "leap_auth_token",
+						"value": "eyJ0eXBlIjoiand0IiwiYWxnbyI6IkhTMjU2In0=.eyJ1c2VyRGF0YSI6eyJ1c2VybmFtZSI6ImFkbWluQHdzbzIuY29tIn0sImF1dGhEYXRhIjp7ImFjY2Vzc190b2tlbiI6IjIxOTUzMzUzLThkZDQtM2U4NS04MDIzLWE1MjlkZDM0NjYwZiIsInJlZnJlc2hfdG9rZW4iOiI1YTlhZWUwNi03NzA5LTM0OWUtYTMwNi0wNjlhNWU2NzUxM2QiLCJpc0F1dGhlbnRpY2F0ZWQiOnRydWUsImV4cGlyZXNfaW4iOiIzNjAwIn0sInRlbmFudFNpdGVJbmZvIjp7InRlbmFudF90b2tlbl9leHBpcmF0aW9uIjoiMTU2MTM4NzI3MiIsInRlbmFudF90b2tlbiI6Ijc2YjEyMTc5ZjNiOTgyNWFmMmRiOWU0YWQyYTE0OTEzIn19.Xz/PhzM/V3DRZgj2etiNGQ==",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"username\": \"u007@interdesign.com\",\r\n\t\"firstname\": \"u007\",\r\n\t\"lastname\": \"u007@interdesign.com\",\r\n\t\"title\": \"EMP\",\r\n\t\"password\": \"Reactive@123\",\r\n\t\"email\": \"u007@interdesign.com\",\r\n\t\"isactive\": \"true\",\r\n\t\"islocked\" : \"false\",\r\n\t\"company\": {\r\n\t\t\"contactnumber\": \"90000\",\r\n\t\t\"name\": \"TWO\",\r\n\t\t\"address\": {\r\n\t\t\t\"address1\": \"pwd\",\r\n\t\t\t\"locality\": \"hsr layout\",\r\n\t\t\t\"postalcode\": \"556001\",\r\n\t\t\t\"city\": \"Bangalore\",\r\n\t\t\t\"state\": \"Karnataka\",\r\n\t\t\t\"country\": \"India\",\r\n\t\t\t\"region\" : \"xyz-region\"\r\n\t\t}\r\n\t}\r\n}\r\n"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "registerDomainByAccount",
+			"request": {
+				"url": "http://192.168.1.248:9060/ecomm/rest/authentication/authenticationservice/registerDomainByAccount",
+				"method": "POST",
+				"header": [
+					{
+						"key": "accountId",
+						"value": "ALL",
+						"description": ""
+					},
+					{
+						"key": "siteId",
+						"value": "all",
+						"description": ""
+					},
+					{
+						"key": "tenant_token",
+						"value": "a8deb42f816b8ae8948754296de85381",
+						"description": "",
+						"disabled": true
+					},
+					{
+						"key": "tenant_token_expiration",
+						"value": "1525851122",
+						"description": "",
+						"disabled": true
+					},
+					{
+						"key": "access_token",
+						"value": "986f1442-ca7d-3758-920c-fb197af59b90",
+						"description": "",
+						"disabled": true
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "leap_auth_token",
+						"value": "eyJ0eXBlIjoiand0IiwiYWxnbyI6IkhTMjU2In0=.eyJ1c2VyRGF0YSI6eyJ1c2VybmFtZSI6ImFkbWluQHdzbzIuY29tIn0sImF1dGhEYXRhIjp7ImFjY2Vzc190b2tlbiI6IjA1ZmI4YmQ2LTQ1ZTQtM2M5OS04ZmYxLWM1ODhmYjllNjA4YyIsInJlZnJlc2hfdG9rZW4iOiI5NmExZmRhNC1jM2EyLTMyZDQtOGQxMS0xMzUwZmRhMzYyN2MiLCJpc0F1dGhlbnRpY2F0ZWQiOnRydWUsImV4cGlyZXNfaW4iOiIxODcwIn0sInRlbmFudFNpdGVJbmZvIjp7InRlbmFudF90b2tlbl9leHBpcmF0aW9uIjoxNTYxMDMzNjA3LCJ0ZW5hbnRfdG9rZW4iOiIxODZkZmM1ZjhiM2I0MDUzMTlhOGFhYWM2YjhiNTQ1YyJ9fQ==.Xz/PhzM/V3DRZgj2etiNGQ==",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"newdomain\":{  \r\n      \"accountname\":\"Rxw2\",\r\n      \"domainname\":\"reactive.com\",\r\n      \"siteid\":\"rxw\",\r\n      \"adminfirstname\":\"admin\",\r\n      \"adminlastname\":\"admin\",\r\n      \"adminusername\":\"admin@reactive.com\",\r\n      \"adminpassword\":\"admin\",\r\n      \"adminemail\":\"admin@reactive.com\",\r\n      \"timezone\":\"IST\",\r\n      \"defaultapp\":\"appUser@reactive.com\"\r\n      \r\n      \r\n   }\r\n}\r\n"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "registerNewAccount",
+			"request": {
+				"url": "http://localhost:9060/ecomm/rest/authentication/authenticationservice/registerNewAccount",
+				"method": "POST",
+				"header": [
+					{
+						"key": "accountId",
+						"value": "ALL",
+						"description": ""
+					},
+					{
+						"key": "siteId",
+						"value": "all",
+						"description": ""
+					},
+					{
+						"key": "tenant_token",
+						"value": "00349027c274b7b6aae13eeb50045be2",
+						"description": "",
+						"disabled": true
+					},
+					{
+						"key": "tenant_token_expiration",
+						"value": "1550734824",
+						"description": "",
+						"disabled": true
+					},
+					{
+						"key": "access_token",
+						"value": "9992965d-8056-3c5d-9a6c-39c880e37aaa",
+						"description": "",
+						"disabled": true
+					},
+					{
+						"key": "jwt_token",
+						"value": "eyJ0eXBlIjoiand0IiwiYWxnbyI6IkhTMjU2In0=.eyJ1c2VyRGF0YSI6eyJ1c2VybmFtZSI6ImRtc0FkbWluQGRtc2FkbWluLmNvbSJ9LCJhdXRoRGF0YSI6eyJhY2Nlc3NfdG9rZW4iOiI1M2EzOGVjOC0xYzI5LTM0YTktODgzYi0wYTM5Zjk5NjIyMTYiLCJyZWZyZXNoX3Rva2VuIjoiMzc2NGNkNGMtZWM0ZC0zOTUxLTg1MDktNWViODBjMzY3M2Y1IiwiaXNBdXRoZW50aWNhdGVkIjp0cnVlLCJleHBpcmVzX2luIjoiMzYwMCJ9LCJ0ZW5hbnRTaXRlSW5mbyI6eyJ0ZW5hbnRfdG9rZW5fZXhwaXJhdGlvbiI6IjE1NzYyMTc2MjUiLCJ0ZW5hbnRfdG9rZW4iOiI3MGVjZjFiYTUyMTBjOWQwZmVmNmQyZGVhZTk5YTk5MSJ9fQ==.Xz/PhzM/V3DRZgj2etiNGQ==",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n \"accountName\": \"GETUSROI\",\r\n \"internalTenantId\":\"getusroi\",\r\n \"tenantToken_expiration_init_in_seconds\":\"3600\"\r\n}\r\n"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "login",
+			"request": {
+				"url": "http://localhost:9060/ecomm/rest/authentication/authenticationservice/login",
+				"method": "POST",
+				"header": [
+					{
+						"key": "siteId",
+						"value": "all",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "accountId",
+						"value": "ALL",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"domain\":\"carbon.super\",\"username\":\"dmsAdmin@dmsadmin.com\",\"password\":\"dms@123\"}"
+				},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}

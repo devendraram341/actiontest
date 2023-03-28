@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:camel="http://camel.apache.org/schema/spring"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	                    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd 
+	                    http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd">
+
+
+	<routeContext id="internal-serviceCall-routecontext" xmlns="http://camel.apache.org/schema/spring">
+	
+	
+		<route id="internal_serviceCall_SyncBase">
+			<from uri="direct:syncBaseDispatcher" />
+			<transacted ref="PROPAGATION_REQUIRED">							
+				<to uri="bean:leapDataContextInit?method=createAndInitializeLeapContext" />
+				<to uri="bean:handlersBean?method=fetchHandlers" />
+				<to uri="direct:preServiceHandlersInvocation" />
+				<choice>
+					<when>
+						<simple>${in.header.serviceName} == 'data'</simple>
+						<to uri="bean:setSubscriptionProperty"></to>
+						<to uri="direct:entryroute" />
+					</when>
+					<otherwise>
+						<doTry>
+							<setHeader headerName="Access-Control-Allow-Origin">
+								<constant>*</constant>
+							</setHeader>
+							<setHeader headerName="access-control-allow-origin">
+								<constant>*</constant>
+							</setHeader>
+							<setHeader headerName="Access-Control-Allow-Methods">
+								<constant>POST</constant>
+							</setHeader>
+							<setHeader headerName="Access-Control-Allow-Headers">
+								<constant>formdestination</constant>
+							</setHeader>
+							<setHeader headerName="Exchange.HTTP_METHOD">
+								<constant>POST</constant>
+							</setHeader>
+							<doCatch>
+								<exception>org.apache.camel.CamelExchangeException</exception>
+							</doCatch>
+							<doCatch>
+								<exception>com.attunedlabs.eventframework.abstractbean.util.CassandraConnectionException
+								</exception>
+								<exception>com.datastax.driver.core.exceptions.NoHostAvailableException
+								</exception>
+								<exception>org.apache.metamodel.MetaModelException</exception>
+								<handled>
+									<constant>false</constant>
+								</handled>
+								<to
+									uri="bean:serviceRequestUtil?method=setResponseCodeOnError(500,'Internal Server Error, Connection to Database refused')" />
+							</doCatch>
+						</doTry>
+						<to uri="direct:entryroute" />
+						<to uri="direct:postServiceHandlersInvocation" />
+						<to uri="bean:leapEventDispatcher?method=storeSuccessServiceCompletionEventIncache"/>
+						<to uri="bean:leapDataContextInit?method=removeRuntimeContext" />
+					</otherwise>
+				</choice>
+			</transacted>
+		</route>
+
+	</routeContext>
+
+</beans>

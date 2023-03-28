@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<EventFramework
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="eventframework.xsd"
+	xmlns:dis="http://attunedlabs.com/internalevents/Dispatcher">
+
+
+	<EventSubscription>
+		<SubscribeEvent subscriptionId="TestKafka"
+			isEnabled="true">
+			<SubscribeTo>testKafkaTopicName</SubscribeTo>
+			<EventRoutingRules>
+				<EventRoutingRule>
+					<InvokeCamelRoute featureGroup="TestFeatureGroup"
+						featureName="TestFeature" serviceName="TestService" />
+				</EventRoutingRule>
+			</EventRoutingRules>
+			<FailureHandlingStrategy>
+				<FailureStrategyName>LeapDefaultRetryStrategy</FailureStrategyName>
+				<FailureStrategyConfig>
+					{ "retryCount": "4",
+					"retryInterval": "20",
+					"retryIntervalMultiplier":"1",
+					"maximumRetryInterval": "60",
+					"timeIntervalUnit": "SECOND",
+					"retryTopRecords":50
+					}
+				</FailureStrategyConfig>
+			</FailureHandlingStrategy>
+		</SubscribeEvent>
+	</EventSubscription>
+</EventFramework>
+

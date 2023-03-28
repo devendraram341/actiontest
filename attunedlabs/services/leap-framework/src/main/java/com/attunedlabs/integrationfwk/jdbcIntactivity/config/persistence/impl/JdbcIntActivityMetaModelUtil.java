@@ -1,0 +1,36 @@
+package com.attunedlabs.integrationfwk.jdbcIntactivity.config.persistence.impl;
+
+import static com.attunedlabs.leap.logging.LeapLoggingConstants.LEAP_LOG_KEY;
+import javax.sql.DataSource;
+
+import org.apache.camel.CamelContext;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.attunedlabs.integrationfwk.jdbcIntactivity.config.persistence.JdbcIntActivityPersistenceException;
+
+public class JdbcIntActivityMetaModelUtil {
+	static final Logger logger = LoggerFactory.getLogger(JdbcIntActivityMetaModelUtil.class.getName());
+
+	/**
+	 * to get the datasource object by lookup called in the processor
+	 * 
+	 * @param context
+	 * @param lookupName
+	 * @return dataSourceObject
+	 * @throws JdbcIntActivityPersistenceException
+	 */
+	public static DataSource getDataSource(CamelContext context, String lookupName)
+			throws JdbcIntActivityPersistenceException {
+		logger.debug("{} exchange lookup name: {}",LEAP_LOG_KEY, lookupName);
+		DataSource datasource = (DataSource) context.getRegistry().lookupByName(lookupName);
+		logger.debug("{} dataSource object by exchange lookup..: {}" ,LEAP_LOG_KEY, datasource);
+		if (!(datasource==null)) {
+			return datasource;
+		} else {
+			throw new JdbcIntActivityPersistenceException(
+					"Unable to lookup " + lookupName + " the dataSource from the Context");
+		}
+	}// ..end of the method
+
+}

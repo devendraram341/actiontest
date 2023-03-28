@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<FeaturesServiceInfo xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="featureService.xsd">
+	<Features featureGroup="authorization">
+		<Feature featureName="authorizationservice" version="1.0"
+			enabled='true' interfaceName="com.leap.AuthorizationImplemantation">
+
+			<!-- This service is used to create new tenant -->
+			<Service name="userLogin" enabled='true' vendorName="leap"
+				Description="creating new tenant">
+				<GenericRestEndpoint httpMethod="POST"
+					urlMappingScheme="authorization/authorizationservice/userLogin">auth-userLogin-ImplementationEnrichmentRoute
+				</GenericRestEndpoint>
+			</Service>
+
+			<!-- This service is used to create new tenant -->
+			<Service name="createTenant" enabled='true' vendorName="leap"
+				Description="creating new tenant">
+				<GenericRestEndpoint httpMethod="POST"
+					urlMappingScheme="authorization/authorizationservice/createTenant">auth-newTenant-ImplementationEnrichmentRoute
+				</GenericRestEndpoint>
+			</Service>
+
+			<!-- This service is used to create new child tenant -->
+			<Service name="createChildTenant" enabled='true' vendorName="leap"
+				Description="creating new child tenant">
+				<GenericRestEndpoint httpMethod="POST"
+					urlMappingScheme="authorization/authorizationservice/createChildTenant">auth-newChildTenant-ImplementationEnrichmentRoute
+				</GenericRestEndpoint>
+			</Service>
+
+			<!-- This service is used to create new resource type -->
+			<Service name="createResourceType" enabled='true' vendorName="leap"
+				Description="creating new resource type">
+				<GenericRestEndpoint httpMethod="POST"
+					urlMappingScheme="authorization/authorizationservice/createResourceType">auth-newResourceType-ImplementationEnrichmentRoute
+				</GenericRestEndpoint>
+			</Service>
+
+			<!-- This service is used to register new users -->
+			<Service name="registerUsers" enabled='true' vendorName="leap"
+				Description="registering new users">
+				<GenericRestEndpoint httpMethod="POST"
+					urlMappingScheme="authorization/authorizationservice/registerUsers">auth-newUsers-ImplementationEnrichmentRoute
+				</GenericRestEndpoint>
+			</Service>
+
+			<!-- This service is used to register new user -->
+			<Service name="registerUser" enabled='true' vendorName="leap"
+				Description="registering new user">
+				<GenericRestEndpoint httpMethod="POST"
+					urlMappingScheme="authorization/authorizationservice/registerUser">auth-newUser-ImplementationEnrichmentRoute
+				</GenericRestEndpoint>
+			</Service>
+
+			<!-- This service is used to removing existing user -->
+			<Service name="removeUser" enabled='true' vendorName="leap"
+				Description="removing existing user">
+				<GenericRestEndpoint httpMethod="POST"
+					urlMappingScheme="authorization/authorizationservice/removeUser">auth-removeUser-ImplementationEnrichmentRoute
+				</GenericRestEndpoint>
+			</Service>
+
+
+			<!-- This service is used to create new resources -->
+			<Service name="createResources" enabled='true' vendorName="leap"
+				Description="creating new resources">
+				<GenericRestEndpoint httpMethod="POST"
+					urlMappingScheme="authorization/authorizationservice/createResources">auth-newResources-ImplementationEnrichmentRoute
+				</GenericRestEndpoint>
+			</Service>
+
+			<!-- This service is used to create single resource -->
+			<Service name="createResource" enabled='true' vendorName="leap"
+				Description="creating new resource">
+				<GenericRestEndpoint httpMethod="POST"
+					urlMappingScheme="authorization/authorizationservice/createResource">auth-newResource-ImplementationEnrichmentRoute
+				</GenericRestEndpoint>
+			</Service>
+
+			<!-- This service is used to create new menu items -->
+			<Service name="createMenuItems" enabled='true' vendorName="leap"
+				Description="creating new items for menu">
+				<GenericRestEndpoint httpMethod="POST"
+					urlMappingScheme="authorization/authorizationservice/createMenuItems">auth-menuItems-ImplementationEnrichmentRoute
+				</GenericRestEndpoint>
+			</Service>
+
+			<!-- This service is used to register new roles -->
+			<Service name="registerRoles" enabled='true' vendorName="leap"
+				Description="registering new roles">
+				<GenericRestEndpoint httpMethod="POST"
+					urlMappingScheme="authorization/authorizationservice/registerRoles">auth-newRoles-ImplementationEnrichmentRoute
+				</GenericRestEndpoint>
+			</Service>
+
+			<!-- This service is used to register new role -->
+			<Service name="registerRole" enabled='true' vendorName="leap"
+				Description="registering new role">
+				<GenericRestEndpoint httpMethod="POST"
+					urlMappingScheme="authorization/authorizationservice/registerRole">auth-newRole-ImplementationEnrichmentRoute
+				</GenericRestEndpoint>
+			</Service>
+
+			<!-- This service is used to create permission for the resource type -->
+			<Service name="createResourceTypePermission" enabled='true'
+				vendorName="leap" Description="creating new permissions for resource type">
+				<GenericRestEndpoint httpMethod="POST"
+					urlMappingScheme="authorization/authorizationservice/createResourceTypePermission">auth-createResourceTypePermission-ImplementationEnrichmentRoute
+				</GenericRestEndpoint>
+			</Service>
+
+			<!-- This service is used to grant permission for user on resources -->
+			<Service name="grantPermissionForUser" enabled='true'
+				vendorName="leap" Description="granting new permissions for user on resource">
+				<GenericRestEndpoint httpMethod="POST"
+					urlMappingScheme="authorization/authorizationservice/grantPermissionForUser">auth-grantUserPermission-ImplementationEnrichmentRoute
+				</GenericRestEndpoint>
+			</Service>
+
+			<!-- This service is used to grant permission for role on resources -->
+			<Service name="grantPermissionForRole" enabled='true'
+				vendorName="leap" Description="granting permission for role on resource">
+				<GenericRestEndpoint httpMethod="POST"
+					urlMappingScheme="authorization/authorizationservice/grantPermissionForRole">auth-grantRolePermission-ImplementationEnrichmentRoute
+				</GenericRestEndpoint>
+			</Service>
+
+			<!-- This service is used to associate role to user -->
+			<Service name="associateRoleToUser" enabled='true'
+				vendorName="leap" Description="role association to user">
+				<GenericRestEndpoint httpMethod="POST"
+					urlMappingScheme="authorization/authorizationservice/associateRoleToUser">auth-associateRoleToUser-ImplementationEnrichmentRoute
+				</GenericRestEndpoint>
+			</Service>
+
+			<!-- This service is used to get all associated role to user -->
+			<Service name="getRolesForUser" enabled='true' vendorName="leap"
+				Description="get roles assoiated for user">
+				<GenericRestEndpoint httpMethod="GET"
+					urlMappingScheme="authorization/authorizationservice/getRolesForUser">auth-getRolesForUser-ImplementationEnrichmentRoute
+				</GenericRestEndpoint>
+			</Service>
+
+			<!-- This service is used to get permission for user on any resource -->
+			<Service name="getPermissionForUser" enabled='true'
+				vendorName="leap" Description="getting permission for user on a specific resource">
+				<GenericRestEndpoint httpMethod="POST"
+					urlMappingScheme="authorization/authorizationservice/getPermissionForUser">auth-getPermissionForUser-ImplementationEnrichmentRoute
+				</GenericRestEndpoint>
+			</Service>
+
+			<!-- This service is used to get permission for resource type -->
+			<Service name="getResourceTypePermission" enabled='true'
+				vendorName="leap" Description="getting permission of resource class">
+				<GenericRestEndpoint httpMethod="GET"
+					urlMappingScheme="authorization/authorizationservice/getResourceTypePermission">auth-getResourceTypePermission-ImplementationEnrichmentRoute
+				</GenericRestEndpoint>
+			</Service>
+
+			<!-- This service is used to check User Exists or Not -->
+			<Service name="userExists" enabled='true' vendorName="leap"
+				Description="check User Exists">
+				<GenericRestEndpoint httpMethod="GET"
+					urlMappingScheme="authorization/authorizationservice/userExists">auth-userExists-ImplementationEnrichmentRoute
+				</GenericRestEndpoint>
+			</Service>
+
+			<!-- This service is used to check Tenant Exists or Not -->
+			<Service name="tenantExists" enabled='true' vendorName="leap"
+				Description="check Tenant Exists">
+				<GenericRestEndpoint httpMethod="POST"
+					urlMappingScheme="authorization/authorizationservice/tenantExists">auth-tenantExists-ImplementationEnrichmentRoute
+				</GenericRestEndpoint>
+			</Service>
+
+			<!-- This service is used to asserting permission for user on any resource -->
+			<Service name="hasUserPermission" enabled='true' vendorName="leap"
+				Description="asserting permission for user on any specific resource">
+				<GenericRestEndpoint httpMethod="POST"
+					urlMappingScheme="authorization/authorizationservice/hasUserPermission">auth-hasUserPermission-ImplementationEnrichmentRoute
+				</GenericRestEndpoint>
+			</Service>
+
+			<!-- This service is used to asserting permission for role on any resource -->
+			<Service name="hasRolePermission" enabled='true' vendorName="leap"
+				Description="asserting permission for role on any specific resource">
+				<GenericRestEndpoint httpMethod="POST"
+					urlMappingScheme="authorization/authorizationservice/hasRolePermission">auth-hasRolePermission-ImplementationEnrichmentRoute
+				</GenericRestEndpoint>
+			</Service>
+
+			<!-- This service is used to asserting permission for user on menu item -->
+			<Service name="hasMenuItemUserPermission" enabled='true'
+				vendorName="leap" Description="asserting permission for role on menu item">
+				<GenericRestEndpoint httpMethod="POST"
+					urlMappingScheme="authorization/authorizationservice/hasMenuItemUserPermission">auth-hasMenuItemUserPermission-ImplementationEnrichmentRoute
+				</GenericRestEndpoint>
+			</Service>
+
+
+			<!-- This service is used to get all the accessible resources for an user -->
+			<Service name="getAllUserAccessibleResource" enabled='true'
+				vendorName="leap"
+				Description="getting all resources for a specific permission for user">
+				<GenericRestEndpoint httpMethod="POST"
+					urlMappingScheme="authorization/authorizationservice/getAllUserAccessibleResource">auth-getAllUserAccessibleResource-ImplementationEnrichmentRoute
+				</GenericRestEndpoint>
+			</Service>
+
+			<!-- This service is used to get all the accessible resources for role -->
+			<Service name="getAllRoleAccessibleResource" enabled='true'
+				vendorName="leap"
+				Description="getting all resources for a specific permission for role">
+				<GenericRestEndpoint httpMethod="POST"
+					urlMappingScheme="authorization/authorizationservice/getAllRoleAccessibleResource">auth-getAllRoleAccessibleResource-ImplementationEnrichmentRoute
+				</GenericRestEndpoint>
+			</Service>
+
+			<!-- This service is used to get all the accessible menu items for user -->
+			<Service name="getAllAccessibleMenuItemsForUser" enabled='true'
+				vendorName="leap"
+				Description="getting all menu items for a specific permission for user">
+				<GenericRestEndpoint httpMethod="POST"
+					urlMappingScheme="authorization/authorizationservice/getAllAccessibleMenuItemsForUser">auth-getAllAccessibleMenuItemsForUser-ImplementationEnrichmentRoute
+				</GenericRestEndpoint>
+			</Service>
+
+			<!-- This service is used to get all the accessible menu items for role -->
+			<Service name="getAllAccessibleMenuItemsForRole" enabled='true'
+				vendorName="leap"
+				Description="getting all menu items for a specific permission for role">
+				<GenericRestEndpoint httpMethod="POST"
+					urlMappingScheme="authorization/authorizationservice/getAllAccessibleMenuItemsForRole">auth-getAllAccessibleMenuItemsForRole-ImplementationEnrichmentRoute
+				</GenericRestEndpoint>
+			</Service>
+			
+			<Service name="getAllRolesByTenant" enabled='true'
+				vendorName="leap"
+				Description="getting all menu items for a specific permission for role">
+				<GenericRestEndpoint httpMethod="POST"
+					urlMappingScheme="authorization/authorizationservice/getAllRolesByTenant">auth-getAllRolesByTenant-ImplementationEnrichmentRoute
+				</GenericRestEndpoint>
+			</Service> 
+			
+			<Service name="updateRoleForUser" enabled='true'
+				vendorName="leap"
+				Description="getting all menu items for a specific permission for role">
+				<GenericRestEndpoint httpMethod="POST"
+					urlMappingScheme="authorization/authorizationservice/updateRoleForUser">auth-updateRoleForUser-ImplementationEnrichmentRoute
+				</GenericRestEndpoint>
+			</Service>
+			
+			<Service name="deleteRoleForUser" enabled='true'
+				vendorName="leap"
+				Description="getting all menu items for a specific permission for role">
+				<GenericRestEndpoint httpMethod="POST"
+					urlMappingScheme="authorization/authorizationservice/deleteRoleForUser">auth-deleteRoleForUser-ImplementationEnrichmentRoute
+				</GenericRestEndpoint>
+			</Service>
+			
+			<Service name="revokeResourceForUser" enabled='true'
+				vendorName="leap"
+				Description="getting all menu items for a specific permission for role">
+				<GenericRestEndpoint httpMethod="POST"
+					urlMappingScheme="authorization/authorizationservice/revokeResourceForUser">auth-revokeResourceForUser-ImplementationEnrichmentRoute
+				</GenericRestEndpoint>
+			</Service>
+			
+			<Service name="deleteUser" enabled='true'
+				vendorName="leap"
+				Description="getting all menu items for a specific permission for role">
+				<GenericRestEndpoint httpMethod="POST"
+					urlMappingScheme="authorization/authorizationservice/deleteUser">auth-deleteUser-ImplementationEnrichmentRoute
+				</GenericRestEndpoint>
+			</Service>
+			
+		</Feature>
+	</Features>
+</FeaturesServiceInfo>

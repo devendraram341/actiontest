@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xs:schema attributeFormDefault="unqualified"
+	elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:element name="ServiceHandlerConfiguration">
+		<xs:complexType>
+			<xs:all>
+
+				<!--Feature Service Handlers are called by specific services.Handlers 
+					will be executed in the sequence as found in the XML configuration -->
+				<xs:element name="FeatureServiceHandler">
+					<xs:complexType>
+						<xs:sequence>
+							<!--type: Either to execute pre-handler(i.e., start of baseroute) 
+								or post-handler (i.e., end of exit route). execute: Execution of the handler 
+								should be by the same thread or by the another thread -->
+							<xs:element name="ServiceHandler" maxOccurs="unbounded"
+								minOccurs="0">
+								<xs:complexType>
+									<xs:sequence>
+										<!--describes the purpose of handler -->
+										<xs:element type="xs:string" name="Description" />
+										<!--handler implementation class can be instantiated by either 
+											beanId(by lookup bean ref in camel file) or fqcn(instantiating the class 
+											instance by reflection api concept) -->
+										<xs:element name="HandlerImplementation">
+											<xs:complexType>
+												<xs:sequence>
+													<!--JSON configuration to be passed while instantiating, in 
+														the case where post- handler can be sending data to KAFKA, where you will 
+														be needing all the broker and host configurations -->
+													<xs:element type="xs:string" name="HandlerConfig"
+														minOccurs="0" />
+												</xs:sequence>
+												<xs:attribute type="xs:string" name="beanId"
+													use="optional" />
+												<xs:attribute type="xs:string" name="fqcn" use="optional" />
+											</xs:complexType>
+										</xs:element>
+										<!--Include Services responsible for executing this handler -->
+										<xs:element name="IncludedServices">
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="Service" maxOccurs="unbounded"
+														minOccurs="0">
+														<!--featureGroup,featureName,serviceName : identify the service 
+															that are responsible for executing this handler -->
+														<xs:complexType>
+															<xs:simpleContent>
+																<xs:extension base="xs:string">
+																	<xs:attribute type="xs:string" name="featureGroup"
+																		use="required" />
+																	<xs:attribute type="xs:string" name="featureName"
+																		use="required" />
+																	<xs:attribute type="xs:string" name="serviceName"
+																		use="required" />
+																</xs:extension>
+															</xs:simpleContent>
+														</xs:complexType>
+													</xs:element>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+									<xs:attribute name="type" use="optional" default="*">
+										<xs:simpleType>
+											<xs:restriction base="xs:string">
+												<xs:enumeration value="pre-service" />
+												<xs:enumeration value="pre-exec" />
+												<xs:enumeration value="pre-exec-enrichment" />
+												<xs:enumeration value="pre-impl-selection" />
+												<xs:enumeration value="pre-impl-enrichment" />
+												<xs:enumeration value="pre-impl" />
+												<xs:enumeration value="post-exec" />
+												<xs:enumeration value="post-service" />
+												<xs:enumeration value="*" />
+											</xs:restriction>
+										</xs:simpleType>
+									</xs:attribute>
+									<xs:attribute name="execute" use="optional"
+										default="sync">
+										<xs:simpleType>
+											<xs:restriction base="xs:string">
+												<xs:enumeration value="sync" />
+												<xs:enumeration value="async" />
+											</xs:restriction>
+										</xs:simpleType>
+									</xs:attribute>
+									<xs:attribute name="handlerId" use="required"
+										type="xs:string" />
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:all>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

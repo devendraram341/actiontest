@@ -1,0 +1,17 @@
+package com.attunedlabs.featuredeployment;
+
+import com.attunedlabs.config.ConfigurationContext;
+import com.attunedlabs.leap.LeapHeader;
+import com.attunedlabs.leap.LeapServiceContext;
+
+public interface IFeatureDeployment {
+
+	public void addFeatureDeployement(ConfigurationContext configContext,boolean isActive,boolean isPrimary,boolean isCustomized) throws FeatureDeploymentServiceException;
+	public void CheckAndaddFeatureDeployementInCache(ConfigurationContext configContext,boolean isActive,boolean isPrimary,boolean isCustomized) throws FeatureDeploymentServiceException;
+	public FeatureDeployment getFeatureDeployedDeatils(ConfigurationContext configContext) throws FeatureDeploymentServiceException;
+	public boolean deleteFeatureDeployed(ConfigurationContext configContext) throws FeatureDeploymentServiceException;
+	public FeatureDeployment getActiveAndPrimaryFeatureDeployedFromCache(String tenant,String site,String featureName, LeapServiceContext leapServiceContext) throws FeatureDeploymentServiceException;
+	public FeatureDeployment getActiveAndPrimaryFeatureDeployedFromCache(String tenant,String site,String featureName,String provider,LeapServiceContext leapServiceContext) throws FeatureDeploymentServiceException;
+	public boolean updateFeatureDeployed(ConfigurationContext configContext,boolean isPrimary,boolean isActive) throws FeatureDeploymentServiceException;
+	public boolean checkIfFeatureIsAlreadyDeployed(ConfigurationContext configContext) throws FeatureDeploymentServiceException;
+}

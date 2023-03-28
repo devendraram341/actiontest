@@ -1,0 +1,77 @@
+<EventFramework
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="eventframework.xsd"
+	xmlns:dis="http://attunedlabs.com/internalevents/Dispatcher">
+
+	<DispatchChannels>
+		<DispatchChannel id="FILE_STORE"
+			description="file store" isEnabled="true" processingWay="ASYNC">
+			<ChannelImplementation
+				fqcn="com.attunedlabs.eventframework.dispatcher.channel.FileStoreDispatchChannel"
+				beanRefid="fileStoreDispatcher" />
+			<ChannelConfiguration>
+				{"filepath":"${user.dir}/../../../config/local/TestLog","filename":"TestEvent.txt"}
+			</ChannelConfiguration>
+		</DispatchChannel>
+	</DispatchChannels>
+
+	<Events>
+		<!-- Camel Producer Config for Service Producer -->
+		<Event id="PRINT_SERVICE_XSLT" type="internal"
+			description="print service" isEnabled="true">
+			<EventParams />
+			<dis:EventDispatchers>
+				<dis:EventDispatcher>
+					<dis:DispatchChannelId>FILE_STORE</dis:DispatchChannelId>
+					<dis:EventTransformation Type="XML-XSLT">
+						<dis:XSLTName>XSLT/TestXSLTTransform.xslt</dis:XSLTName>
+					</dis:EventTransformation>
+				</dis:EventDispatcher>
+			</dis:EventDispatchers>
+		</Event>
+		<Event id="PRINT_SERVICE_CUSTOM" type="internal"
+			description="print service" isEnabled="true">
+			<EventParams />
+			<CamelEventProducer>
+				<CamelProducerConfig serviceName="TestService"
+					component="com.attunedlabs.eventframework.config.TestEventConfig"
+					feature="TestFeature" raiseOn="success" />
+				<CamelEventBuilder type="CUSTOM">
+					<EventBuilder
+						fqcn="com.attunedlabs.eventframework.config.TestEventBuilder"
+						beanRefid="testEventBuilder" />
+				</CamelEventBuilder>
+			</CamelEventProducer>
+			<dis:EventDispatchers>
+				<dis:EventDispatcher>
+					<dis:DispatchChannelId>FILE_STORE</dis:DispatchChannelId>
+					<dis:EventTransformation Type="CUSTOM">
+						<dis:CustomTransformer
+							fqcn="com.attunedlabs.eventframework.dispatcher.TransformationTest" />
+					</dis:EventTransformation>
+				</dis:EventDispatcher>
+			</dis:EventDispatchers>
+		</Event>
+		<Event id="PRINT_SERVICE_JSON" type="internal"
+			description="print service" isEnabled="true">
+			<EventParams />
+			<CamelEventProducer>
+				<CamelProducerConfig serviceName="TestService"
+					component="com.attunedlabs.eventframework.config.TestEventConfig"
+					feature="TestFeature" raiseOn="success" />
+				<CamelEventBuilder type="CUSTOM">
+					<EventBuilder
+						fqcn="com.attunedlabs.eventframework.config.TestEventBuilder"
+						beanRefid="testEventBuilder" />
+				</CamelEventBuilder>
+			</CamelEventProducer>
+			<dis:EventDispatchers>
+				<dis:EventDispatcher>
+					<dis:DispatchChannelId>FILE_STORE</dis:DispatchChannelId>
+					<dis:EventTransformation Type="JSON" />
+				</dis:EventDispatcher>
+			</dis:EventDispatchers>
+		</Event>
+
+	</Events>
+</EventFramework>

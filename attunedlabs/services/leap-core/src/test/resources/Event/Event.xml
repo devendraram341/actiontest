@@ -1,0 +1,28 @@
+<EventFramework
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="eventframework.xsd"
+	xmlns:dis="http://attunedlabs.com/internalevents/Dispatcher">
+
+	<Events>
+		<Event id="Success_Event_Test" type="internal"
+			description="test" isEnabled="true">
+			<EventParams />
+			<dis:EventDispatchers>
+				<dis:EventDispatcher>
+					<dis:DispatchChannelId>FILE_STORE</dis:DispatchChannelId>
+					<dis:EventTransformation Type="JSON"/>
+				</dis:EventDispatcher>
+			</dis:EventDispatchers>
+		</Event>
+		<Event id="Failed_Event_Test" type="internal"
+			description="print service" isEnabled="true">
+			<EventParams />
+			<dis:EventDispatchers>
+				<dis:EventDispatcher>
+					<dis:DispatchChannelId>FILE_STORE</dis:DispatchChannelId>
+					<dis:EventTransformation Type="JSON" />
+				</dis:EventDispatcher>
+			</dis:EventDispatchers>
+		</Event>
+	</Events>
+</EventFramework>

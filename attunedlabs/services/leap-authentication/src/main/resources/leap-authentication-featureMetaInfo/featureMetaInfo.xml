@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Feature-Metainfo productVersion="WMS2.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="featureMetaInfo.xsd"
+	xmlns:fms="http://attunedlabs.com/internal/FeatureMetaInfoSupporting">
+	<FeatureGroup>
+		<Name>authentication</Name>
+		<Features>
+			<Feature vendorName="wherewerks" vendorVersion="1.0"
+				implementationName="wherewerks-wso2" provider="wso2-authentication">
+				<Name>authenticationservice</Name>
+				<FeatureImplementations>
+					<FeatureImplementation resourceName="authentication-featureservice.xml" />
+				</FeatureImplementations>
+			</Feature>
+		</Features>
+	</FeatureGroup>
+</Feature-Metainfo>

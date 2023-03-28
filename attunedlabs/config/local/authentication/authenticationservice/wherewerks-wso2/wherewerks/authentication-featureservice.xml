@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<FeaturesServiceInfo
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="featureService.xsd">
+	<Features featureGroup="authentication">
+		<Feature enabled="true" featureName="authenticationservice"
+			interfaceName="" version="1.0">
+
+			<Service name="login" enabled='true' vendorName="key2act"
+				Description="authenticationservice">
+				<GenericRestEndpoint httpMethod="POST">authenticationservice-login-IR
+				</GenericRestEndpoint>
+			</Service>
+
+			<Service name="loginWithCookie" enabled='true'
+				vendorName="key2act"
+				Description="authenticationserviceloginwithcookie">
+				<GenericRestEndpoint httpMethod="POST">authenticationservice-loginWithCookie-IR
+				</GenericRestEndpoint>
+			</Service>
+
+
+			<Service name="getJwtToken" enabled='true'
+				vendorName="key2act" Description="authenticationservicegetJwtToken">
+				<GenericRestEndpoint httpMethod="POST"
+					urlMappingScheme="authentication/authenticationservice/getJwtToken">authenticationservice-getJwtToken-IR
+				</GenericRestEndpoint>
+			</Service>
+
+			<Service name="encryptUserDataInfo" enabled='true'
+				vendorName="key2act"
+				Description="service will be used to encrypt the json data">
+				<GenericRestEndpoint httpMethod="POST">authenticationservice-encryptUserDataInfo-IR
+				</GenericRestEndpoint>
+			</Service>
+
+			<Service name="encryptlogin" enabled='true'
+				vendorName="key2act"
+				Description="service will take the encrypt data from JSON and login">
+				<GenericRestEndpoint httpMethod="POST">authenticationservice-encryptlogin-IR
+				</GenericRestEndpoint>
+			</Service>
+
+			<Service name="logout" enabled='true' vendorName="key2act"
+				Description="authenticationservice">
+				<GenericRestEndpoint httpMethod="POST">authenticationservice-logout-IR
+				</GenericRestEndpoint>
+			</Service>
+
+			<Service name="getAllUserDomains" enabled='true'
+				vendorName="key2act" Description="authenticationservice">
+				<GenericRestEndpoint httpMethod="GET">authenticationservice-getAllUserDomains-IR
+				</GenericRestEndpoint>
+			</Service>
+
+			<Service name="getUserInfo" enabled='true'
+				vendorName="key2act" Description="authenticationservice">
+				<GenericRestEndpoint httpMethod="GET">authenticationservice-getUserInfo-IR
+				</GenericRestEndpoint>
+			</Service>
+
+			<Service name="validateToken" enabled='true'
+				vendorName="key2act" Description="authenticationservice">
+				<GenericRestEndpoint httpMethod="POST">authenticationservice-validateToken-IR
+				</GenericRestEndpoint>
+			</Service>
+
+			<Service name="changeUserPassword" enabled='true'
+				vendorName="key2act" Description="authenticationservice">
+				<GenericRestEndpoint httpMethod="POST">authenticationservice-changeUserPassword-IR
+				</GenericRestEndpoint>
+			</Service>
+
+			<Service name="resetPassword" enabled='true'
+				vendorName="key2act" Description="authenticationservice">
+				<GenericRestEndpoint httpMethod="POST">authenticationservice-resetPassword-IR
+				</GenericRestEndpoint>
+			</Service>
+
+			<Service name="createUsers" enabled='true'
+				vendorName="key2act" Description="authenticationservice">
+				<GenericRestEndpoint httpMethod="POST">authenticationservice-createUsers-IR
+				</GenericRestEndpoint>
+			</Service>
+
+			<Service name="newUserRegistration" enabled='true'
+				vendorName="key2act" Description="authenticationservice">
+				<GenericRestEndpoint httpMethod="POST">authenticationservice-newUserRegistration-IR
+				</GenericRestEndpoint>
+			</Service>
+
+			<Service name="renewToken" enabled='true'
+				vendorName="key2act" Description="authenticationservice">
+				<GenericRestEndpoint httpMethod="POST">authenticationservice-renewToken-IR
+				</GenericRestEndpoint>
+			</Service>
+
+			<Service name="getDomainsByAccount" enabled='true'
+				vendorName="key2act" Description="authenticationservice">
+				<GenericRestEndpoint httpMethod="GET">authenticationservice-getDomainsByAccount-IR
+				</GenericRestEndpoint>
+			</Service>
+
+			<Service name="selfRegisterUser" enabled='true'
+				vendorName="key2act" Description="authenticationservice">
+				<GenericRestEndpoint httpMethod="GET">authenticationservice-selfRegisterUser-IR
+				</GenericRestEndpoint>
+			</Service>
+
+			<Service name="registerNewAccount" enabled='true'
+				vendorName="key2act" Description="authenticationservice">
+				<GenericRestEndpoint httpMethod="GET">authenticationservice-registerNewAccount-IR
+				</GenericRestEndpoint>
+			</Service>
+
+			<Service name="registerDomainByAccount" enabled='true'
+				vendorName="key2act" Description="authenticationservice">
+				<GenericRestEndpoint httpMethod="GET">authenticationservice-registerDomainByAccount-IR
+				</GenericRestEndpoint>
+			</Service>
+			<Service name="requestPasswordResetCode" enabled='true'
+				vendorName="key2act" Description="authenticationservice">
+				<GenericRestEndpoint httpMethod="GET">authenticationservice-requestPasswordResetCode-IR
+				</GenericRestEndpoint>
+			</Service>
+
+			<Service name="requestPasswordReset" enabled='true'
+				vendorName="key2act" Description="authenticationservice">
+				<GenericRestEndpoint httpMethod="GET">authenticationservice-requestPasswordReset-IR
+				</GenericRestEndpoint>
+			</Service>
+
+			<Service name="userExist" enabled='true' vendorName="key2act"
+				Description="authenticationservice">
+				<GenericRestEndpoint httpMethod="GET">authenticationservice-userExist-IR
+				</GenericRestEndpoint>
+			</Service>
+			<Service name="getUserInfoByNameAndDomain" enabled='true'
+				vendorName="key2act" Description="authenticationservice">
+				<GenericRestEndpoint httpMethod="GET">authenticationservice-getUserInfoByNameAndDomain-IR
+				</GenericRestEndpoint>
+			</Service>
+			<Service name="deleteUser" enabled='true'
+				vendorName="key2act" Description="authenticationservice">
+				<GenericRestEndpoint httpMethod="GET">authenticationservice-deleteUser-IR
+				</GenericRestEndpoint>
+			</Service>
+			<Service name="getAllDomains" enabled='true'
+				vendorName="key2act" Description="authenticationservice">
+				<GenericRestEndpoint httpMethod="GET">authenticationservice-getAllDomains-IR
+				</GenericRestEndpoint>
+			</Service>
+			<Service name="findUsersByName" enabled='true'
+				vendorName="key2act" Description="authenticationservice">
+				<GenericRestEndpoint httpMethod="POST">authenticationservice-findUsersByName-IR
+				</GenericRestEndpoint>
+			</Service>
+
+			<Service name="findUsersByEmail" enabled='true'
+				vendorName="key2act" Description="authenticationservice">
+				<GenericRestEndpoint httpMethod="POST">authenticationservice-findUsersByEmail-IR
+				</GenericRestEndpoint>
+			</Service>
+
+			<Service name="getAllUsers" enabled='true'
+				vendorName="key2act" Description="authenticationservice">
+				<GenericRestEndpoint httpMethod="POST">authenticationservice-getAllUsers-IR
+				</GenericRestEndpoint>
+			</Service>
+
+			<Service name="updateUserStatus" enabled='true'
+				vendorName="key2act" Description="authenticationservice">
+				<GenericRestEndpoint httpMethod="POST">authenticationservice-updateUserStatus-IR
+				</GenericRestEndpoint>
+			</Service>
+
+			<Service name="updateUser" enabled='true'
+				vendorName="key2act" Description="authenticationservice">
+				<GenericRestEndpoint httpMethod="POST">authenticationservice-updateUser-IR
+				</GenericRestEndpoint>
+			</Service>
+
+			<Service name="lockUser" enabled='true' vendorName="key2act"
+				Description="authenticationservice">
+				<GenericRestEndpoint httpMethod="POST">authenticationservice-lockUser-IR
+				</GenericRestEndpoint>
+			</Service>
+
+			<Service name="deleteDomain" enabled='true'
+				vendorName="key2act" Description="authenticationservice">
+				<GenericRestEndpoint httpMethod="POST">authenticationservice-deleteDomain-IR
+				</GenericRestEndpoint>
+			</Service>
+
+			<Service name="getDefaultAppAcessToken" enabled='true'
+				vendorName="key2act" Description="authenticationservice">
+				<GenericRestEndpoint httpMethod="POST">authenticationservice-getDefaultAppAcessToken-IR
+				</GenericRestEndpoint>
+			</Service>
+
+			<Service name="createAutoLoginTxtFile" enabled='true'
+				vendorName="key2act" Description="authenticationservice">
+				<GenericRestEndpoint httpMethod="POST">authenticationservice-createAutoLoginTxtFile-IR
+				</GenericRestEndpoint>
+			</Service>
+
+		</Feature>
+	</Features>
+</FeaturesServiceInfo>

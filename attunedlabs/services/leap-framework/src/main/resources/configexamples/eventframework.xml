@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<EventFramework xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="eventframework.xsd"
+	xmlns:dis="http://attunedlabs.com/internalevents/Dispatcher">
+
+	<DispatchChannels>
+
+		<DispatchChannel id="FILE_STORE" description="file store"
+			isEnabled="true" processingWay="SYNC">
+			<ChannelImplementation
+				fqcn="com.attunedlabs.eventframework.dispatcher.channel.FileStoreDispatchChannel"
+				beanRefid="fileStoreDispatcher" />
+			<ChannelConfiguration>
+				{"filepath":"/home/ubuntu/LogDispatcher","filename":"LogDispatchChannel.txt"}
+			</ChannelConfiguration>
+		</DispatchChannel>
+
+		<DispatchChannel id="EVT_FILE_STORE" description="event file store"
+			isEnabled="false" processingWay="SYNC">
+			<ChannelImplementation
+				fqcn="com.attunedlabs.eventframework.dispatcher.channel.FileStoreDispatchChannel"
+				beanRefid="fileEventStoreDispatcher" />
+			<ChannelConfiguration>
+				{"filepath":"/home/ubuntu/LogDispatcher","filename":"EventDispatchChannel.txt"}
+			</ChannelConfiguration>
+		</DispatchChannel>
+
+		<DispatchChannel id="REST_CLIENT" description="rest client"
+			isEnabled="false" processingWay="SYNC">
+			<ChannelImplementation
+				fqcn="com.attunedlabs.eventframework.dispatcher.channel.RestClientPostDispatchChannel"
+				beanRefid="restClientDispatcher" />
+			<ChannelConfiguration> {"restpath":"http://localhost:9080/baseroute"}
+			</ChannelConfiguration>
+		</DispatchChannel>
+
+		<DispatchChannel id="PRINT_REST_CLIENT" description="print rest client"
+			isEnabled="false" processingWay="SYNC">
+			<ChannelImplementation
+				fqcn="com.attunedlabs.eventframework.dispatcher.channel.RestClientPostDispatchChannel"
+				beanRefid="restClientDispatcher" />
+			<ChannelConfiguration>
+				{"restpath":"http://192.168.1.120:9090/printservice"}
+			</ChannelConfiguration>
+		</DispatchChannel>
+
+	</DispatchChannels>
+
+	<SystemEvents>
+
+		<SystemEvent id="SERVICE_COMPLETION_FAILURE"
+			description="Standard Event for failure of every service Type"
+			isEnabled="true">
+			<CamelSystemEventBuilder
+				fqcn="com.attunedlabs.eventframework.camel.eventproducer.ServiceCompletionFailureEventBuilder"
+				beanRefid="ServiceEventBuilder" />
+			<dis:EventDispatchers>
+				<dis:EventDispatcher>
+					<dis:DispatchChannelId>FILE_STORE</dis:DispatchChannelId>
+					<dis:EventTransformation Type="CUSTOM">
+						<dis:CustomTransformer
+							fqcn="com.attunedlabs.eventframework.dispatcher.transformer.CustomLeapEventTransformer" />
+					</dis:EventTransformation>
+				</dis:EventDispatcher>
+			</dis:EventDispatchers>
+		</SystemEvent>
+
+		<SystemEvent id="SERVICE_COMPLETION_SUCCESS"
+			description="Standard Event for sucess of every service Type"
+			isEnabled="false">
+			<CamelSystemEventBuilder
+				fqcn="com.attunedlabs.eventframework.camel.eventproducer.ServiceCompletionSuccessEventBuilder"
+				beanRefid="ServiceEventBuilder" />
+			<dis:EventDispatchers>
+				<dis:EventDispatcher>
+					<dis:DispatchChannelId>FILE_STORE</dis:DispatchChannelId>
+					<dis:EventTransformation Type="CUSTOM">
+						<dis:CustomTransformer
+							fqcn="com.attunedlabs.eventframework.dispatcher.transformer.CustomLeapEventTransformer" />
+					</dis:EventTransformation>
+				</dis:EventDispatcher>
+			</dis:EventDispatchers>
+		</SystemEvent>
+
+	</SystemEvents>
+
+	<Events>
+
+		<Event id="POLINEITEM_UNLOADED" type="internal" description="polineitem unloaded"
+			isEnabled="true">
+			<EventParams>
+				<EventParam name="productid" dataType="string"
+					validationRegEx="" />
+				<EventParam name="tenantid" dataType="string"
+					validationRegEx="" />
+				<EventParam name="serviceName" dataType="string"
+					validationRegEx="" />
+			</EventParams>
+			<CamelEventProducer>
+				<CamelProducerConfig serviceName="baseContext"
+					feature="polineitem" component="com.attunedlabs.datasource.service.InsertService"
+					raiseOn="success" />
+				<CamelEventBuilder type="OGNL">
+					<OGNLMapping>
+						<Source from="CamelExchange">
+							<EventMapping destination="eventParam['serviceName']"
+								source="In.headers['serviceName']" />
+							<EventMapping destination="eventParam['tenant']"
+								source="In.headers['tenantid']" />
+						</Source>
+					</OGNLMapping>
+				</CamelEventBuilder>
+			</CamelEventProducer>
+			<dis:EventDispatchers>
+				<dis:EventDispatcher>
+					<dis:DispatchChannelId>FILE_STORE</dis:DispatchChannelId>
+					<dis:EventTransformation Type="XML-XSLT">
+						<dis:XSLTName>eventxmlTransformation.xsl</dis:XSLTName>
+					</dis:EventTransformation>
+				</dis:EventDispatcher>
+			</dis:EventDispatchers>
+		</Event>
+
+		<Event id="INVENTORY_UPDATED" type="internal" description="inventory updated"
+			isEnabled="false">
+			<EventParams>
+				<EventParam name="policyid" dataType="string"
+					validationRegEx="" />
+				<EventParam name="data" dataType="string"
+					validationRegEx="" />
+				<EventParam name="serviceName" dataType="string"
+					validationRegEx="" />
+			</EventParams>
+			<CamelEventProducer>
+				<CamelProducerConfig serviceName="baseContext"
+					feature="polineitem" component="com.attunedlabs.datasource.dao.UpdateInventory"
+					raiseOn="success" />
+				<CamelEventBuilder type="CUSTOM">
+					<EventBuilder
+						fqcn="com.attunedlabs.eventframework.camel.eventbuilder.InventoryUpdateEventBuilder"
+						beanRefid="inventoryUpdateBuilder" />
+				</CamelEventBuilder>
+			</CamelEventProducer>
+			<dis:EventDispatchers>
+				<dis:EventDispatcher>
+					<dis:DispatchChannelId>EVT_FILE_STORE</dis:DispatchChannelId>
+					<dis:EventTransformation Type="CUSTOM">
+						<dis:CustomTransformer
+							fqcn="com.attunedlabs.eventframework.dispatcher.transformer.CustomLeapEventTransformer" />
+					</dis:EventTransformation>
+				</dis:EventDispatcher>
+			</dis:EventDispatchers>
+		</Event>
+
+		<Event id="POLINEITEM_PROCESSED" type="internal" description="polineitem processed"
+			isEnabled="false">
+			<EventParams>
+				<EventParam name="eventid" dataType="string"
+					validationRegEx="" />
+				<EventParam name="tenantid" dataType="string"
+					validationRegEx="" />
+				<EventParam name="serviceName" dataType="string"
+					validationRegEx="" />
+			</EventParams>
+			<CamelEventProducer>
+				<CamelProducerConfig serviceName="baseContext"
+					feature="polineitem" component="" raiseOn="success" />
+				<CamelEventBuilder type='OGNL'>
+					<OGNLMapping>
+						<Source from="CamelExchange">
+							<EventMapping destination="eventParam['serviceName']"
+								source="In.headers['serviceName']" />
+							<EventMapping destination="eventParam['tenant']"
+								source="In.headers['tenantid']" />
+						</Source>
+					</OGNLMapping>
+				</CamelEventBuilder>
+			</CamelEventProducer>
+			<dis:EventDispatchers>
+				<dis:EventDispatcher>
+					<dis:DispatchChannelId>EVT_FILE_STORE</dis:DispatchChannelId>
+					<dis:EventTransformation Type="JSON" />
+				</dis:EventDispatcher>
+			</dis:EventDispatchers>
+		</Event>
+
+		<Event id="POLINEITEM_PROC_FAILED" type="internal"
+			description="polineitem process failed" isEnabled="false">
+			<EventParams>
+				<EventParam name="eventid" dataType="string"
+					validationRegEx="" />
+				<EventParam name="tenantid" dataType="string"
+					validationRegEx="" />
+				<EventParam name="serviceName" dataType="string"
+					validationRegEx="" />
+			</EventParams>
+			<CamelEventProducer>
+				<CamelProducerConfig serviceName="baseContext"
+					feature="polineitem" component="" raiseOn="failure" />
+				<CamelEventBuilder type='OGNL'>
+					<OGNLMapping>
+						<Source from="CamelExchange">
+							<EventMapping destination="eventParam['serviceName']"
+								source="In.headers['serviceName']" />
+							<EventMapping destination="eventParam['tenant']"
+								source="In.headers['tenantid']" />
+						</Source>
+					</OGNLMapping>
+				</CamelEventBuilder>
+			</CamelEventProducer>
+			<dis:EventDispatchers>
+				<dis:EventDispatcher>
+					<dis:DispatchChannelId>EVT_FILE_STORE</dis:DispatchChannelId>
+					<dis:EventTransformation Type="CUSTOM">
+						<dis:CustomTransformer
+							fqcn="com.attunedlabs.eventframework.dispatcher.transformer.GenericLeapEventJsonTransformer" />
+					</dis:EventTransformation>
+				</dis:EventDispatcher>
+			</dis:EventDispatchers>
+		</Event>
+
+		<Event id="PRINT_SERVICE" type="internal" description="print service"
+			isEnabled="false">
+			<EventParams>
+				<EventParam name="eventid" dataType="string"
+					validationRegEx="" />
+				<EventParam name="tenantid" dataType="string"
+					validationRegEx="" />
+			</EventParams>
+			<CamelEventProducer>
+				<CamelProducerConfig serviceName="baseContext"
+					feature="labelservice" component="com.attunedlabs.wms20.services.printlabel.PrintLabel"
+					raiseOn="success" />
+				<CamelEventBuilder type='OGNL'>
+					<OGNLMapping>
+						<Source from="CamelExchange">
+							<EventMapping destination="eventParam['serviceName']"
+								source="In.headers['serviceName']" />
+							<EventMapping destination="eventParam['tenant']"
+								source="In.headers['tenantid']" />
+						</Source>
+					</OGNLMapping>
+				</CamelEventBuilder>
+			</CamelEventProducer>
+			<dis:EventDispatchers>
+				<dis:EventDispatcher>
+					<dis:DispatchChannelId>EVT_FILE_STORE</dis:DispatchChannelId>
+					<dis:EventTransformation Type="CUSTOM">
+						<dis:CustomTransformer
+							fqcn="com.attunedlabs.eventframework.dispatcher.transformer.GenericLeapEventJsonTransformer" />
+					</dis:EventTransformation>
+				</dis:EventDispatcher>
+			</dis:EventDispatchers>
+		</Event>
+
+	</Events>
+</EventFramework>
+

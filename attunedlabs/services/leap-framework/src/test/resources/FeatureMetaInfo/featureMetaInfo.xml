@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Feature-Metainfo
+	xmlns:fms="http://attunedlabs.com/internal/FeatureMetaInfoSupporting"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" productVersion="WMS2.0"
+	xsi:noNamespaceSchemaLocation="featureMetaInfo.xsd">
+	<FeatureGroup>
+		<Name>TestFeatureGroup</Name>
+		<Features>
+			<Feature implementationName="TestImpl" vendorName="TestVendor" vendorTaxonomyId="TestTexonomy"
+				vendorVersion="1.0">
+				<Name>TestFeature</Name>
+				<FeatureImplementations>
+					<FeatureImplementation
+						resourceName="TestFeatureGroup-TestFeature-TestImpl-1.0-featureservice.xml" />
+				</FeatureImplementations>
+			</Feature>
+		</Features>
+	</FeatureGroup>
+</Feature-Metainfo>

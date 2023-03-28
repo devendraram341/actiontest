@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EventFramework
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="eventframework.xsd"
+	xmlns:dis="http://attunedlabs.com/internalevents/Dispatcher">
+
+
+	<EventSubscription>
+		<JMSSubscriberEvent subscriptionId="TestJMS"
+			isEnabled="true" concurrentConsumers="2"
+			acknowledge="AUTO_ACKNOWLEDGE"
+			connectionFactoryBeanId="connectionFactory"
+			destinationResolverBeanId="setDestination">
+			<JMSConsumerQueue>JMSQueue</JMSConsumerQueue>
+			<EventRoutingRules>
+				<EventRoutingRule>
+					<InvokeCamelRoute featureGroup="TestFeatureGroup"
+						featureName="TestFeature" serviceName="TestService" />
+				</EventRoutingRule>
+			</EventRoutingRules>
+			<FailureHandlingStrategy>
+				<FailureStrategyName>JMSLeapDefaultRetryStrategy
+				</FailureStrategyName>
+				<FailureStrategyConfig>
+					{
+					"retryCount": "4",
+					"retryInterval": "20",
+					"retryIntervalMultiplier":"1",
+					"maximumRetryInterval": "60",
+					"timeIntervalUnit": "SECOND",
+					"retryTopRecords":"50",
+					"retryQueueName":"JMSQueue",
+					"retryConsumers":"2"
+					}
+				</FailureStrategyConfig>
+			</FailureHandlingStrategy>
+		</JMSSubscriberEvent>
+		
+	</EventSubscription>
+
+	<DispatchChannels>
+		<DispatchChannel id="FILE_STORE"
+			description="file store" isEnabled="true" processingWay="ASYNC">
+			<ChannelImplementation
+				fqcn="com.attunedlabs.eventframework.dispatcher.channel.FileStoreDispatchChannel"
+				beanRefid="fileStoreDispatcher" />
+			<ChannelConfiguration>
+				{"filepath":"${user.dir}/../../../config/local/TestLog","filename":"TestEventLog.txt"}
+			</ChannelConfiguration>
+		</DispatchChannel>
+	</DispatchChannels>
+
+
+	<SystemEvents>
+		<SystemEvent id="SERVICE_COMPLETION_SUCCESS"
+			description="Standard Event for sucess of every service Type"
+			isEnabled="true">
+			<CamelSystemEventBuilder
+				fqcn="com.attunedlabs.eventframework.camel.eventproducer.ServiceCompletionSuccessEventBuilder"
+				beanRefid="ServiceSuccessEventBuilder" />
+			<dis:EventDispatchers>
+				<dis:EventDispatcher>
+					<dis:DispatchChannelId>FILE_STORE</dis:DispatchChannelId>
+					<dis:EventTransformation Type="JSON" />
+				</dis:EventDispatcher>
+			</dis:EventDispatchers>
+		</SystemEvent>
+
+		<SystemEvent id="SERVICE_COMPLETION_FAILURE"
+			description="Standard Event for failure of every service Type"
+			isEnabled="true">
+			<CamelSystemEventBuilder
+				fqcn="com.attunedlabs.eventframework.camel.eventproducer.ServiceCompletionFailureEventBuilder"
+				beanRefid="ServiceFailEventBuilder" />
+			<dis:EventDispatchers>
+				<dis:EventDispatcher>
+					<dis:DispatchChannelId>FILE_STORE</dis:DispatchChannelId>
+					<dis:EventTransformation Type="JSON" />
+				</dis:EventDispatcher>
+			</dis:EventDispatchers>
+		</SystemEvent>
+	</SystemEvents>
+
+	<Events>
+		<Event id="Success_Event_Test" type="internal"
+			description="test" isEnabled="true">
+			<EventParams />
+			<dis:EventDispatchers>
+				<dis:EventDispatcher>
+					<dis:DispatchChannelId>FILE_STORE</dis:DispatchChannelId>
+					<dis:EventTransformation Type="JSON" />
+				</dis:EventDispatcher>
+			</dis:EventDispatchers>
+		</Event>
+		<Event id="Failed_Event_Test" type="internal"
+			description="print service" isEnabled="true">
+			<EventParams />
+			<dis:EventDispatchers>
+				<dis:EventDispatcher>
+					<dis:DispatchChannelId>FILE_STORE</dis:DispatchChannelId>
+					<dis:EventTransformation Type="JSON" />
+				</dis:EventDispatcher>
+			</dis:EventDispatchers>
+		</Event>
+	</Events>
+
+</EventFramework>

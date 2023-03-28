@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ApplicationServiceHandlerConfiguration
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="app_servicehandlerconfig.xsd">
+
+	<CommonServiceHandler>
+		<ServiceHandler type="pre-service" execute="async"
+			handlerId="testAppCommonHandler1" tenantId="TestTenant" siteId="TestSite">
+			<Description>This is sync login handler for authentication...
+			</Description>
+			<HandlerImplementation beanId="authServiceHandler" />
+			<ExcludedServices>
+				<Service featureGroup="TestFeatureGroup" featureName="TestFeature"
+					serviceName="TestService1" />
+			</ExcludedServices>
+		</ServiceHandler>
+
+		<ServiceHandler type="post-service" execute="async"
+			handlerId="testAppCommonHandler2" tenantId="TestTenant" siteId="TestSite">
+			<Description>This is post async event generation handler...
+			</Description>
+			<HandlerImplementation
+				fqcn="com.attunedlabs.servicehandlers.util.PostServiceHandler">
+				<HandlerConfig>{"brokerconfig":"localhost:9092"}</HandlerConfig>
+			</HandlerImplementation>
+			<ExcludedServices />
+		</ServiceHandler>
+	</CommonServiceHandler>
+
+	<FeatureServiceHandler>
+		<ServiceHandler type="*" execute="async"
+			handlerId="testAppFeatureHandler1" tenantId="TestTenant" siteId="TestSite">
+			<Description>This is post sync event generation handler...
+			</Description>
+			<HandlerImplementation
+				fqcn="com.attunedlabs.servicehandlers.util.LoggingHandler">
+				<HandlerConfig>{"dbconfig":"mysql"}</HandlerConfig>
+			</HandlerImplementation>
+			<IncludedServices>
+				<Service featureGroup="TestFeatureGroup" featureName="TestFeature"
+					serviceName="TestService2" />
+			</IncludedServices>
+		</ServiceHandler>
+	</FeatureServiceHandler>
+
+</ApplicationServiceHandlerConfiguration>

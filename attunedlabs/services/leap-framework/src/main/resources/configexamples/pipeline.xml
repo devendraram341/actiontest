@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<FeaturesServiceInfo xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="featureService.xsd">
+	<Features featureGroup="pipelinetesting">
+		<Feature enabled="true" featureName="pipelineservice"
+			interfaceName="" version="1.0">
+
+			<Service Description="pipelinetest" enabled="true" name="pipelinetest"
+				vendorName="attuendlabs">
+				<GenericRestEndpoint httpMethod="POST"
+					urlMappingScheme="pipelinetesting/pipelineservice/pipelinetest">pipelineservice-pipelinetest-IR
+				</GenericRestEndpoint>
+			</Service>
+
+			<Service Description="pipelinelogging" enabled="true"
+				name="pipelinelogging" vendorName="attuendlabs">
+				<GenericRestEndpoint httpMethod="POST"
+					urlMappingScheme="pipelinetesting/pipelineservice/pipelinelogging">pipelineservice-pipelinelogging-IR
+				</GenericRestEndpoint>
+			</Service>
+
+			<Service Description="externalService" enabled="true" name="helloworld"
+				vendorName="attuendlabs">
+				<GenericRestEndpoint httpMethod="POST"
+					urlMappingScheme="pipelinetesting/pipelineservice/helloworld">pipelineservice-helloworld-IR
+				</GenericRestEndpoint>
+			</Service>
+
+			<Service Description="externalservicetointernalservicefrombaseroute"
+				enabled="true" name="internalservice" vendorName="attuendlabs">
+				<GenericRestEndpoint httpMethod="POST"
+					urlMappingScheme="pipelinetesting/pipelineservice/internalservice">pipelineservice-internalservice-IR
+				</GenericRestEndpoint>
+			</Service>
+
+		</Feature>
+	</Features>
+</FeaturesServiceInfo>

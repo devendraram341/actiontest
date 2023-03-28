@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<EventFramework
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="eventframework.xsd"
+	xmlns:dis="http://attunedlabs.com/internalevents/Dispatcher">
+
+	<EventSubscription>
+		<JMSSubscriberEvent subscriptionId="TestJMS"
+			isEnabled="true" concurrentConsumers="2"
+			acknowledge="AUTO_ACKNOWLEDGE"
+			connectionFactoryBeanId="connectionFactory"
+			destinationResolverBeanId="setDestination">
+			<JMSConsumerQueue>JMSQueue</JMSConsumerQueue>
+			<EventRoutingRules>
+				<EventRoutingRule>
+					<InvokeCamelRoute featureGroup="TestFeatureGroup"
+						featureName="TestFeature" serviceName="TestService" />
+				</EventRoutingRule>
+			</EventRoutingRules>
+			<FailureHandlingStrategy>
+				<FailureStrategyName>JMSLeapDefaultRetryStrategy
+				</FailureStrategyName>
+				<FailureStrategyConfig>
+					{
+					"retryCount": "4",
+					"retryInterval": "20",
+					"retryIntervalMultiplier":"1",
+					"maximumRetryInterval": "60",
+					"timeIntervalUnit": "SECOND",
+					"retryTopRecords":"50",
+					"retryQueueName":"JMSQueue",
+					"retryConsumers":"2"
+					}
+				</FailureStrategyConfig>
+			</FailureHandlingStrategy>
+		</JMSSubscriberEvent>
+	</EventSubscription>
+</EventFramework>

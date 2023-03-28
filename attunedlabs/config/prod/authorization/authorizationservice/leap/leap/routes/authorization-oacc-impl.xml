@@ -1,0 +1,498 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Configures the Camel Context -->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd">
+
+	<bean id="tenant"
+		class="com.leap.authorization.setupbean.CreateTenantBean" />
+
+	<bean id="childTenant"
+		class="com.leap.authorization.setupbean.CreateChildTenantBean" />
+
+	<bean id="resourceType"
+		class="com.leap.authorization.setupbean.CreateNewResourceTypeBean" />
+
+	<bean id="users"
+		class="com.leap.authorization.genericBean.RegisterUsersBean" />
+
+	<bean id="user"
+		class="com.leap.authorization.genericBean.RegisterUserBean" />
+
+	<bean id="removeUser"
+		class="com.leap.authorization.genericBean.RemoveUserBean" />
+
+	<bean id="resources"
+		class="com.leap.authorization.setupbean.CreateResourcesBean" />
+
+	<bean id="resource"
+		class="com.leap.authorization.setupbean.CreateResourceBean" />
+
+	<bean id="menuItems"
+		class="com.leap.authorization.menubean.CreateMenuItmesBean" />
+
+	<bean id="roles"
+		class="com.leap.authorization.setupbean.RegisterRolesBean" />
+
+	<bean id="role"
+		class="com.leap.authorization.setupbean.RegisterRoleBean" />
+
+	<bean id="createResourceTypePermission"
+		class="com.leap.authorization.setupbean.CreateResourceTypePermissionBean" />
+
+	<bean id="grantUserResourcePermission"
+		class="com.leap.authorization.genericBean.GrantPermissionForUserBean" />
+
+	<bean id="grantRoleResourcePermission"
+		class="com.leap.authorization.genericBean.GrantPermissionForRoleBean" />
+
+	<bean id="associateRole"
+		class="com.leap.authorization.genericBean.RoleAssociationForUserBean" />
+
+
+	<bean id="getUserPermission"
+		class="com.leap.authorization.setupbean.GetResourcePermissionForUserBean" />
+
+	<bean id="getResourceTypePermission"
+		class="com.leap.authorization.setupbean.GetResourceTypePermissionBean" />
+
+	<bean id="userExists"
+		class="com.leap.authorization.genericBean.CheckUserExistsBean" />
+
+	<bean id="tenantExists"
+		class="com.leap.authorization.genericBean.CheckTenantExistsBean" />
+
+	<bean id="hasUserPermission"
+		class="com.leap.authorization.genericBean.HasPermissionForUserBean" />
+
+	<bean id="hasRolePermission"
+		class="com.leap.authorization.genericBean.HasPermissionForRoleBean" />
+
+	<bean id="hasUserItemPermission"
+		class="com.leap.authorization.menubean.HasPermissionForMenuItemBean" />
+
+	<bean id="getRolesForUser"
+		class="com.leap.authorization.genericBean.GetRolesForUser" />
+
+	<bean id="getAllUserResource"
+		class="com.leap.authorization.genericBean.GetAllResourcesForUserBean" />
+
+	<bean id="getAllRoleResource"
+		class="com.leap.authorization.genericBean.GetAllResourcesForRoleBean" />
+
+	<bean id="getAllUserMenuItem"
+		class="com.leap.authorization.menubean.GetAllMenuItemsForUserBean" />
+
+	<bean id="getAllRoleMenuItem"
+		class="com.leap.authorization.menubean.GetAllMenuItemsForRoleBean" />
+
+	<bean id="getAllRoleForTenantBean"
+		class="com.leap.authorization.genericBean.GetAllRolesForTenantBean" />
+
+	<bean id="updateRoleForUser"
+		class="com.leap.authorization.genericBean.UpdateRoleForUserBean" />
+
+	<bean id="deleteRoleForUser"
+		class="com.leap.authorization.genericBean.DeleteRoleForUserBean" />
+
+	<bean id="revokeResourceForUser"
+		class="com.leap.authorization.genericBean.RevokeResourceForUser" />
+
+	<bean id="deleteUserBean"
+		class="com.leap.authorization.genericBean.DeleteUserBean" />
+
+
+	<routeContext
+		id="authorization-oaccimplementation-route-context"
+		xmlns="http://camel.apache.org/schema/spring">
+
+		<!-- This route is accepting call from tenant creation service -->
+		<route id="new-tenant-route">
+			<from uri="direct:auth-newTenant-ImplementationEnrichmentRoute" />
+			<to uri="direct:auth-newTenant-IR" />
+		</route>
+
+		<route id="auth-newTenant-IR">
+			<from uri="direct:auth-newTenant-IR" />
+			<to uri="bean:tenant" />
+		</route>
+
+		<!-- This route is accepting call from child tenant creation service -->
+
+		<route id="new-childtenant-route">
+			<from
+				uri="direct:auth-newChildTenant-ImplementationEnrichmentRoute" />
+			<to uri="direct:auth-newChildTenant-IR" />
+		</route>
+
+		<route id="new-childtenant-route-IR">
+			<from uri="direct:auth-newChildTenant-IR" />
+			<to uri="bean:childTenant" />
+		</route>
+
+		<!-- This route is accepting call from resource type creation service -->
+
+		<route id="new-resource-type-route">
+			<from
+				uri="direct:auth-newResourceType-ImplementationEnrichmentRoute" />
+			<to uri="direct:auth-newResourceType-IR" />
+		</route>
+
+		<route id="new-resource-type-route-IR">
+			<from uri="direct:auth-newResourceType-IR" />
+			<to uri="bean:resourceType" />
+		</route>
+
+		<!-- This route is accepting call from users register service -->
+
+		<route id="new-users-route">
+			<from uri="direct:auth-newUsers-ImplementationEnrichmentRoute" />
+			<to uri="direct:auth-newUsers-IR" />
+		</route>
+
+		<route id="new-users-route-IR">
+			<from uri="direct:auth-newUsers-IR" />
+			<to uri="bean:users" />
+		</route>
+
+		<!-- This route is accepting call from user register service -->
+		<route id="new-user-route">
+			<from uri="direct:auth-newUser-ImplementationEnrichmentRoute" />
+			<to uri="direct:auth-newUser-IR" />
+		</route>
+
+		<route id="new-user-route-IR">
+			<from uri="direct:auth-newUser-IR" />
+			<to uri="bean:user" />
+		</route>
+
+		<!-- This route is accepting call from user remove service -->
+		<route id="remove-user-route">
+			<from uri="direct:auth-removeUser-ImplementationEnrichmentRoute" />
+			<to uri="direct:auth-removeUser-IR" />
+		</route>
+
+		<route id="remove-user-route_IR">
+			<from uri="direct:auth-removeUser-IR" />
+			<to uri="bean:removeUser" />
+		</route>
+
+		<!-- This route is accepting call from resources creation service -->
+		<route id="new-resources-route">
+			<from
+				uri="direct:auth-newResources-ImplementationEnrichmentRoute" />
+			<to uri="direct:auth-newResources-IR" />
+		</route>
+
+		<route id="new-resources-route-IR">
+			<from uri="direct:auth-newResources-IR" />
+			<to uri="bean:resources" />
+		</route>
+
+		<!-- This route is accepting call from resource creation service -->
+
+		<route id="new-resource-route">
+			<from
+				uri="direct:auth-newResource-ImplementationEnrichmentRoute" />
+			<to uri="direct:auth-newResource-IR" />
+		</route>
+
+		<route id="new-resource-route-IR">
+			<from uri="direct:auth-newResource-IR" />
+			<to uri="bean:resource" />
+		</route>
+
+
+		<!-- This route is accepting call from menu item creation service -->
+		<route id="new-menu-item-route">
+			<from uri="direct:auth-menuItems-ImplementationEnrichmentRoute" />
+			<to uri="direct:auth-menuItems-IR" />
+		</route>
+
+		<route id="new-menu-item-route-IR">
+			<from uri="direct:auth-menuItems-IR" />
+			<to uri="bean:menuItems" />
+		</route>
+
+		<!-- This route is accepting call from roles creation service -->
+		<route id="new-roles-route">
+			<from uri="direct:auth-newRoles-ImplementationEnrichmentRoute" />
+			<to uri="direct:auth-newRoles-IR" />
+		</route>
+
+		<route id="new-roles-route-IR">
+			<from uri="direct:auth-newRoles-IR" />
+			<to uri="bean:roles" />
+		</route>
+
+		<!-- This route is accepting call from role creation service -->
+		<route id="new-role-route">
+			<from uri="direct:auth-newRole-ImplementationEnrichmentRoute" />
+			<to uri="direct:auth-newRole-IR" />
+		</route>
+
+		<route id="new-role-route-IR">
+			<from uri="direct:auth-newRole-IR" />
+			<to uri="bean:role" />
+		</route>
+
+		<!-- This route is accepting call from resource type permission creation 
+			service -->
+		<route id="new-permission-resource-type">
+			<from
+				uri="direct:auth-createResourceTypePermission-ImplementationEnrichmentRoute" />
+			<to uri="direct:auth-createResourceTypePermission-IR" />
+		</route>
+
+		<route id="new-permission-resource-type-route-IR">
+			<from uri="direct:auth-createResourceTypePermission-IR" />
+			<to uri="bean:createResourceTypePermission" />
+		</route>
+
+		<!-- This route is accepting call from granting permission for user on 
+			resource service -->
+		<route id="new-permission-resource-user-route">
+			<from
+				uri="direct:auth-grantUserPermission-ImplementationEnrichmentRoute" />
+			<to uri="direct:auth-grantUserPermission-IR" />
+		</route>
+
+		<route id="new-permission-resource-user-route-IR">
+			<from uri="direct:auth-grantUserPermission-IR" />
+			<to uri="bean:grantUserResourcePermission" />
+		</route>
+
+		<!-- This route is accepting call from granting permission for role on 
+			resource service -->
+		<route id="new-permission-resource-role-route">
+			<from
+				uri="direct:auth-grantRolePermission-ImplementationEnrichmentRoute" />
+			<to uri="direct:auth-grantRolePermission-IR" />
+		</route>
+
+		<route id="new-permission-resource-role-route-IR">
+			<from uri="direct:auth-grantRolePermission-IR" />
+			<to uri="bean:grantRoleResourcePermission" />
+		</route>
+
+
+		<!-- This route is accepting call from associating role service -->
+		<route id="associate-role">
+			<from
+				uri="direct:auth-associateRoleToUser-ImplementationEnrichmentRoute" />
+			<to uri="direct:auth-associateRoleToUser-IR" />
+		</route>
+
+		<route id="associate-role-IR">
+			<from uri="direct:auth-associateRoleToUser-IR" />
+			<to uri="bean:associateRole" />
+		</route>
+
+
+		<!-- This route is accepting call from getRoles service -->
+		<route id="get-roles">
+			<from
+				uri="direct:auth-getRolesForUser-ImplementationEnrichmentRoute" />
+			<to uri="direct:auth-getRolesForUser-IR" />
+		</route>
+
+		<route id="get-roles-IR">
+			<from uri="direct:auth-getRolesForUser-IR" />
+			<to uri="bean:getRolesForUser" />
+		</route>
+
+		<!-- This route is accepting call from getting permission for user service -->
+		<route id="get-resources-permission-for-user">
+			<from
+				uri="direct:auth-getPermissionForUser-ImplementationEnrichmentRoute" />
+			<to uri="direct:auth-getPermissionForUser-IR" />
+		</route>
+
+		<route id="get-resources-permission-for-user-IR">
+			<from uri="direct:auth-getPermissionForUser-IR" />
+			<to uri="bean:getUserPermission" />
+		</route>
+
+		<!-- This route is accepting call from getting permission for resource 
+			type -->
+		<route id="get-permission-of-resourcetype">
+			<from
+				uri="direct:auth-getResourceTypePermission-ImplementationEnrichmentRoute" />
+			<to uri="direct:auth-getResourceTypePermission-IR" />
+		</route>
+
+		<route id="get-permission-of-resourcetype-IR">
+			<from uri="direct:auth-getResourceTypePermission-IR" />
+			<to uri="bean:getResourceTypePermission" />
+		</route>
+
+
+		<!-- This route is accepting call from asserting user exists or not -->
+		<route id="check-user-exists">
+			<from uri="direct:auth-userExists-ImplementationEnrichmentRoute" />
+			<to uri="direct:auth-userExists-IR" />
+		</route>
+
+		<route id="check-user-exists-IR">
+			<from uri="direct:auth-userExists-IR" />
+			<to uri="bean:userExists" />
+		</route>
+
+		<!-- This route is accepting call from asserting tenant exists or not -->
+		<route id="check-tenant-exists">
+			<from
+				uri="direct:auth-tenantExists-ImplementationEnrichmentRoute" />
+			<to uri="direct:auth-tenantExists-IR" />
+		</route>
+
+		<route id="check-tenant-exists-IR">
+			<from uri="direct:auth-tenantExists-IR" />
+			<to uri="bean:tenantExists" />
+		</route>
+
+		<!-- This route is accepting call from asserting permission for user service -->
+		<route id="assert-permission-for-user">
+			<from
+				uri="direct:auth-hasUserPermission-ImplementationEnrichmentRoute" />
+			<to uri="direct:auth-hasUserPermission-IR" />
+		</route>
+
+		<route id="assert-permission-for-user-IR">
+			<from uri="direct:auth-hasUserPermission-IR" />
+			<to uri="bean:hasUserPermission" />
+		</route>
+
+		<!-- This route is accepting call from asserting permission for role service -->
+		<route id="assert-permission-for-role">
+			<from
+				uri="direct:auth-hasRolePermission-ImplementationEnrichmentRoute" />
+			<to uri="direct:auth-hasRolePermission-IR" />
+		</route>
+
+		<route id="assert-permission-for-role-IR">
+			<from uri="direct:auth-hasRolePermission-IR" />
+			<to uri="bean:hasRolePermission" />
+		</route>
+
+		<!-- This route is accepting call from asserting permission for user and 
+			menu item service -->
+		<route id="assert-permission-for-menu-item-user">
+			<from
+				uri="direct:auth-hasMenuItemUserPermission-ImplementationEnrichmentRoute" />
+			<to uri="direct:auth-hasMenuItemUserPermission-IR" />
+		</route>
+
+		<route id="assert-permission-for-menu-item-user-IR">
+			<from uri="direct:auth-hasMenuItemUserPermission-IR" />
+			<to uri="bean:hasUserItemPermission" />
+		</route>
+
+		<!-- This route is accepting call from getting all resources for user service -->
+		<route id="get-all-resources-for-user">
+			<from
+				uri="direct:auth-getAllUserAccessibleResource-ImplementationEnrichmentRoute" />
+			<to uri="direct:auth-getAllUserAccessibleResource-IR" />
+		</route>
+
+		<route id="get-all-resources-for-user-IR">
+			<from uri="direct:auth-getAllUserAccessibleResource-IR" />
+			<to uri="bean:getAllUserResource" />
+		</route>
+
+		<!-- This route is accepting call from getting all resources for role service -->
+		<route id="get-all-resources-for-role">
+			<from
+				uri="direct:auth-getAllRoleAccessibleResource-ImplementationEnrichmentRoute" />
+			<to uri="direct:auth-getAllRoleAccessibleResource-IR" />
+		</route>
+
+		<route id="get-all-resources-for-role-IR">
+			<from uri="direct:auth-getAllRoleAccessibleResource-IR" />
+			<to uri="bean:getAllRoleResource" />
+		</route>
+
+		<!-- This route is accepting call from getting all menu items for user 
+			service -->
+		<route id="get-all-menu-item-for-user">
+			<from
+				uri="direct:auth-getAllAccessibleMenuItemsForUser-ImplementationEnrichmentRoute" />
+			<to uri="direct:auth-getAllAccessibleMenuItemsForUser-IR" />
+		</route>
+
+		<route id="get-all-menu-item-for-user-IR">
+			<from uri="direct:auth-getAllAccessibleMenuItemsForUser-IR" />
+			<to uri="bean:getAllUserMenuItem" />
+		</route>
+
+		<!-- This route is accepting call from getting all menu items for role 
+			service -->
+		<route id="get-all-menu-item-for-role">
+			<from
+				uri="direct:auth-getAllAccessibleMenuItemsForRole-ImplementationEnrichmentRoute" />
+			<to uri="direct:auth-getAllAccessibleMenuItemsForRole-IR" />
+		</route>
+
+		<route id="get-all-menu-item-for-role-IR">
+			<from uri="direct:auth-getAllAccessibleMenuItemsForRole-IR" />
+			<to uri="bean:getAllRoleMenuItem" />
+		</route>
+
+		<route id="get-all-role-by-tenant-resourceclassname">
+			<from
+				uri="direct:auth-getAllRolesByTenant-ImplementationEnrichmentRoute" />
+			<to uri="direct:auth-getAllRolesByTenant-IR" />
+		</route>
+
+		<route id="get-all-role-by-tenant-resourceclassname-IR">
+			<from uri="direct:auth-getAllRolesByTenant-IR" />
+			<to uri="bean:getAllRoleForTenantBean" />
+		</route>
+
+		<route id="update-role">
+			<from
+				uri="direct:auth-updateRoleForUser-ImplementationEnrichmentRoute" />
+			<to uri="direct:auth-updateRoleForUser-IR" />
+		</route>
+
+		<route id="update-role-IR">
+			<from uri="direct:auth-updateRoleForUser-IR" />
+			<to uri="bean:updateRoleForUser" />
+		</route>
+
+		<route id="delet-role">
+			<from
+				uri="direct:auth-deleteRoleForUser-ImplementationEnrichmentRoute" />
+			<to uri="direct:auth-deleteRoleForUser-IR" />
+		</route>
+
+		<route id="delet-role-IR">
+			<from uri="direct:auth-deleteRoleForUser-IR" />
+			<to uri="bean:deleteRoleForUser" />
+		</route>
+
+		<route id="revoke-resource">
+			<from
+				uri="direct:auth-revokeResourceForUser-ImplementationEnrichmentRoute" />
+			<to uri="direct:auth-revokeResourceForUser-IR" />
+		</route>
+
+		<route id="revoke-resource-IR">
+			<from uri="direct:auth-revokeResourceForUser-IR" />
+			<to uri="bean:revokeResourceForUser" />
+		</route>
+
+		<route id="delete-user">
+			<from uri="direct:auth-deleteUser-ImplementationEnrichmentRoute" />
+			<to uri="direct:auth-deleteUser-IR" />
+		</route>
+
+		<route id="delete-user=IR">
+			<from uri="direct:auth-deleteUser-IR" />
+			<to uri="bean:deleteUserBean" />
+		</route>
+
+	</routeContext>
+</beans>

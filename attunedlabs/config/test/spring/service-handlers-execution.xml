@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Configures the Camel Context -->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:camel="http://camel.apache.org/schema/spring"
+	xsi:schemaLocation="
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd">
+	<!-- Pre implemented route that takes care the invocation of handlers at 
+		each stage -->
+	<routeContext xmlns="http://camel.apache.org/schema/spring"
+		id="servicehandlersCtx">
+
+		<!-- pre service -->
+		<route>
+			<from uri="direct:preServiceHandlersInvocation" />					
+			<log message="service type value ::${in.header.serviceName} "/>
+			<log message="pre-service type value ::${in.header.pre-service} "/>	
+			<!-- bean called below is use to decide to call pre-service handler sync or async -->		
+			<to uri="bean:handlersBean?method=syncOrAsyncDeciderForPreService(${in.header.pre-service},${in.header.pre-service-async})" />
+			<choice>
+				<when>
+					<simple>${in.header.asyncRouteName} != null </simple>
+					
+					<toD uri="direct:${in.header.asyncRouteName}"/>
+				</when>
+			</choice> 	
+			<removeHeader headerName="${in.header.pre-service}" />
+			<removeHeader headerName="${in.header.pre-service-async}" />
+		</route>
+		
+		<!-- post service -->
+		<route>
+			<from uri="direct:postServiceHandlersInvocation" />		
+			<!-- bean called below is use to decide to call post-service handler sync or async -->							
+			<to uri="bean:handlersBean?method=syncOrAsyncDeciderForPostService(${in.header.post-service},${in.header.post-service-async})" />
+			<choice>
+				<when>
+					<simple>${in.header.asyncRouteName} != null </simple>
+					
+					<toD uri="direct:${in.header.asyncRouteName}"/>
+				</when>
+			</choice>
+			<removeHeader headerName="${in.header.post-service}" />
+			<removeHeader headerName="${in.header.post-service-async}" />
+		</route>
+		
+		<!-- pre-exec -->
+		<route>
+			<from uri="direct:preExecHandlersInvocation" />	
+			<!-- bean called below is use to decide to call pre-exec-service handler sync or async -->						
+			<to uri="bean:handlersBean?method=syncOrAsyncDeciderForPreExecService(${in.header.pre-exec},${in.header.pre-exec-async})" />
+			<choice>
+				<when>
+					<simple>${in.header.asyncRouteName} != null </simple>
+					
+					<toD uri="direct:${in.header.asyncRouteName}"/>
+				</when>
+			</choice>
+			<removeHeader headerName="${in.header.pre-exec}" />
+			<removeHeader headerName="${in.header.pre-exec-async}" />
+		</route>
+
+		<!-- post-exec -->
+		<route>
+			<from uri="direct:postExecHandlersInvocation" />	
+			<!-- bean called below is use to decide to call post-exec-service handler sync or async -->				
+			<to uri="bean:handlersBean?method=syncOrAsyncDeciderForPostExecService(${in.header.post-exec},${in.header.post-exec-async})" />
+			<choice>
+				<when>
+					<simple>${in.header.asyncRouteName} != null </simple>
+					
+					<toD uri="direct:${in.header.asyncRouteName}"/>
+				</when>
+			</choice>
+			<removeHeader headerName="${in.header.post-exec}" />
+			<removeHeader headerName="${in.header.post-exec-async}" />
+		</route>
+
+		<!-- pre-exec-enrichment -->
+		<route>
+			<from uri="direct:preExecEnricherHandlersInvocation" />		
+			<!-- bean called below is use to decide to call pre-exec-enrichment handler sync or async -->			
+			<to uri="bean:handlersBean?method=syncOrAsyncDeciderForPreExecEnrichService(${in.header.pre-exec-enrichment},${in.header.pre-exec-enrichment-async})" />
+			<choice>
+				<when>
+					<simple>${in.header.asyncRouteName} != null </simple>
+					
+					<toD uri="direct:${in.header.asyncRouteName}"/>
+				</when>
+			</choice>
+			<removeHeader headerName="${in.header.pre-exec-enrichment}" />
+			<removeHeader headerName="${in.header.pre-exec-enrichment-async}" />
+		</route>
+
+
+		<!-- pre-impl-selection -->
+		<route>
+			<from uri="direct:preImplSelectionHandlersInvocation" />
+			<!-- bean called below is use to decide to call pre-impl-selection handler sync or async -->					
+			<to uri="bean:handlersBean?method=syncOrAsyncDeciderForPreImplSelectionService(${in.header.pre-impl-selection},${in.header.pre-impl-selection-async})" />
+			<choice>
+				<when>
+					<simple>${in.header.asyncRouteName} != null </simple>
+					
+					<toD uri="direct:${in.header.asyncRouteName}"/>
+				</when>
+			</choice>
+			<removeHeader headerName="${in.header.pre-impl-selection}" />
+			<removeHeader headerName="${in.header.pre-impl-selection-async}" />
+		</route>
+
+		<!-- pre-impl-enrichment -->
+		<route>
+			<from uri="direct:preImplEnricherHandlersInvocation" />	
+			<!-- bean called below is use to decide to call pre-impl-enrichment handler sync or async -->					
+			<to uri="bean:handlersBean?method=syncOrAsyncDeciderForPreImplEnrichService(${in.header.pre-impl-enrichment},${in.header.pre-impl-enrichment-async})" />
+			<choice>
+				<when>
+					<simple>${in.header.asyncRouteName} != null </simple>
+					
+					<toD uri="direct:${in.header.asyncRouteName}"/>
+				</when>
+			</choice>
+			<removeHeader headerName="${in.header.pre-impl-enrichment}" />
+			<removeHeader headerName="${in.header.pre-impl-enrichment-async}" />
+		</route>
+
+		<!-- pre-impl -->
+		<route>
+			<from uri="direct:preImplHandlersInvocation" />
+			<log message="pre-impl-sync type value ::${in.header.pre-impl} "></log>
+			<log message="pre-impl-async type value ::${in.header.pre-impl-async} "></log>	
+			<!-- bean called below is use to decide to call pre-impl-service handler sync or async -->					
+			<to uri="bean:handlersBean?method=syncOrAsyncDeciderForPreImplService(${in.header.pre-impl},${in.header.pre-impl-async})" />
+			<choice>
+				<when>
+					<simple>${in.header.asyncRouteName} != null </simple>					
+					<toD uri="direct:${in.header.asyncRouteName}"/>
+				</when>
+			</choice>
+			<removeHeader headerName="${in.header.pre-impl}" />
+			<removeHeader headerName="${in.header.pre-impl-async}" />
+		</route>		
+		
+		
+		<!-- async invocation handler routes -->
+		<route>
+			<from uri="direct:asyncHandlerRoute" />
+			<removeHeader headerName="${in.header.asyncRouteName}" />
+			<to uri="seda:asyncPreHandlerRoute?waitForTaskToComplete=Never"></to>
+		</route>
+
+		<!-- async  handler routes -->
+		<route>
+			<from uri="seda:asyncPreHandlerRoute" />
+			<log message="Seda asyncPreHandlerRoute" />
+			<to uri="bean:handlersBean?method=invokeAsyncHandlers(${in.header.invokeType})" />
+		</route>
+		
+
+
+	</routeContext>
+</beans>

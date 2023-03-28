@@ -1,0 +1,22 @@
+{
+	"schema": {
+		"item": {
+			"uniqueBy": [
+				"id"
+			]
+		},
+		"data": {
+			"uniqueBy": [
+				"id"
+			],
+			"relationship": {
+				"childOf": "item",
+				"referenceKey": [
+					"id"
+				]
+			}
+		}
+	},
+	"structuralType": "Nested",
+	"Content-Type": "application/json"
+}

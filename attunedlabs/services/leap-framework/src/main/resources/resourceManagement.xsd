@@ -1,0 +1,116 @@
+<xs:schema attributeFormDefault="unqualified"
+	elementFormDefault="qualified"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:element name="ResourceManagerConfig">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="ConnectionInfo" maxOccurs="1"
+					minOccurs="1">
+					<xs:complexType>
+						<xs:simpleContent>
+							<xs:extension base="xs:string">
+								<xs:attribute name="host">
+									<xs:simpleType>
+										<xs:restriction base="xs:string">
+											<xs:minLength value="1" />
+											<xs:pattern value=".*[^\s].*" />
+										</xs:restriction>
+									</xs:simpleType>
+								</xs:attribute>
+								<xs:attribute name="port">
+									<xs:simpleType>
+										<xs:restriction base="xs:string">
+											<xs:minLength value="1" />
+											<xs:pattern value=".*[^\s].*" />
+										</xs:restriction>
+									</xs:simpleType>
+								</xs:attribute>
+								<xs:attribute name="baseURI">
+									<xs:simpleType>
+										<xs:restriction base="xs:string">
+											<xs:minLength value="1" />
+											<xs:pattern value=".*[^\s].*" />
+										</xs:restriction>
+									</xs:simpleType>
+								</xs:attribute>
+								<xs:attribute name="isURLSecured">
+									<xs:simpleType>
+										<xs:restriction base="xs:string">
+											<xs:minLength value="1" />
+											<xs:pattern value=".*[^\s].*" />
+										</xs:restriction>
+									</xs:simpleType>
+								</xs:attribute>
+							</xs:extension>
+						</xs:simpleContent>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="GetResourceContent"
+					maxOccurs="unbounded" minOccurs="1">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element  name="RequestMethod">
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:minLength value="1" />
+										<xs:pattern value=".*[^\s].*" />
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element  name="ResourceURI" >
+							<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:minLength value="1" />
+									</xs:restriction>
+								</xs:simpleType>
+								</xs:element>
+							<xs:element  name="ResourceScope" >
+							<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:minLength value="1" />
+										<xs:pattern value=".*[^\s].*" />
+									</xs:restriction>
+								</xs:simpleType>
+								</xs:element>
+							<xs:element  name="Type" >
+							<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:minLength value="1" />
+										<xs:pattern value=".*[^\s].*" />
+									</xs:restriction>
+								</xs:simpleType>
+								</xs:element>
+							<xs:element type="xs:string" name="SubType" />
+							<xs:element name="Resources">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element type="xs:string" name="ResourceName"
+											maxOccurs="unbounded" minOccurs="1" />
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+						<xs:attribute name="name"
+							use="required" >
+							<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:minLength value="1" />
+										<xs:pattern value=".*[^\s].*" />
+									</xs:restriction>
+								</xs:simpleType>
+								</xs:attribute>
+						<xs:attribute  name="serviceName"
+							use="required" >
+							<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:minLength value="1" />
+										<xs:pattern value=".*[^\s].*" />
+									</xs:restriction>
+								</xs:simpleType>
+								</xs:attribute>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

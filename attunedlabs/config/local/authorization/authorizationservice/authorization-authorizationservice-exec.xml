@@ -1,0 +1,877 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Configures the Camel Context -->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:camel="http://camel.apache.org/schema/spring"
+	xsi:schemaLocation="
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd">
+
+	<bean id="cacheService"
+		class="com.leap.authorization.caching.CachedAuthorizationService" />
+	<bean id="resourceCache"
+		class="com.leap.authorization.caching.ResourceCacheUtil" />
+	
+	<routeContext
+		id="oacc-authorization-execution-routeContext"
+		xmlns="http://camel.apache.org/schema/spring">
+
+		<!-- This route is calling the implementation route of tenant creation 
+			service -->
+		<route id="authorizationservice-create-tenant-executionEnrichmentRoute">
+			<from
+				uri="direct:authorizationservice-createTenant-executionEnrichmentRoute" />
+			<to uri="direct:authorizationservice-createTenant-ExecutionRoute" />
+		</route>
+
+		<route id="direct:authorizationservice-createTenant-ExecutionRoute">
+			<from uri="direct:authorizationservice-createTenant-ExecutionRoute" />
+			<to uri="bean:executionFeatureDynamic?method=route" />
+			<to
+				uri="direct:authorizationservice-createTenant-ImplementationSelectionRoute" />
+		</route>
+
+		<route
+			id="direct:authorizationservice-createTenant-ImplementationSelectionRoute">
+			<from
+				uri="direct:authorizationservice-createTenant-ImplementationSelectionRoute" />
+			<log message="execution route:${in.header.implroute}" />
+			<toD uri="direct:${in.header.implroute}" />
+		</route>
+
+		<!-- This route is calling the implementation route of child tenant creation 
+			service -->
+		<route id="authorizationservice-create-createChildTenant-route">
+			<from
+				uri="direct:authorizationservice-createChildTenant-executionEnrichmentRoute" />
+			<to
+				uri="direct:authorizationservice-createChildTenant-ExecutionRoute" />
+		</route>
+
+		<route
+			id="direct:authorizationservice-createChildTenant-ExecutionRoute">
+			<from
+				uri="direct:authorizationservice-createChildTenant-ExecutionRoute" />
+			<to uri="bean:executionFeatureDynamic?method=route" />
+			<to
+				uri="direct:authorizationservice-createChildTenant-ImplementationSelectionRoute" />
+		</route>
+
+		<route
+			id="direct:authorizationservice-createChildTenant-ImplementationSelectionRoute">
+			<from
+				uri="direct:authorizationservice-createChildTenant-ImplementationSelectionRoute" />
+			<log message="execution route:${in.header.implroute}" />
+			<toD uri="direct:${in.header.implroute}" />
+		</route>
+
+
+		<!-- This route is calling the implementation route of resource type creation 
+			service -->
+		<route id="authorizationservice-create-resourceType-route">
+			<from
+				uri="direct:authorizationservice-createResourceType-executionEnrichmentRoute" />
+			<to uri="direct:authorizationservice-create-resourceType-ExecutionRoute" />
+		</route>
+
+		<route
+			id="direct:authorizationservice-create-resourceType-ExecutionRoute">
+			<from
+				uri="direct:authorizationservice-create-resourceType-ExecutionRoute" />
+			<to uri="bean:executionFeatureDynamic?method=route" />
+			<to
+				uri="direct:authorizationservice-create-resourceType-ImplementationSelectionRoute" />
+		</route>
+
+		<route
+			id="direct:authorizationservice-create-resourceType-ImplementationSelectionRoute">
+			<from
+				uri="direct:authorizationservice-create-resourceType-ImplementationSelectionRoute" />
+			<log message="execution route:${in.header.implroute}" />
+			<toD uri="direct:${in.header.implroute}" />
+		</route>
+
+
+		<!-- This route is calling the implementation route of register users service -->
+		<route id="authorizationservice-register-users-route">
+			<from
+				uri="direct:authorizationservice-registerUsers-executionEnrichmentRoute" />
+			<to uri="direct:authorizationservice-registerUsers-ExecutionRoute" />
+		</route>
+
+		<route id="direct:authorizationservice-register-users-ExecutionRoute">
+			<from uri="direct:authorizationservice-registerUsers-ExecutionRoute" />
+			<to uri="bean:executionFeatureDynamic?method=route" />
+			<to
+				uri="direct:authorizationservice-registerUsers-ImplementationSelectionRoute" />
+		</route>
+
+		<route
+			id="direct:authorizationservice-registerUsers-ImplementationSelectionRoute">
+			<from
+				uri="direct:authorizationservice-registerUsers-ImplementationSelectionRoute" />
+			<log message="execution route:${in.header.implroute}" />
+			<toD uri="direct:${in.header.implroute}" />
+			<to uri="bean:cacheService?method=registerUsers" />
+		</route>
+
+		<!-- This route is calling the implementation route of register user service -->
+		<route id="authorizationservice-register-user-route">
+			<from
+				uri="direct:authorizationservice-registerUser-executionEnrichmentRoute" />
+			<to uri="direct:authorizationservice-register-user-ExecutionRoute" />
+		</route>
+
+		<route id="direct:authorizationservice-register-user-ExecutionRoute">
+			<from uri="direct:authorizationservice-register-user-ExecutionRoute" />
+			<to uri="bean:executionFeatureDynamic?method=route" />
+			<to
+				uri="direct:authorizationservice-register-user-ImplementationSelectionRoute" />
+		</route>
+
+		<route
+			id="direct:authorizationservice-register-user-ImplementationSelectionRoute">
+			<from
+				uri="direct:authorizationservice-register-user-ImplementationSelectionRoute" />
+			<log message="execution route:${in.header.implroute}" />
+			<toD uri="direct:${in.header.implroute}" />
+			<to uri="bean:cacheService?method=registerUser" />
+		</route>
+
+		<!-- This route is calling the implementation route of remove user service -->
+		<route id="authorizationservice-remove-user-route">
+			<from
+				uri="direct:authorizationservice-removeUser-executionEnrichmentRoute" />
+			<to uri="direct:authorizationservice-removeUser-ExecutionRoute" />
+		</route>
+
+		<route id="direct:authorizationservice-removeUser-ExecutionRoute">
+			<from uri="direct:authorizationservice-removeUser-ExecutionRoute" />
+			<to uri="bean:executionFeatureDynamic?method=route" />
+			<to
+				uri="direct:authorizationservice-removeUser-ImplementationSelectionRoute" />
+		</route>
+
+		<route
+			id="direct:authorizationservice-removeUser-ImplementationSelectionRoute">
+			<from
+				uri="direct:authorizationservice-removeUser-ImplementationSelectionRoute" />
+			<log message="execution route:${in.header.implroute}" />
+			<toD uri="direct:${in.header.implroute}" />
+			<to uri="bean:cacheService?method=removeUser" />
+		</route>
+
+		<!-- This route is calling the implementation route of resources creation 
+			service -->
+		<route id="authorizationservice-create-resources-route">
+			<from
+				uri="direct:authorizationservice-createResources-executionEnrichmentRoute" />
+			<to uri="direct:authorizationservice-createResources-ExecutionRoute" />
+		</route>
+
+		<route id="direct:authorizationservice-create-resources-ExecutionRoute">
+			<from uri="direct:authorizationservice-createResources-ExecutionRoute" />
+			<to uri="bean:executionFeatureDynamic?method=route" />
+			<to
+				uri="direct:authorizationservice-createResources-ImplementationSelectionRoute" />
+		</route>
+
+		<route
+			id="direct:authorizationservice-createResources-ImplementationSelectionRoute">
+			<from
+				uri="direct:authorizationservice-createResources-ImplementationSelectionRoute" />
+			<log message="execution route:${in.header.implroute}" />
+			<toD uri="direct:${in.header.implroute}" />
+		</route>
+
+		<!-- This route is calling the implementation route of resource creation 
+			service -->
+		<route id="authorizationservice-create-resource-route">
+			<from
+				uri="direct:authorizationservice-createResource-executionEnrichmentRoute" />
+			<to uri="direct:authorizationservice-createResource-ExecutionRoute" />
+		</route>
+
+		<route id="direct:authorizationservice-createResource-ExecutionRoute">
+			<from uri="direct:authorizationservice-createResource-ExecutionRoute" />
+			<to uri="bean:executionFeatureDynamic?method=route" />
+			<to
+				uri="direct:authorizationservice-createResource-ImplementationSelectionRoute" />
+		</route>
+
+		<route
+			id="direct:authorizationservice-createResource-ImplementationSelectionRoute">
+			<from
+				uri="direct:authorizationservice-createResource-ImplementationSelectionRoute" />
+			<log message="execution route:${in.header.implroute}" />
+			<toD uri="direct:${in.header.implroute}" />
+		</route>
+
+
+		<!-- This route is calling the implementation route of menu items creation 
+			service -->
+		<route id="authorizationservice-create-menu-items-route">
+			<from
+				uri="direct:authorizationservice-createMenuItems-executionEnrichmentRoute" />
+			<to uri="direct:authorizationservice-createMenuItems-ExecutionRoute" />
+		</route>
+
+		<route id="direct:authorizationservice-createMenuItems-ExecutionRoute">
+			<from uri="direct:authorizationservice-createMenuItems-ExecutionRoute" />
+			<to uri="bean:executionFeatureDynamic?method=route" />
+			<to
+				uri="direct:authorizationservice-createMenuItems-ImplementationSelectionRoute" />
+		</route>
+
+		<route
+			id="direct:authorizationservice-createMenuItems-ImplementationSelectionRoute">
+			<from
+				uri="direct:authorizationservice-createMenuItems-ImplementationSelectionRoute" />
+			<log message="execution route:${in.header.implroute}" />
+			<toD uri="direct:${in.header.implroute}" />
+		</route>
+
+		<!-- This route is calling the implementation route of register roles service -->
+		<route id="authorizationservice-register-roles-route">
+			<from
+				uri="direct:authorizationservice-registerRoles-executionEnrichmentRoute" />
+			<to uri="direct:authorizationservice-registerRoles-ExecutionRoute" />
+		</route>
+
+		<route id="direct:authorizationservice-registerRoles-ExecutionRoute">
+			<from uri="direct:authorizationservice-registerRoles-ExecutionRoute" />
+			<to uri="bean:executionFeatureDynamic?method=route" />
+			<to
+				uri="direct:authorizationservice-registerRoles-ImplementationSelectionRoute" />
+		</route>
+
+		<route
+			id="direct:authorizationservice-registerRoles-ImplementationSelectionRoute">
+			<from
+				uri="direct:authorizationservice-registerRoles-ImplementationSelectionRoute" />
+			<log message="execution route:${in.header.implroute}" />
+			<toD uri="direct:${in.header.implroute}" />
+			<to uri="bean:cacheService?method=registerRoles" />
+		</route>
+
+		<!-- This route is calling the implementation route of register role service -->
+		<route id="authorizationservice-register-role-route">
+			<from
+				uri="direct:authorizationservice-registerRole-executionEnrichmentRoute" />
+			<to uri="direct:authorizationservice-registerRole-ExecutionRoute" />
+		</route>
+
+		<route id="direct:authorizationservice-registerRole-ExecutionRoute">
+			<from uri="direct:authorizationservice-registerRole-ExecutionRoute" />
+			<to uri="bean:executionFeatureDynamic?method=route" />
+			<to
+				uri="direct:authorizationservice-registerRole-ImplementationSelectionRoute" />
+		</route>
+
+		<route
+			id="direct:authorizationservice-registerRole-ImplementationSelectionRoute">
+			<from
+				uri="direct:authorizationservice-registerRole-ImplementationSelectionRoute" />
+			<log message="execution route:${in.header.implroute}" />
+			<toD uri="direct:${in.header.implroute}" />
+			<to uri="bean:cacheService?method=registerRole" />
+		</route>
+
+		<!-- This route is calling the implementation route of create resourceType 
+			permission -->
+		<route id="authorizationservice--create-resourceType-permission-route">
+			<from
+				uri="direct:authorizationservice-createResourceTypePermission-executionEnrichmentRoute" />
+			<to
+				uri="direct:authorizationservice-createResourceTypePermission-ExecutionRoute" />
+		</route>
+
+		<route
+			id="direct:authorizationservice-createResourceTypePermission-ExecutionRoute">
+			<from
+				uri="direct:authorizationservice-createResourceTypePermission-ExecutionRoute" />
+			<to uri="bean:executionFeatureDynamic?method=route" />
+			<to
+				uri="direct:authorizationservice-createResourceTypePermission-ImplementationSelectionRoute" />
+		</route>
+
+		<route
+			id="direct:authorizationservice-createResourceTypePermission-ImplementationSelectionRoute">
+			<from
+				uri="direct:authorizationservice-createResourceTypePermission-ImplementationSelectionRoute" />
+			<log message="execution route:${in.header.implroute}" />
+			<toD uri="direct:${in.header.implroute}" />
+		</route>
+
+		<!-- This route is calling the implementation route of grant resource permission 
+			for user service -->
+		<route id="authorizationservice-grant-permission-for-user-route">
+			<from
+				uri="direct:authorizationservice-grantPermissionForUser-executionEnrichmentRoute" />
+			<to
+				uri="direct:authorizationservice-grantPermissionForUser-ExecutionRoute" />
+		</route>
+
+		<route
+			id="direct:authorizationservice-grantPermissionForUser-ExecutionRoute">
+			<from
+				uri="direct:authorizationservice-grantPermissionForUser-ExecutionRoute" />
+			<to uri="bean:executionFeatureDynamic?method=route" />
+			<to
+				uri="direct:authorizationservice-grantPermissionForUser-ImplementationSelectionRoute" />
+		</route>
+
+		<route
+			id="direct:authorizationservice-grantPermissionForUser-ImplementationSelectionRoute">
+			<from
+				uri="direct:authorizationservice-grantPermissionForUser-ImplementationSelectionRoute" />
+			<log message="execution route:${in.header.implroute}" />
+			<toD uri="direct:${in.header.implroute}" />
+			<to uri="bean:cacheService?method=grantPermissionForUser" />
+		</route>
+
+		<!-- This route is calling the implementation route of grant resource permission 
+			for role service -->
+		<route id="authorizationservice-grant-permission-for-role-route">
+			<from
+				uri="direct:authorizationservice-grantPermissionForRole-executionEnrichmentRoute" />
+			<to
+				uri="direct:authorizationservice-grantPermissionForRole-ExecutionRoute" />
+		</route>
+
+		<route
+			id="direct:authorizationservice-grantPermissionForRole-ExecutionRoute">
+			<from
+				uri="direct:authorizationservice-grantPermissionForRole-ExecutionRoute" />
+			<to uri="bean:executionFeatureDynamic?method=route" />
+			<to
+				uri="direct:authorizationservice-grantPermissionForRole-ImplementationSelectionRoute" />
+		</route>
+
+		<route
+			id="direct:authorizationservice-grantPermissionForRole-ImplementationSelectionRoute">
+			<from
+				uri="direct:authorizationservice-grantPermissionForRole-ImplementationSelectionRoute" />
+			<log message="execution route:${in.header.implroute}" />
+			<toD uri="direct:${in.header.implroute}" />
+			<to uri="bean:cacheService?method=grantPermissionForRole" />
+		</route>
+
+		<!-- This route is calling the implementation route of role association 
+			to user service -->
+		<route id="associate-role-user">
+			<from
+				uri="direct:authorizationservice-associateRoleToUser-executionEnrichmentRoute" />
+			<to uri="direct:authorizationservice-associateRoleToUser-ExecutionRoute" />
+		</route>
+
+		<route
+			id="direct:authorizationservice-associateRoleToUser-ExecutionRoute">
+			<from
+				uri="direct:authorizationservice-associateRoleToUser-ExecutionRoute" />
+			<to uri="bean:executionFeatureDynamic?method=route" />
+			<to
+				uri="direct:authorizationservice-associateRoleToUser-ImplementationSelectionRoute" />
+		</route>
+
+		<route
+			id="direct:authorizationservice-associateRoleToUser-ImplementationSelectionRoute">
+			<from
+				uri="direct:authorizationservice-associateRoleToUser-ImplementationSelectionRoute" />
+			<log message="execution route:${in.header.implroute}" />
+			<toD uri="direct:${in.header.implroute}" />
+			<to uri="bean:cacheService?method=associateRoleToUser" />
+		</route>
+
+		<!-- This route is calling the implementation route to get all roles associated 
+			to user -->
+		<route id="get-role-user">
+			<from
+				uri="direct:authorizationservice-getRolesForUser-executionEnrichmentRoute" />
+			<to uri="direct:authorizationservice-getRolesForUser-ExecutionRoute" />
+		</route>
+
+		<route id="direct:authorizationservice-getRolesForUser-ExecutionRoute">
+			<from uri="direct:authorizationservice-getRolesForUser-ExecutionRoute" />
+			<to uri="bean:cacheService?method=getRolesForUser" />
+			<choice>
+				<when>
+					<simple>${in.header.cachedResult} == null</simple>
+					<to uri="bean:executionFeatureDynamic?method=route" />
+					<to
+						uri="direct:authorizationservice-associateRoleToUser-ImplementationSelectionRoute" />
+				</when>
+			</choice>
+
+		</route>
+
+		<route
+			id="direct:authorizationservice-getRolesForUser-ImplementationSelectionRoute">
+			<from
+				uri="direct:authorizationservice-getRolesForUser-ImplementationSelectionRoute" />
+			<log message="execution route:${in.header.implroute}" />
+			<toD uri="direct:${in.header.implroute}" />
+		</route>
+
+		<!-- This route is calling the implementation route of get permission for 
+			user on resource service -->
+		<route id="authorizationservice-get-user-permission-route">
+			<from
+				uri="direct:authorizationservice-getPermissionForUser-executionEnrichmentRoute" />
+			<to uri="direct:authorizationservice-getPermissionForUser-ExecutionRoute" />
+		</route>
+
+		<route
+			id="direct:authorizationservice-getPermissionForUser-ExecutionRoute">
+			<from
+				uri="direct:authorizationservice-getPermissionForUser-ExecutionRoute" />
+			<to uri="bean:cacheService?method=getPermissionForUser" />
+			<choice>
+				<when>
+					<simple>${in.header.cachedResult} == null</simple>
+					<to uri="bean:executionFeatureDynamic?method=route" />
+					<to
+						uri="direct:authorizationservice-getPermissionForUser-ImplementationSelectionRoute" />
+				</when>
+			</choice>
+		</route>
+
+		<route
+			id="direct:authorizationservice-getPermissionForUser-ImplementationSelectionRoute">
+			<from
+				uri="direct:authorizationservice-getPermissionForUser-ImplementationSelectionRoute" />
+			<log message="execution route:${in.header.implroute}" />
+			<toD uri="direct:${in.header.implroute}" />
+		</route>
+
+		<!-- This route is calling the implementation route of get permission for 
+			resourceType service -->
+		<route id="authorizationservice-get-resourceType-permission-route">
+			<from
+				uri="direct:authorizationservice-getResourceTypePermission-executionEnrichmentRoute" />
+			<to
+				uri="direct:authorizationservice-getResourceTypePermission-ExecutionRoute" />
+		</route>
+
+		<route
+			id="direct:authorizationservice-getResourceTypePermission-ExecutionRoute">
+			<from
+				uri="direct:authorizationservice-getResourceTypePermission-ExecutionRoute" />
+			<to uri="bean:executionFeatureDynamic?method=route" />
+			<to
+				uri="direct:authorizationservice-getResourceTypePermission-ImplementationSelectionRoute" />
+		</route>
+
+		<route
+			id="direct:authorizationservice-getResourceTypePermission-ImplementationSelectionRoute">
+			<from
+				uri="direct:authorizationservice-getResourceTypePermission-ImplementationSelectionRoute" />
+			<log message="execution route:${in.header.implroute}" />
+			<toD uri="direct:${in.header.implroute}" />
+		</route>
+
+		<!-- This route is calling the implementation route of asserting permission 
+			for user service -->
+		<route id="authorizationservice-has-user-permission-route">
+			<from
+				uri="direct:authorizationservice-hasUserPermission-executionEnrichmentRoute" />
+			<to uri="direct:authorizationservice-hasUserPermission-ExecutionRoute" />
+		</route>
+
+		<route
+			id="direct:authorizationservice-hasUserPermission-ExecutionRoute">
+			<from
+				uri="direct:authorizationservice-hasUserPermission-ExecutionRoute" />
+			<to uri="bean:cacheService?method=hasUserPermission" />
+			<choice>
+				<when>
+					<simple>${in.header.cachedResult} == null</simple>
+					<to uri="bean:executionFeatureDynamic?method=route" />
+					<to
+						uri="direct:authorizationservice-hasUserPermission-ImplementationSelectionRoute" />
+				</when>
+			</choice>
+		</route>
+
+		<route
+			id="direct:authorizationservice-hasUserPermission-ImplementationSelectionRoute">
+			<from
+				uri="direct:authorizationservice-hasUserPermission-ImplementationSelectionRoute" />
+			<log message="execution route:${in.header.implroute}" />
+			<toD uri="direct:${in.header.implroute}" />
+		</route>
+
+
+		<!-- This route is calling the implementation route of asserting user exists 
+			service -->
+		<route id="authorizationservice-user-exists-route">
+			<from
+				uri="direct:authorizationservice-userExists-executionEnrichmentRoute" />
+			<to uri="direct:authorizationservice-userExists-ExecutionRoute" />
+		</route>
+
+		<route id="direct:authorizationservice-userExists-ExecutionRoute">
+			<from uri="direct:authorizationservice-userExists-ExecutionRoute" />
+			<to uri="bean:executionFeatureDynamic?method=route" />
+			<to
+				uri="direct:authorizationservice-userExists-ImplementationSelectionRoute" />
+		</route>
+
+		<route
+			id="direct:authorizationservice-userExists-ImplementationSelectionRoute">
+			<from
+				uri="direct:authorizationservice-userExists-ImplementationSelectionRoute" />
+			<log message="execution route:${in.header.implroute}" />
+			<toD uri="direct:${in.header.implroute}" />
+		</route>
+
+		<!-- This route is calling the implementation route of asserting tenant 
+			exists service -->
+		<route id="authorizationservice-tenant-exists-route">
+			<from
+				uri="direct:authorizationservice-tenantExists-executionEnrichmentRoute" />
+			<to uri="direct:authorizationservice-tenantExists-ExecutionRoute" />
+		</route>
+
+		<route id="direct:authorizationservice-tenantExists-ExecutionRoute">
+			<from uri="direct:authorizationservice-tenantExists-ExecutionRoute" />
+			<to uri="bean:executionFeatureDynamic?method=route" />
+			<to
+				uri="direct:authorizationservice-tenantExists-ImplementationSelectionRoute" />
+		</route>
+
+		<route
+			id="direct:authorizationservice-tenantExists-ImplementationSelectionRoute">
+			<from
+				uri="direct:authorizationservice-tenantExists-ImplementationSelectionRoute" />
+			<log message="execution route:${in.header.implroute}" />
+			<toD uri="direct:${in.header.implroute}" />
+		</route>
+
+		<!-- This route is calling the implementation route of asserting permission 
+			for role service -->
+		<route id="authorizationservice-has-role-permission-route">
+			<from
+				uri="direct:authorizationservice-hasRolePermission-executionEnrichmentRoute" />
+			<to uri="direct:authorizationservice-hasRolePermission-ExecutionRoute"></to>
+		</route>
+
+		<route
+			id="direct:authorizationservice-hasRolePermission-ExecutionRoute">
+			<from
+				uri="direct:authorizationservice-hasRolePermission-ExecutionRoute" />
+			<to uri="bean:cacheService?method=hasRolePermission" />
+			<choice>
+				<when>
+					<simple>${in.header.cachedResult} == null</simple>
+					<to uri="bean:executionFeatureDynamic?method=route" />
+					<to
+						uri="direct:authorizationservice-hasRolePermission-ImplementationSelectionRoute" />
+				</when>
+			</choice>
+		</route>
+
+		<route
+			id="direct:authorizationservice-hasRolePermission-ImplementationSelectionRoute">
+			<from
+				uri="direct:authorizationservice-hasRolePermission-ImplementationSelectionRoute" />
+			<log message="execution route:${in.header.implroute}" />
+			<toD uri="direct:${in.header.implroute}" />
+		</route>
+
+		<!-- This route is calling the implementation route of asserting permission 
+			for user on menu items service -->
+		<route id="authorizationservice-has-user--menu-item-permission-route">
+			<from
+				uri="direct:authorizationservice-hasMenuItemUserPermission-executionEnrichmentRoute" />
+			<to
+				uri="direct:authorizationservice-hasMenuItemUserPermission-ExecutionRoute" />
+		</route>
+
+		<route
+			id="direct:authorizationservice-hasMenuItemUserPermission-ExecutionRoute">
+			<from
+				uri="direct:authorizationservice-hasMenuItemUserPermission-ExecutionRoute" />
+			<to uri="bean:cacheService?method=hasMenuItemUserPermission" />
+			<choice>
+				<when>
+					<simple>${in.header.cachedResult} == null</simple>
+					<to uri="bean:executionFeatureDynamic?method=route" />
+					<to
+						uri="direct:authorizationservice-hasMenuItemUserPermission-ImplementationSelectionRoute" />
+				</when>
+			</choice>
+		</route>
+
+		<route
+			id="direct:authorizationservice-hasMenuItemUserPermission-ImplementationSelectionRoute">
+			<from
+				uri="direct:authorizationservice-hasMenuItemUserPermission-ImplementationSelectionRoute" />
+			<log message="execution route:${in.header.implroute}" />
+			<toD uri="direct:${in.header.implroute}" />
+		</route>
+
+		<!-- This route is calling the implementation route of get all resources 
+			for user service -->
+		<route id="authorizationservice-getAll-user-resource-route">
+			<from
+				uri="direct:authorizationservice-getAllUserAccessibleResource-executionEnrichmentRoute" />
+			<to
+				uri="direct:authorizationservice-getAllUserAccessibleResource-ExecutionRoute" />
+		</route>
+
+		<route
+			id="direct:authorizationservice-getAllUserAccessibleResource-ExecutionRoute">
+			<from
+				uri="direct:authorizationservice-getAllUserAccessibleResource-ExecutionRoute" />
+			<to uri="bean:cacheService?method=getAllUserAccessibleResource" />
+			<choice>
+				<when>
+					<simple>${in.header.cachedResult} == null</simple>
+					<to uri="bean:executionFeatureDynamic?method=route" />
+					<to
+						uri="direct:authorizationservice-getAllUserAccessibleResource-ImplementationSelectionRoute" />
+				</when>
+			</choice>
+		</route>
+
+		<route
+			id="direct:authorizationservice-getAllUserAccessibleResource-ImplementationSelectionRoute">
+			<from
+				uri="direct:authorizationservice-getAllUserAccessibleResource-ImplementationSelectionRoute" />
+			<log message="execution route:${in.header.implroute}" />
+			<toD uri="direct:${in.header.implroute}" />
+		</route>
+
+		<!-- This route is calling the implementation route of get all resources 
+			for role service -->
+		<route id="authorizationservice-getAll-role-resource-route">
+			<from
+				uri="direct:authorizationservice-getAllRoleAccessibleResource-executionEnrichmentRoute" />
+			<to
+				uri="direct:authorizationservice-getAllRoleAccessibleResource-ExecutionRoute" />
+		</route>
+
+		<route
+			id="direct:authorizationservice-getAllRoleAccessibleResource-ExecutionRoute">
+			<from
+				uri="direct:authorizationservice-getAllRoleAccessibleResource-ExecutionRoute" />
+			<to uri="bean:cacheService?method=getAllRoleAccessibleResource" />
+			<choice>
+				<when>
+					<simple>${in.header.cachedResult} == null</simple>
+					<to uri="bean:executionFeatureDynamic?method=route" />
+					<to
+						uri="direct:authorizationservice-getAllRoleAccessibleResource-ImplementationSelectionRoute" />
+				</when>
+			</choice>
+		</route>
+
+		<route
+			id="direct:authorizationservice-getAllRoleAccessibleResource-ImplementationSelectionRoute">
+			<from
+				uri="direct:authorizationservice-getAllRoleAccessibleResource-ImplementationSelectionRoute" />
+			<log message="execution route:${in.header.implroute}" />
+			<toD uri="direct:${in.header.implroute}" />
+		</route>
+
+		<!-- This route is calling the implementation route of get all menu items 
+			for user service -->
+		<route id="authorizationservice-getAll-user-menuItem-route">
+			<from
+				uri="direct:authorizationservice-getAllAccessibleMenuItemsForUser-executionEnrichmentRoute" />
+			<to
+				uri="direct:authorizationservice-getAllAccessibleMenuItemsForUser-ExecutionRoute" />
+		</route>
+
+		<route
+			id="direct:authorizationservice-getAllAccessibleMenuItemsForUser-ExecutionRoute">
+			<from
+				uri="direct:authorizationservice-getAllAccessibleMenuItemsForUser-ExecutionRoute" />
+			<to
+				uri="bean:cacheService?method=getAllAccessibleMenuItemsForUser" />
+			<choice>
+				<when>
+					<simple>${in.header.cachedResult} == null</simple>
+					<to uri="bean:executionFeatureDynamic?method=route" />
+					<to
+						uri="direct:authorizationservice-getAllAccessibleMenuItemsForUser-ImplementationSelectionRoute" />
+				</when>
+			</choice>
+		</route>
+
+		<route
+			id="direct:authorizationservice-getAllAccessibleMenuItemsForUser-ImplementationSelectionRoute">
+			<from
+				uri="direct:authorizationservice-getAllAccessibleMenuItemsForUser-ImplementationSelectionRoute" />
+			<log message="execution route:${in.header.implroute}" />
+			<toD uri="direct:${in.header.implroute}" />
+		</route>
+
+		<!-- This route is calling the implementation route of get all menu items 
+			for role service -->
+		<route id="authorizationservice-getAll-role-menuItem-route">
+			<from
+				uri="direct:authorizationservice-getAllAccessibleMenuItemsForRole-executionEnrichmentRoute" />
+			<to
+				uri="direct:authorizationservice-getAllAccessibleMenuItemsForRole-ExecutionRoute" />
+		</route>
+
+		<route
+			id="direct:authorizationservice-getAllAccessibleMenuItemsForRole-ExecutionRoute">
+			<from
+				uri="direct:authorizationservice-getAllAccessibleMenuItemsForRole-ExecutionRoute" />
+			<to
+				uri="bean:cacheService?method=getAllAccessibleMenuItemsForRole" />
+			<choice>
+				<when>
+					<simple>${in.header.cachedResult} == null</simple>
+					<to uri="bean:executionFeatureDynamic?method=route" />
+					<to
+						uri="direct:authorizationservice-getAllAccessibleMenuItemsForRole-ImplementationSelectionRoute" />
+				</when>
+			</choice>
+		</route>
+
+		<route
+			id="direct:authorizationservice-getAllAccessibleMenuItemsForRole-ImplementationSelectionRoute">
+			<from
+				uri="direct:authorizationservice-getAllAccessibleMenuItemsForRole-ImplementationSelectionRoute" />
+			<log message="execution route:${in.header.implroute}" />
+			<toD uri="direct:${in.header.implroute}" />
+		</route>
+
+		<route id="userAuthorization-caching-route">
+			<from
+				uri="direct:authorizationservice-userLogin-executionEnrichmentRoute" />
+			<to uri="bean:resourceCache?method=loadUserResourcesToCache" />
+		</route>
+
+		<route id="authorizationservice-getRole-by-tenant-resouceclassname">
+			<from
+				uri="direct:authorizationservice-getAllRolesByTenant-executionEnrichmentRoute" />
+			<to uri="direct:authorizationservice-getAllRolesByTenant-ExecutionRoute" />
+		</route>
+
+		<route
+			id="direct:authorizationservice-getAllRolesByTenant-ExecutionRoute">
+			<from
+				uri="direct:authorizationservice-getAllRolesByTenant-ExecutionRoute" />
+			<to uri="bean:executionFeatureDynamic?method=route" />
+			<to
+				uri="direct:authorizationservice-getAllRolesByTenant-ImplementationSelectionRoute" />
+		</route>
+
+		<route
+			id="direct:authorizationservice-getAllRolesByTenant-ImplementationSelectionRoute">
+			<from
+				uri="direct:authorizationservice-getAllRolesByTenant-ImplementationSelectionRoute" />
+			<log message="execution route:${in.header.implroute}" />
+			<toD uri="direct:${in.header.implroute}" />
+		</route>
+
+		<route id="authorizationservice-updateRoleForUser">
+			<from
+				uri="direct:authorizationservice-updateRoleForsUser-executionEnrichmentRoute" />
+			<to uri="direct:authorizationservice-updateRoleForsUser-ExecutionRoute" />
+		</route>
+
+		<route
+			id="direct:authorizationservice-updateRoleForsUser-ExecutionRoute">
+			<from
+				uri="direct:authorizationservice-updateRoleForsUser-ExecutionRoute" />
+			<to uri="bean:executionFeatureDynamic?method=route" />
+			<to
+				uri="direct:authorizationservice-updateRoleForsUser-ImplementationSelectionRoute" />
+		</route>
+
+		<route
+			id="direct:authorizationservice-updateRoleForsUser-ImplementationSelectionRoute">
+			<from
+				uri="direct:authorizationservice-updateRoleForsUser-ImplementationSelectionRoute" />
+			<log message="execution route:${in.header.implroute}" />
+			<toD uri="direct:${in.header.implroute}" />
+		</route>
+
+		<route id="authorizationservice-deleteRoleForUser">
+			<from
+				uri="direct:authorizationservice-deleteRoleForUser-executionEnrichmentRoute" />
+			<to uri="direct:authorizationservice-deleteRoleForUser-ExecutionRoute" />
+		</route>
+
+		<route
+			id="direct:authorizationservice-deleteRoleForUser-ExecutionRoute">
+			<from
+				uri="direct:authorizationservice-deleteRoleForUser-ExecutionRoute" />
+			<to uri="bean:executionFeatureDynamic?method=route" />
+			<to
+				uri="direct:authorizationservice-deleteRoleForUser-ImplementationSelectionRoute" />
+		</route>
+
+		<route
+			id="direct:authorizationservice-deleteRoleForUser-ImplementationSelectionRoute">
+			<from
+				uri="direct:authorizationservice-deleteRoleForUser-ImplementationSelectionRoute" />
+			<log message="execution route:${in.header.implroute}" />
+			<toD uri="direct:${in.header.implroute}" />
+		</route>
+
+		<route id="authorizationservice-revokeResourceForUser">
+			<from
+				uri="direct:authorizationservice-revokeResourceForUser-executionEnrichmentRoute" />
+			<to
+				uri="direct:authorizationservice-revokeResourceForUser-ExecutionRoute" />
+		</route>
+
+		<route
+			id="direct:authorizationservice-revokeResourceForUser-ExecutionRoute">
+			<from
+				uri="direct:authorizationservice-revokeResourceForUser-ExecutionRoute" />
+			<to uri="bean:executionFeatureDynamic?method=route" />
+			<to
+				uri="direct:authorizationservice-revokeResourceForUser-ImplementationSelectionRoute" />
+		</route>
+
+		<route
+			id="direct:authorizationservice-revokeResourceForUser-ImplementationSelectionRoute">
+			<from
+				uri="direct:authorizationservice-revokeResourceForUser-ImplementationSelectionRoute" />
+			<log message="execution route:${in.header.implroute}" />
+			<toD uri="direct:${in.header.implroute}" />
+		</route>
+
+		<route id="authorizationservice-deleteUser">
+			<from
+				uri="direct:authorizationservice-deleteUser-executionEnrichmentRoute" />
+			<to uri="direct:authorizationservice-deleteUse-ExecutionRoute" />
+		</route>
+
+		<route id="direct:authorizationservice-deleteUser-ExecutionRoute">
+			<from uri="direct:authorizationservice-deleteUser-ExecutionRoute" />
+			<to uri="bean:executionFeatureDynamic?method=route" />
+			<to
+				uri="direct:authorizationservice-deleteUser-ImplementationSelectionRoute" />
+		</route>
+
+		<route
+			id="direct:authorizationservice-deleteUser-ImplementationSelectionRoute">
+			<from
+				uri="direct:authorizationservice-deleteUser-ImplementationSelectionRoute" />
+			<log message="execution route:${in.header.implroute}" />
+			<toD uri="direct:${in.header.implroute}" />
+		</route>
+
+		<camel:route id="cs-authorization-authorizationservice-leap-leap">
+			<camel:from uri="direct:custom-authorization-route"/>
+			<camel:log message="============ Started Authorization ==============="/>
+			<camel:log message="${headers}"/>
+			<camel:bean ref="resourceCache" method="preLoadRoles(${headers.provider})"/>
+			<camel:log message="============ Completed Authorization ==============="/>
+		</camel:route>
+
+
+
+	</routeContext>
+
+</beans>

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ApplicationServiceHandlerConfiguration
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="app_servicehandlerconfig.xsd">
+
+	<CommonServiceHandler>
+	<!-- For selflink time profiling -->
+	<!-- <ServiceHandler type="*" execute="sync" handlerId="timeProfilingHandler">
+			<Description>This is time calculation handler..</Description>
+			<HandlerImplementation
+				fqcn="com.attunedlabs.applicationservicehandlers.handler.TimeProfilerHandler">
+			</HandlerImplementation>
+			<ExcludedServices />
+		</ServiceHandler> -->
+
+		<!-- <ServiceHandler type="post-service" execute="async"
+			handlerId="kafkaProducerHandler">
+			<Description>This is async kafka handler publishing record to kafka ...</Description>
+			<HandlerImplementation
+				fqcn="com.attunedlabs.applicationservicehandlers.handler.SelfLinkDataProducer">
+				<HandlerConfig>{"brokerconfig":"localhost:9092","topic":"selfLinkData"}</HandlerConfig>
+			</HandlerImplementation>
+			<ExcludedServices>
+				<Service featureGroup="sample" featureName="helloworldservice"
+					serviceName="selflinkStorage" />
+			</ExcludedServices>
+		</ServiceHandler> -->
+
+		<ServiceHandler type="post-service" execute="async" handlerId="logginghandler">
+			<Description>this is async direct logging to cassandra handler ...</Description>
+			<HandlerImplementation
+				fqcn="com.attunedlabs.applicationservicehandlers.handler.SelfLinkLoggingStorage">
+				<HandlerConfig>
+				{"driver_class":"com.github.adejanovski.cassandra.jdbc.CassandraDriver","url":"jdbc:cassandra://192.168.1.150:9042/selflink"}
+				</HandlerConfig>
+			</HandlerImplementation>
+			<ExcludedServices/>
+		</ServiceHandler>
+		
+		
+		<ServiceHandler type="pre-service" execute="sync"
+			handlerId="internalServiceHandler">
+			<Description>This is sync login handler for authentication...</Description>
+			<HandlerImplementation beanId="servicehandlerappcomloggingbean" />
+			<ExcludedServices>
+				<!-- <Service featureGroup="pipelinetesting" featureName="pipelineservice" -->
+				<!-- serviceName="internalservice" /> -->
+				 <Service featureGroup="sample" featureName="helloworldservice" 
+				 serviceName="internal2HelloMessage" />
+			</ExcludedServices>
+		</ServiceHandler>
+
+		<!-- <ServiceHandler type="post-service" execute="async" handlerId="eventGenerationHandler"> 
+			<Description>This is post async event generation handler...</Description> 
+			<HandlerImplementation fqcn="com.attunedlabs.applicationservicehandlers.sample.test.EventGenerationHandler"> 
+			<HandlerConfig>{"brokerconfig":"localhost:9092"}</HandlerConfig> </HandlerImplementation> 
+			<ExcludedServices /> </ServiceHandler> -->
+	</CommonServiceHandler>
+
+	<FeatureServiceHandler>
+		<ServiceHandler type="pre-service" execute="async"
+			handlerId="externalServiceHandler">
+			<Description>This is post sync event generation handler...</Description>
+			<HandlerImplementation beanId="servicehandlerappfeatloggingbean" />
+			<IncludedServices>
+				<Service featureGroup="sample" featureName="helloworldservice"
+					serviceName="helloMessage" />
+			</IncludedServices>
+		</ServiceHandler>
+		<!-- <ServiceHandler type="post-service" execute="sync" -->
+		<!-- handlerId="internalServiceAppFeatHandler"> -->
+		<!-- <Description>This is post sync event generation handler...</Description> -->
+		<!-- <HandlerImplementation beanId="servicehandlerappfeatloggingbean" /> -->
+		<!-- <IncludedServices> -->
+		<!-- <Service featureGroup="pipelinetesting" featureName="pipelineservice" -->
+		<!-- serviceName="internalservice" /> -->
+		<!-- </IncludedServices> -->
+		<!-- </ServiceHandler> -->
+	</FeatureServiceHandler>
+
+</ApplicationServiceHandlerConfiguration>

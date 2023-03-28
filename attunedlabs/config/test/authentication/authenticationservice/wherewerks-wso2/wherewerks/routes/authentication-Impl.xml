@@ -1,0 +1,902 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Configures the Camel Context -->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:camel="http://camel.apache.org/schema/spring"
+	xsi:schemaLocation="
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd">
+
+	<bean id="authenticate"
+		class="com.leap.authentication.camelbean.usermgmntservice.AuthenticateUser" />
+	<bean id="authenticateWithCookie"
+		class="com.leap.authentication.camelbean.usermgmntservice.AuthenticateUserWithCookie" />
+	<bean id="encryptUserData"
+		class="com.leap.authentication.camelbean.usermgmntservice.EncryptUserData" />
+	<bean id="encryptLogin"
+		class="com.leap.authentication.camelbean.usermgmntservice.EncryptLogin" />
+	<bean id="revokeUserOAuthToken"
+		class="com.leap.authentication.camelbean.usermgmntservice.RevokeUserOAuthToken" />
+	<bean id="getAllDomainsByUser"
+		class="com.leap.authentication.camelbean.usermgmntservice.GetAllDomainsByUser" />
+	<bean id="getUser"
+		class="com.leap.authentication.camelbean.usermgmntservice.GetUser" />
+	<bean id="validateToken"
+		class="com.leap.authentication.camelbean.usermgmntservice.ValidateAccessToken" />
+	<bean id="changeUserPassword"
+		class="com.leap.authentication.camelbean.usermgmntservice.ChangeUserPasssword" />
+	<bean id="resetPassword"
+		class="com.leap.authentication.camelbean.adminservice.ResetUserPassword" />
+	<bean id="createUsers"
+		class="com.leap.authentication.camelbean.adminservice.CreateUsers" />
+	<bean id="renewRefreshToken"
+		class="com.leap.authentication.camelbean.usermgmntservice.RenewUserRefreshToken" />
+	<bean id="getDomainNameByCompanyName"
+		class="com.leap.authentication.camelbean.adminservice.GetDomainNameByCompanyName" />
+	<bean id="selfRegisterUser"
+		class="com.leap.authentication.camelbean.usermgmntservice.SelfRegisterUser" />
+	<bean id="registerNewAccount"
+		class="com.leap.authentication.camelbean.adminservice.RegisterNewAccount" />
+	<bean id="registerDomainByAccount"
+		class="com.leap.authentication.camelbean.adminservice.RegisterNewDomainByAccount" />
+	<bean id="retreiveConfirmationCode"
+		class="com.leap.authentication.camelbean.usermgmntservice.RetreiveConfirmationCode" />
+	<bean id="validateAndUpdatePassword"
+		class="com.leap.authentication.camelbean.usermgmntservice.ValidateAndUpdatePassword" />
+	<bean id="userExist"
+		class="com.leap.authentication.camelbean.adminservice.IsUserExist" />
+	<bean id="getUserByNameAndDomain"
+		class="com.leap.authentication.camelbean.usermgmntservice.GetUserByNameAndDomain"></bean>
+	<bean id="removeUserAuthn"
+		class="com.leap.authentication.camelbean.adminservice.RemoveUser" />
+	<bean id="getAllDomains"
+		class="com.leap.authentication.camelbean.adminservice.GetAllDomains" />
+	<bean id="findUsersByName"
+		class="com.leap.authentication.camelbean.adminservice.FindUsersByName" />
+	<bean id="findUsersByEmail"
+		class="com.leap.authentication.camelbean.adminservice.FindUsersByEmail" />
+	<bean id="getAllUsers"
+		class="com.leap.authentication.camelbean.adminservice.GetAllUsers" />
+	<bean id="updateUserStatus"
+		class="com.leap.authentication.camelbean.adminservice.UpdateUserStatus" />
+	<bean id="updateUser"
+		class="com.leap.authentication.camelbean.adminservice.UpdateUser" />
+	<bean id="lockUser" class="com.leap.authentication.camelbean.adminservice.LockUser" />
+	<bean id="deleteDomain"
+		class="com.leap.authentication.camelbean.adminservice.DeleteDomain" />
+	<bean id="internalLogin"
+		class="com.leap.authentication.camelbean.usermgmntservice.GetDefaultAppAcccessToken" />
+<!-- 	<bean id="authNUtil" class="com.leap.authentication.util.AuthNUtil" /> -->
+
+	<routeContext id="authenticationImplementation" xmlns="http://camel.apache.org/schema/spring">
+		<route>
+			<from uri="direct:authenticationservice-login-IR" />
+			<setHeader headerName="Access-Control-Allow-Origin">
+				<simple>*</simple>
+			</setHeader>
+			<setHeader headerName="Access-Control-Expose-Headers">
+				<constant>domain,access_token,refresh_token,expires_in,siteid,tenantid</constant>
+			</setHeader>
+			<to uri="bean:com.leap.authentication.util.AuthNUtil?method=setExchange"/>
+			<to uri="bean:authenticate" />
+		</route>
+
+		<route id="authenticationservice-getJwtToken-IR">
+			<from uri="direct:authenticationservice-getJwtToken-IR" />
+			<setHeader headerName="Access-Control-Allow-Origin">
+				<simple>*</simple>
+			</setHeader>
+			<setHeader headerName="Access-Control-Expose-Headers">
+				<constant>domain,access_token,refresh_token,expires_in,siteid,tenantid</constant>
+			</setHeader>
+			<to uri="bean:com.leap.authentication.util.AuthNUtil?method=setExchange"/>
+			<to uri="bean:authenticate?method=getJwtToken" />
+		</route>
+
+		<route>
+			<from uri="direct:authenticationservice-loginWithCookie-IR" />
+			<setHeader headerName="Access-Control-Allow-Origin">
+				<simple>*</simple>
+			</setHeader>
+			<setHeader headerName="Access-Control-Expose-Headers">
+				<constant>domain,access_token,refresh_token,expires_in,siteid,tenantid</constant>
+			</setHeader>
+			<to uri="bean:com.leap.authentication.util.AuthNUtil?method=setExchange"/>
+			<to uri="bean:authenticateWithCookie" />
+		</route>
+
+		<route>
+			<from uri="direct:authenticationservice-encryptUserDataInfo-IR" />
+			<setHeader headerName="Access-Control-Allow-Origin">
+				<simple>*</simple>
+			</setHeader>
+			<setHeader headerName="Access-Control-Expose-Headers">
+				<constant>domain,access_token,refresh_token,expires_in,siteid,tenantid</constant>
+			</setHeader>
+			<to uri="bean:com.leap.authentication.util.AuthNUtil?method=setExchange"/>
+			<to uri="bean:encryptUserData?method=encryptUserData" />
+		</route>
+
+		<route>
+			<from uri="direct:authenticationservice-createAutoLoginTxtFile-IR" />
+			<setHeader headerName="Access-Control-Allow-Origin">
+				<simple>*</simple>
+			</setHeader>
+			<setHeader headerName="Access-Control-Expose-Headers">
+				<constant>domain,access_token,refresh_token,expires_in,siteid,tenantid</constant>
+			</setHeader>
+			<to uri="bean:com.leap.authentication.util.AuthNUtil?method=setExchange"/>
+			<to uri="bean:encryptUserData?method=createAutoLoginTxtFile" />
+		</route>
+
+		<route>
+			<from uri="direct:authenticationservice-encryptlogin-IR" />
+			<setHeader headerName="Access-Control-Allow-Origin">
+				<simple>*</simple>
+			</setHeader>
+			<setHeader headerName="Access-Control-Expose-Headers">
+				<constant>domain,access_token,refresh_token,expires_in,siteid,tenantid</constant>
+			</setHeader>
+			<to uri="bean:com.leap.authentication.util.AuthNUtil?method=setExchange"/>
+			<to uri="bean:encryptLogin" />
+		</route>
+
+		<route>
+			<from
+				uri="restlet:http://0.0.0.0:9040/ecomm/json/authenticate/authService/login?restletMethod=options" />
+			<setHeader headerName="Access-Control-Allow-Origin">
+				<constant>*</constant>
+			</setHeader>
+			<setHeader headerName="Access-Control-Allow-Headers">
+				<constant>userName,domain,Authorization,Content-Type,Access-Control-Allow-Headers</constant>
+			</setHeader>
+			<setHeader headerName="Access-control-request-method">
+				<constant>POST</constant>
+			</setHeader>
+			<setHeader headerName="Access-control-request-method">
+				<constant>POST</constant>
+			</setHeader>
+			<setHeader headerName="Access-control-allow-methods">
+				<constant>POST</constant>
+			</setHeader>
+			<setHeader headerName="Access-Control-Allow-Methods">
+				<constant>POST</constant>
+			</setHeader>
+			<setHeader headerName="Access-Control-Allow-Credentials">
+				<constant>true</constant>
+			</setHeader>
+			<setHeader headerName="Access-control-allow-origin">
+				<constant>*</constant>
+			</setHeader>
+			<setHeader headerName="Access-Control-Request-Headers">
+				<constant>*</constant>
+			</setHeader>
+			<setHeader headerName="Access-Control-Request-Headers">
+				<constant>x-requested-with</constant>
+			</setHeader>
+			<setHeader headerName="Access-Control-Request-Headers">
+				<constant>HEAD</constant>
+			</setHeader>
+			<setHeader headerName="Access-Control-Expose-Headers">
+				<constant>userName,domain,Authorization,Content-Type,Access-Control-Allow-Headers</constant>
+			</setHeader>
+			<log message="check" />
+			<setHeader headerName="CamelHttpMethod">
+				<constant>POST</constant>
+			</setHeader>
+		</route>
+		<!-- generation of the access Token -->
+
+		<route>
+			<from uri="direct:authenticationservice-logout-IR" />
+			<setHeader headerName="Access-Control-Allow-Origin">
+				<simple>*</simple>
+			</setHeader>
+			<setHeader headerName="Access-Control-Expose-Headers">
+				<constant>HTTP_RESPONSE</constant>
+			</setHeader>
+			<to uri="bean:com.leap.authentication.util.AuthNUtil?method=setExchange"/>
+			<to uri="bean:revokeUserOAuthToken"></to>
+		</route>
+
+		<route>
+			<from
+				uri="restlet:http://0.0.0.0:9040/ecomm/json/authenticate/authService/logout?restletMethod=options" />
+			<setHeader headerName="Access-Control-Allow-Origin">
+				<constant>*</constant>
+			</setHeader>
+			<setHeader headerName="Access-Control-Allow-Headers">
+				<constant>Authorization,Content-Type,Access-Control-Allow-Headers,Access-Control-Allow-Origin</constant>
+			</setHeader>
+			<setHeader headerName="Access-control-request-method">
+				<constant>POST</constant>
+			</setHeader>
+			<setHeader headerName="Access-control-request-method">
+				<constant>POST</constant>
+			</setHeader>
+			<setHeader headerName="Access-control-allow-methods">
+				<constant>POST</constant>
+			</setHeader>
+			<setHeader headerName="Access-Control-Allow-Methods">
+				<constant>POST</constant>
+			</setHeader>
+			<setHeader headerName="Access-Control-Allow-Credentials">
+				<constant>true</constant>
+			</setHeader>
+			<setHeader headerName="Access-control-allow-origin">
+				<constant>*</constant>
+			</setHeader>
+			<setHeader headerName="Access-Control-Request-Headers">
+				<constant>*</constant>
+			</setHeader>
+			<log message="check" />
+			<setHeader headerName="CamelHttpMethod">
+				<constant>POST</constant>
+			</setHeader>
+		</route>
+		<!-- adminServices -->
+		<!-- getAllUserDomains -->
+		<route>
+			<from uri="direct:authenticationservice-getAllUserDomains-IR" />
+			<setHeader headerName="Access-Control-Allow-Origin">
+				<simple>*</simple>
+			</setHeader>
+			<setHeader headerName="Access-Control-Expose-Headers">
+				<constant>HTTP_RESPONSE</constant>
+			</setHeader>
+			<to uri="bean:com.leap.authentication.util.AuthNUtil?method=setExchange"/>
+			<to uri="bean:getAllDomainsByUser"></to>
+		</route>
+
+		<route>
+			<from
+				uri="restlet:http://0.0.0.0:9040/ecomm/json/authenticate/authService/getAllUserDomains?restletMethod=options" />
+			<setHeader headerName="Access-Control-Allow-Origin">
+				<constant>*</constant>
+			</setHeader>
+			<setHeader headerName="Access-Control-Allow-Headers">
+				<constant>Content-Type,Access-Control-Allow-Headers,Access-Control-Allow-Origin</constant>
+			</setHeader>
+			<setHeader headerName="Access-control-request-method">
+				<constant>GET</constant>
+			</setHeader>
+			<setHeader headerName="Access-control-request-method">
+				<constant>GET</constant>
+			</setHeader>
+			<setHeader headerName="Access-control-allow-methods">
+				<constant>GET</constant>
+			</setHeader>
+			<setHeader headerName="Access-Control-Allow-Methods">
+				<constant>GET</constant>
+			</setHeader>
+			<setHeader headerName="Access-Control-Allow-Credentials">
+				<constant>true</constant>
+			</setHeader>
+			<setHeader headerName="Access-control-allow-origin">
+				<constant>*</constant>
+			</setHeader>
+			<setHeader headerName="Access-Control-Request-Headers">
+				<constant>*</constant>
+			</setHeader>
+			<log message="check" />
+			<setHeader headerName="CamelHttpMethod">
+				<constant>GET</constant>
+			</setHeader>
+		</route>
+		<!-- end of getAllUserDomains -->
+		<!-- getUserInfo -->
+		<route>
+			<from uri="direct:authenticationservice-getUserInfo-IR" />
+			<setHeader headerName="Access-Control-Allow-Origin">
+				<simple>*</simple>
+			</setHeader>
+			<setHeader headerName="Access-Control-Expose-Headers">
+				<constant>HTTP_RESPONSE</constant>
+			</setHeader>
+			<to uri="bean:com.leap.authentication.util.AuthNUtil?method=setExchange"/>
+			<to uri="bean:getUser"></to>
+		</route>
+		<!-- getUserInfoByNameAndDomain -->
+		<route>
+			<from uri="direct:authenticationservice-getUserInfoByNameAndDomain-IR" />
+			<setHeader headerName="Access-Control-Allow-Origin">
+				<simple>*</simple>
+			</setHeader>
+			<setHeader headerName="Access-Control-Expose-Headers">
+				<constant>HTTP_RESPONSE</constant>
+			</setHeader>
+			<to uri="bean:com.leap.authentication.util.AuthNUtil?method=setExchange"/>
+			<to uri="bean:getUserByNameAndDomain"></to>
+		</route>
+		<route>
+			<from
+				uri="restlet:http://0.0.0.0:9040/ecomm/json/authenticate/authService/getUserInfo?restletMethod=options" />
+			<setHeader headerName="Access-Control-Allow-Origin">
+				<constant>*</constant>
+			</setHeader>
+			<setHeader headerName="Access-Control-Allow-Headers">
+				<constant>Authorization,Content-Type,Access-Control-Allow-Headers,Access-Control-Allow-Origin</constant>
+			</setHeader>
+			<setHeader headerName="Access-control-request-method">
+				<constant>POST</constant>
+			</setHeader>
+			<setHeader headerName="Access-control-request-method">
+				<constant>POST</constant>
+			</setHeader>
+			<setHeader headerName="Access-control-allow-methods">
+				<constant>POST</constant>
+			</setHeader>
+			<setHeader headerName="Access-Control-Allow-Methods">
+				<constant>POST</constant>
+			</setHeader>
+			<setHeader headerName="Access-Control-Allow-Credentials">
+				<constant>true</constant>
+			</setHeader>
+			<setHeader headerName="Access-control-allow-origin">
+				<constant>*</constant>
+			</setHeader>
+			<setHeader headerName="Access-Control-Request-Headers">
+				<constant>*</constant>
+			</setHeader>
+			<log message="check" />
+			<setHeader headerName="CamelHttpMethod">
+				<constant>GET</constant>
+			</setHeader>
+		</route>
+		<!-- end of getUserInfo -->
+		<!-- Validate token-bean -->
+		<route>
+			<from uri="direct:authenticationservice-validateToken-IR" />
+			<setHeader headerName="Access-Control-Allow-Origin">
+				<simple>*</simple>
+			</setHeader>
+			<setHeader headerName="Access-Control-Expose-Headers">
+				<constant>HTTP_RESPONSE</constant>
+			</setHeader>
+			<to uri="bean:com.leap.authentication.util.AuthNUtil?method=setExchange"/>
+			<to uri="bean:validateToken"></to>
+		</route>
+
+		<route>
+			<from
+				uri="restlet:http://0.0.0.0:9040/ecomm/json/authenticate/authService/validateToken?restletMethod=options" />
+			<setHeader headerName="Access-Control-Allow-Origin">
+				<constant>*</constant>
+			</setHeader>
+			<setHeader headerName="Access-Control-Allow-Headers">
+				<constant>Authorization,Content-Type,Access-Control-Allow-Headers,Access-Control-Allow-Origin</constant>
+			</setHeader>
+			<setHeader headerName="Access-control-request-method">
+				<constant>POST</constant>
+			</setHeader>
+			<setHeader headerName="Access-control-request-method">
+				<constant>POST</constant>
+			</setHeader>
+			<setHeader headerName="Access-control-allow-methods">
+				<constant>POST</constant>
+			</setHeader>
+			<setHeader headerName="Access-Control-Allow-Methods">
+				<constant>POST,GET</constant>
+			</setHeader>
+			<setHeader headerName="Access-Control-Allow-Credentials">
+				<constant>true</constant>
+			</setHeader>
+			<setHeader headerName="Access-control-allow-origin">
+				<constant>*</constant>
+			</setHeader>
+			<setHeader headerName="Access-Control-Request-Headers">
+				<constant>*</constant>
+			</setHeader>
+			<log message="check" />
+			<!-- <setHeader headerName="CamelHttpMethod"> <constant>POST</constant> 
+				</setHeader> -->
+		</route>
+
+		<route>
+			<from uri="direct:authenticationservice-changeUserPassword-IR" />
+			<setHeader headerName="Access-Control-Allow-Origin">
+				<simple>*</simple>
+			</setHeader>
+			<setHeader headerName="Access-Control-Expose-Headers">
+				<constant>domain,access_token,refresh_token,expires_in,siteid,tenantid</constant>
+			</setHeader>
+			<to uri="bean:com.leap.authentication.util.AuthNUtil?method=setExchange"/>
+			<to uri="bean:changeUserPassword" />
+		</route>
+
+		<route>
+			<from
+				uri="restlet:http://0.0.0.0:9040/ecomm/json/authenticate/authService/changeUserPassword?restletMethod=options" />
+			<setHeader headerName="Access-Control-Allow-Origin">
+				<constant>*</constant>
+			</setHeader>
+			<setHeader headerName="Access-Control-Allow-Headers">
+				<constant>userName,domain,Authorization,Content-Type,Access-Control-Allow-Headers</constant>
+			</setHeader>
+			<setHeader headerName="Access-control-request-method">
+				<constant>POST</constant>
+			</setHeader>
+			<setHeader headerName="Access-control-request-method">
+				<constant>POST</constant>
+			</setHeader>
+			<setHeader headerName="Access-control-allow-methods">
+				<constant>POST</constant>
+			</setHeader>
+			<setHeader headerName="Access-Control-Allow-Methods">
+				<constant>POST</constant>
+			</setHeader>
+			<setHeader headerName="Access-Control-Allow-Credentials">
+				<constant>true</constant>
+			</setHeader>
+			<setHeader headerName="Access-control-allow-origin">
+				<constant>*</constant>
+			</setHeader>
+			<setHeader headerName="Access-Control-Request-Headers">
+				<constant>*</constant>
+			</setHeader>
+			<setHeader headerName="Access-Control-Request-Headers">
+				<constant>x-requested-with</constant>
+			</setHeader>
+			<setHeader headerName="Access-Control-Request-Headers">
+				<constant>HEAD</constant>
+			</setHeader>
+			<setHeader headerName="Access-Control-Expose-Headers">
+				<constant>userName,domain,Authorization,Content-Type,Access-Control-Allow-Headers</constant>
+			</setHeader>
+			<log message="check" />
+			<setHeader headerName="CamelHttpMethod">
+				<constant>POST</constant>
+			</setHeader>
+		</route>
+
+		<!-- resetpassword -->
+		<route>
+			<from uri="direct:authenticationservice-resetPassword-IR" />
+			<setHeader headerName="Access-Control-Allow-Origin">
+				<simple>*</simple>
+			</setHeader>
+			<setHeader headerName="Access-Control-Expose-Headers">
+				<constant>domain,access_token,refresh_token,expires_in,siteid,tenantid</constant>
+			</setHeader>
+			<to uri="bean:com.leap.authentication.util.AuthNUtil?method=setExchange"/>
+			<to uri="bean:resetPassword" />
+		</route>
+		<route>
+			<from
+				uri="restlet:http://0.0.0.0:9040/ecomm/json/authenticate/authService/resetPassword?restletMethod=options" />
+			<setHeader headerName="Access-Control-Allow-Origin">
+				<constant>*</constant>
+			</setHeader>
+			<setHeader headerName="Access-Control-Allow-Headers">
+				<constant>userName,domain,Authorization,Content-Type,Access-Control-Allow-Headers</constant>
+			</setHeader>
+			<setHeader headerName="Access-control-request-method">
+				<constant>POST</constant>
+			</setHeader>
+			<setHeader headerName="Access-control-request-method">
+				<constant>POST</constant>
+			</setHeader>
+			<setHeader headerName="Access-control-allow-methods">
+				<constant>POST</constant>
+			</setHeader>
+			<setHeader headerName="Access-Control-Allow-Methods">
+				<constant>POST</constant>
+			</setHeader>
+			<setHeader headerName="Access-Control-Allow-Credentials">
+				<constant>true</constant>
+			</setHeader>
+			<setHeader headerName="Access-control-allow-origin">
+				<constant>*</constant>
+			</setHeader>
+			<setHeader headerName="Access-Control-Request-Headers">
+				<constant>*</constant>
+			</setHeader>
+			<setHeader headerName="Access-Control-Request-Headers">
+				<constant>x-requested-with</constant>
+			</setHeader>
+			<setHeader headerName="Access-Control-Request-Headers">
+				<constant>HEAD</constant>
+			</setHeader>
+			<setHeader headerName="Access-Control-Expose-Headers">
+				<constant>userName,domain,Authorization,Content-Type,Access-Control-Allow-Headers</constant>
+			</setHeader>
+			<log message="check" />
+			<setHeader headerName="CamelHttpMethod">
+				<constant>POST</constant>
+			</setHeader>
+		</route>
+		<!-- End of Change Password -->
+
+		<!-- Add User -->
+		<route>
+			<from uri="direct:authenticationservice-createUsers-IR" />
+			<setHeader headerName="Access-Control-Allow-Origin">
+				<simple>*</simple>
+			</setHeader>
+			<setHeader headerName="Access-Control-Expose-Headers">
+				<constant>domain,access_token,refresh_token,expires_in,siteid,tenantid</constant>
+			</setHeader>
+			<to uri="bean:com.leap.authentication.util.AuthNUtil?method=setExchange"/>
+			<to uri="bean:createUsers" />
+		</route>
+		<route>
+			<from
+				uri="restlet:http://0.0.0.0:9040/ecomm/json/authenticate/authService/createUsers?restletMethod=options" />
+			<setHeader headerName="Access-Control-Allow-Origin">
+				<constant>*</constant>
+			</setHeader>
+			<setHeader headerName="Access-Control-Allow-Headers">
+				<constant>userName,domain,Authorization,Content-Type,Access-Control-Allow-Headers</constant>
+			</setHeader>
+			<setHeader headerName="Access-control-request-method">
+				<constant>POST</constant>
+			</setHeader>
+			<setHeader headerName="Access-control-request-method">
+				<constant>POST</constant>
+			</setHeader>
+			<setHeader headerName="Access-control-allow-methods">
+				<constant>POST</constant>
+			</setHeader>
+			<setHeader headerName="Access-Control-Allow-Methods">
+				<constant>POST</constant>
+			</setHeader>
+			<setHeader headerName="Access-Control-Allow-Credentials">
+				<constant>true</constant>
+			</setHeader>
+			<setHeader headerName="Access-control-allow-origin">
+				<constant>*</constant>
+			</setHeader>
+			<setHeader headerName="Access-Control-Request-Headers">
+				<constant>*</constant>
+			</setHeader>
+			<setHeader headerName="Access-Control-Request-Headers">
+				<constant>x-requested-with</constant>
+			</setHeader>
+			<setHeader headerName="Access-Control-Request-Headers">
+				<constant>HEAD</constant>
+			</setHeader>
+			<setHeader headerName="Access-Control-Expose-Headers">
+				<constant>userName,domain,Authorization,Content-Type,Access-Control-Allow-Headers</constant>
+			</setHeader>
+			<log message="check" />
+			<setHeader headerName="CamelHttpMethod">
+				<constant>POST</constant>
+			</setHeader>
+		</route>
+		<!-- End of User -->
+
+		<!-- selfRegister user -->
+		<route>
+			<from uri="direct:authenticationservice-newUserRegistration-IR" />
+			<setHeader headerName="Access-Control-Allow-Origin">
+				<simple>*</simple>
+			</setHeader>
+			<setHeader headerName="Access-Control-Expose-Headers">
+				<constant>domain,access_token,refresh_token,expires_in,siteid,tenantid</constant>
+			</setHeader>
+			<to uri="bean:com.leap.authentication.util.AuthNUtil?method=setExchange"/>
+			<to uri="bean:selfRegisterUser" />
+		</route>
+		<route>
+			<from
+				uri="restlet:http://0.0.0.0:9040/ecomm/json/authenticate/authService/newUserRegistration?restletMethod=options" />
+			<setHeader headerName="Access-Control-Allow-Origin">
+				<constant>*</constant>
+			</setHeader>
+			<setHeader headerName="Access-Control-Allow-Headers">
+				<constant>userName,domain,Authorization,Content-Type,Access-Control-Allow-Headers</constant>
+			</setHeader>
+			<setHeader headerName="Access-control-request-method">
+				<constant>POST</constant>
+			</setHeader>
+			<setHeader headerName="Access-control-request-method">
+				<constant>POST</constant>
+			</setHeader>
+			<setHeader headerName="Access-control-allow-methods">
+				<constant>POST</constant>
+			</setHeader>
+			<setHeader headerName="Access-Control-Allow-Methods">
+				<constant>POST</constant>
+			</setHeader>
+			<setHeader headerName="Access-Control-Allow-Credentials">
+				<constant>true</constant>
+			</setHeader>
+			<setHeader headerName="Access-control-allow-origin">
+				<constant>*</constant>
+			</setHeader>
+			<setHeader headerName="Access-Control-Request-Headers">
+				<constant>*</constant>
+			</setHeader>
+			<setHeader headerName="Access-Control-Request-Headers">
+				<constant>x-requested-with</constant>
+			</setHeader>
+			<setHeader headerName="Access-Control-Request-Headers">
+				<constant>HEAD</constant>
+			</setHeader>
+			<setHeader headerName="Access-Control-Expose-Headers">
+				<constant>userName,domain,Authorization,Content-Type,Access-Control-Allow-Headers</constant>
+			</setHeader>
+			<log message="check" />
+			<setHeader headerName="CamelHttpMethod">
+				<constant>POST</constant>
+			</setHeader>
+		</route>
+		<!-- End of selfRegister user -->
+
+		<!-- Renew refresh token -->
+		<route>
+			<from uri="direct:authenticationservice-renewToken-IR" />
+			<setHeader headerName="Access-Control-Allow-Origin">
+				<simple>*</simple>
+			</setHeader>
+			<setHeader headerName="Access-Control-Expose-Headers">
+				<constant>refresh_token</constant>
+			</setHeader>
+			<to uri="bean:com.leap.authentication.util.AuthNUtil?method=setExchange"/>
+			<to uri="bean:renewRefreshToken" />
+		</route>
+
+		<!-- Get Domain By Company Name -->
+		<route>
+			<from uri="direct:authenticationservice-getDomainsByAccount-IR" />
+			<setHeader headerName="Access-Control-Allow-Origin">
+				<simple>*</simple>
+			</setHeader>
+			<setHeader headerName="Access-Control-Expose-Headers">
+				<constant>refresh_token</constant>
+			</setHeader>
+			<to uri="bean:getDomainNameByCompanyName" />
+		</route>
+
+		<!-- Self Register User -->
+		<route>
+			<from uri="direct:authenticationservice-selfRegisterUser-IR" />
+			<setHeader headerName="Access-Control-Allow-Origin">
+				<simple>*</simple>
+			</setHeader>
+			<setHeader headerName="Access-Control-Expose-Headers">
+				<constant>refresh_token</constant>
+			</setHeader>
+			<to uri="bean:com.leap.authentication.util.AuthNUtil?method=setExchange"/>
+			<to uri="bean:selfRegisterUser" />
+		</route>
+
+		<route>
+			<from
+				uri="restlet:http://0.0.0.0:9040/ecomm/json/authenticate/authService/renewToken?restletMethod=options" />
+			<setHeader headerName="Access-Control-Allow-Origin">
+				<constant>*</constant>
+			</setHeader>
+			<setHeader headerName="Access-Control-Allow-Headers">
+				<constant>refresh_token</constant>
+			</setHeader>
+			<setHeader headerName="Access-control-request-method">
+				<constant>POST</constant>
+			</setHeader>
+			<setHeader headerName="Access-control-request-method">
+				<constant>POST</constant>
+			</setHeader>
+			<setHeader headerName="Access-control-allow-methods">
+				<constant>POST</constant>
+			</setHeader>
+			<setHeader headerName="Access-Control-Allow-Methods">
+				<constant>POST</constant>
+			</setHeader>
+			<setHeader headerName="Access-Control-Allow-Credentials">
+				<constant>true</constant>
+			</setHeader>
+			<setHeader headerName="Access-control-allow-origin">
+				<constant>*</constant>
+			</setHeader>
+			<setHeader headerName="Access-Control-Request-Headers">
+				<constant>*</constant>
+			</setHeader>
+			<setHeader headerName="Access-Control-Request-Headers">
+				<constant>x-requested-with</constant>
+			</setHeader>
+			<setHeader headerName="Access-Control-Request-Headers">
+				<constant>HEAD</constant>
+			</setHeader>
+			<setHeader headerName="Access-Control-Expose-Headers">
+				<constant>refresh_token,Authorization,Content-Type,Access-Control-Allow-Headers</constant>
+			</setHeader>
+			<log message="check" />
+			<!-- <setHeader headerName="CamelHttpMethod"> <constant>POST</constant> 
+				</setHeader> -->
+		</route>
+
+		<!-- registerNew-Company-starts -->
+		<route>
+			<from uri="direct:authenticationservice-registerNewAccount-IR" />
+			<setHeader headerName="Access-Control-Allow-Origin">
+				<simple>*</simple>
+			</setHeader>
+			<setHeader headerName="Access-Control-Expose-Headers">
+				<constant>*</constant>
+			</setHeader>
+			<to uri="bean:com.leap.authentication.util.AuthNUtil?method=setExchange"/>
+			<to uri="bean:registerNewAccount" />
+		</route>
+		<!-- registerNew-Company-ends -->
+
+		<!-- registerNew-Domain-starts -->
+		<route>
+			<from uri="direct:authenticationservice-registerDomainByAccount-IR" />
+			<setHeader headerName="Access-Control-Allow-Origin">
+				<simple>*</simple>
+			</setHeader>
+			<setHeader headerName="Access-Control-Expose-Headers">
+				<constant>*</constant>
+			</setHeader>
+			<to uri="bean:com.leap.authentication.util.AuthNUtil?method=setExchange"/>
+			<to uri="bean:registerDomainByAccount" />
+		</route>
+		<!-- registerNew-Domain-ends -->
+		<!-- requestPasswordResetCode -->
+		<route>
+			<from uri="direct:authenticationservice-requestPasswordResetCode-IR" />
+			<setHeader headerName="Access-Control-Allow-Origin">
+				<simple>*</simple>
+			</setHeader>
+			<setHeader headerName="Access-Control-Expose-Headers">
+				<constant>*</constant>
+			</setHeader>
+			<to uri="bean:com.leap.authentication.util.AuthNUtil?method=setExchange"/>
+			<to uri="bean:retreiveConfirmationCode" />
+		</route>
+		<!-- requestPasswordResetCode ends -->
+
+		<route>
+			<from uri="direct:authenticationservice-requestPasswordReset-IR" />
+			<setHeader headerName="Access-Control-Allow-Origin">
+				<simple>*</simple>
+			</setHeader>
+			<setHeader headerName="Access-Control-Expose-Headers">
+				<constant>*</constant>
+			</setHeader>
+			<to uri="bean:com.leap.authentication.util.AuthNUtil?method=setExchange"/>
+			<to uri="bean:validateAndUpdatePassword" />
+		</route>
+
+		<route>
+			<from uri="direct:authenticationservice-userExist-IR" />
+			<setHeader headerName="Access-Control-Allow-Origin">
+				<simple>*</simple>
+			</setHeader>
+			<setHeader headerName="Access-Control-Expose-Headers">
+				<constant>*</constant>
+			</setHeader>
+			<to uri="bean:com.leap.authentication.util.AuthNUtil?method=setExchange"/>
+			<to uri="bean:userExist" />
+		</route>
+
+		<route>
+			<from uri="direct:authenticationservice-deleteUser-IR" />
+			<setHeader headerName="Access-Control-Allow-Origin">
+				<simple>*</simple>
+			</setHeader>
+			<setHeader headerName="Access-Control-Expose-Headers">
+				<constant>*</constant>
+			</setHeader>
+			<to uri="bean:com.leap.authentication.util.AuthNUtil?method=setExchange"/>
+			<to uri="bean:removeUserAuthn" />
+		</route>
+
+		<route>
+			<from uri="direct:authenticationservice-getAllDomains-IR" />
+			<setHeader headerName="Access-Control-Allow-Origin">
+				<simple>*</simple>
+			</setHeader>
+			<setHeader headerName="Access-Control-Expose-Headers">
+				<constant>*</constant>
+			</setHeader>
+			<to uri="bean:com.leap.authentication.util.AuthNUtil?method=setExchange"/>
+			<to uri="bean:getAllDomains" />
+		</route>
+
+		<route>
+			<from uri="direct:authenticationservice-findUsersByName-IR" />
+			<setHeader headerName="Access-Control-Allow-Origin">
+				<simple>*</simple>
+			</setHeader>
+			<setHeader headerName="Access-Control-Expose-Headers">
+				<constant>*</constant>
+			</setHeader>
+			<to uri="bean:com.leap.authentication.util.AuthNUtil?method=setExchange"/>
+			<to uri="bean:findUsersByName" />
+		</route>
+
+		<route>
+			<from uri="direct:authenticationservice-findUsersByEmail-IR" />
+			<setHeader headerName="Access-Control-Allow-Origin">
+				<simple>*</simple>
+			</setHeader>
+			<setHeader headerName="Access-Control-Expose-Headers">
+				<constant>*</constant>
+			</setHeader>
+			<to uri="bean:com.leap.authentication.util.AuthNUtil?method=setExchange"/>
+			<to uri="bean:findUsersByEmail" />
+		</route>
+
+		<route>
+			<from uri="direct:authenticationservice-getAllUsers-IR" />
+			<setHeader headerName="Access-Control-Allow-Origin">
+				<simple>*</simple>
+			</setHeader>
+			<setHeader headerName="Access-Control-Expose-Headers">
+				<constant>*</constant>
+			</setHeader>
+			<to uri="bean:com.leap.authentication.util.AuthNUtil?method=setExchange"/>
+			<to uri="bean:getAllUsers" />
+		</route>
+		<route>
+			<from uri="direct:authenticationservice-updateUserStatus-IR" />
+			<setHeader headerName="Access-Control-Allow-Origin">
+				<simple>*</simple>
+			</setHeader>
+			<setHeader headerName="Access-Control-Expose-Headers">
+				<constant>*</constant>
+			</setHeader>
+			<to uri="bean:com.leap.authentication.util.AuthNUtil?method=setExchange"/>
+			<to uri="bean:updateUserStatus" />
+		</route>
+
+		<route>
+			<from uri="direct:authenticationservice-updateUser-IR" />
+			<setHeader headerName="Access-Control-Allow-Origin">
+				<simple>*</simple>
+			</setHeader>
+			<setHeader headerName="Access-Control-Expose-Headers">
+				<constant>*</constant>
+			</setHeader>
+			<to uri="bean:com.leap.authentication.util.AuthNUtil?method=setExchange"/>
+			<to uri="bean:updateUser" />
+		</route>
+		<!-- adminServices -->
+
+		<route>
+			<from uri="direct:authenticationservice-lockUser-IR" />
+			<setHeader headerName="Access-Control-Allow-Origin">
+				<simple>*</simple>
+			</setHeader>
+			<setHeader headerName="Access-Control-Expose-Headers">
+				<constant>*</constant>
+			</setHeader>
+			<to uri="bean:com.leap.authentication.util.AuthNUtil?method=setExchange"/>
+			<to uri="bean:lockUser" />
+		</route>
+		<route>
+			<from uri="direct:authenticationservice-deleteDomain-IR" />
+			<setHeader headerName="Access-Control-Allow-Origin">
+				<simple>*</simple>
+			</setHeader>
+			<setHeader headerName="Access-Control-Expose-Headers">
+				<constant>domain,access_token,refresh_token,expires_in,siteid,tenantid</constant>
+			</setHeader>
+			<to uri="bean:com.leap.authentication.util.AuthNUtil?method=setExchange"/>
+			<to uri="bean:deleteDomain" />
+		</route>
+
+		<route>
+			<from uri="direct:authenticationservice-getDefaultAppAcessToken-IR" />
+			<setHeader headerName="Access-Control-Allow-Origin">
+				<simple>*</simple>
+			</setHeader>
+			<setHeader headerName="Access-Control-Expose-Headers">
+				<constant>domain,access_token,refresh_token,expires_in,siteid,tenantid</constant>
+			</setHeader>
+			<doTry>
+				<to uri="bean:internalLogin" />
+				<doCatch>
+					<exception>java.lang.Exception</exception>
+					<handled>
+						<constant>false</constant>
+					</handled>
+					<to uri="bean:responseHandler" />
+					<rollback markRollbackOnly="true" />
+				</doCatch>
+			</doTry>
+		</route>
+
+	</routeContext>
+</beans>

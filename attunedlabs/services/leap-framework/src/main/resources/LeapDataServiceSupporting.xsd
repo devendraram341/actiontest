@@ -1,0 +1,484 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:element name="Entity">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="EntityDef" maxOccurs="1" minOccurs="1">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="EntityFields" maxOccurs="1"
+								minOccurs="1">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="EntityField"
+											maxOccurs="unbounded" minOccurs="0">
+											<xs:complexType>
+												<xs:attribute type="xs:string" name="name"
+													use="required" />
+												<xs:attribute type="xs:string" name="type"
+													use="required" />
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="EntityDefFile" minOccurs="0"
+											maxOccurs="1">
+											<xs:complexType>
+												<xs:attribute type="xs:string" name="filename"
+													use="required" />
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+									<xs:attribute name="DefType" use="required">
+										<xs:simpleType>
+											<xs:restriction base="xs:string">
+												<xs:enumeration value="INLINE" />
+												<xs:enumeration value="Swager" />
+												<xs:enumeration value="JSONSchema" />
+												<xs:minLength value="1" />
+											</xs:restriction>
+										</xs:simpleType>
+									</xs:attribute>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="EntityCollection" maxOccurs="1"
+								minOccurs="0">
+								<xs:complexType>
+									<xs:attribute type="xs:string"
+										name="collectionName" use="required" />
+									<xs:attribute type="xs:string"
+										name="collectionType" use="required" />
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="EntityMetadata" maxOccurs="1"
+								minOccurs="0">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="MetadataField" minOccurs="0"
+											maxOccurs="unbounded">
+											<xs:complexType>
+												<xs:attribute name="entityFieldNameRef"
+													type="xs:string" use="required"></xs:attribute>
+												<xs:attribute name="readOnly" type="xs:boolean"
+													use="optional"></xs:attribute>
+												<xs:attribute name="searchable"
+													type="xs:boolean" use="optional"></xs:attribute>
+												<xs:attribute name="pattern" type="xs:string"
+													use="optional"></xs:attribute>
+												<xs:attribute name="maxLength" type="xs:string"
+													use="optional"></xs:attribute>
+												<xs:attribute name="minLength" type="xs:string"
+													use="optional"></xs:attribute>
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="EntityAccessConfig" minOccurs="0"
+					maxOccurs="unbounded">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="EntityTable" minOccurs="0"
+								maxOccurs="1">
+								<xs:complexType>
+									<xs:all>
+										<xs:element name="EntityColumns" maxOccurs="1"
+											minOccurs="0">
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="EntityColumn"
+														maxOccurs="unbounded" minOccurs="0">
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element name="Attribute"
+																	maxOccurs="unbounded" minOccurs="0">
+																	<xs:complexType>
+																		<xs:attribute type="xs:string"
+																			name="name" use="required" />
+																		<xs:attribute type="xs:string"
+																			name="value" use="required" />
+																		<xs:attribute type="xs:string"
+																			name="attributeDatatype" use="optional" />
+																		<xs:attribute type="xs:byte"
+																			name="sequence" use="optional" />
+																		<xs:attribute type="xs:byte" name="size"
+																			use="optional" />
+																		<xs:attribute name="type" use="optional">
+																			<xs:simpleType>
+																				<xs:restriction base="xs:string">
+																					<xs:enumeration value="NATIVE"></xs:enumeration>
+																					<xs:enumeration value="MANUAL"></xs:enumeration>
+																					<xs:enumeration value="JSON"></xs:enumeration>
+																					<xs:enumeration value="XML"></xs:enumeration>
+																					<xs:enumeration value="TEXT"></xs:enumeration>
+																				</xs:restriction>
+																			</xs:simpleType>
+																		</xs:attribute>
+																	</xs:complexType>
+																</xs:element>
+															</xs:sequence>
+															<xs:attribute type="xs:string" name="name"
+																use="required" />
+															<xs:attribute type="xs:string"
+																name="entityFieldNameRef" use="required" />
+															<xs:attribute type="xs:byte" name="sequence"
+																use="optional" />
+															<xs:attribute type="xs:boolean"
+																name="hasAutoIncrement" use="optional" default="false" />
+														</xs:complexType>
+													</xs:element>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="EntityIndexs" minOccurs="0"
+											maxOccurs="1">
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="EntityIndex" minOccurs="0"
+														maxOccurs="unbounded">
+														<xs:complexType>
+															<xs:attribute name="entityColumnRef"
+																type="xs:string" use="required"></xs:attribute>
+														</xs:complexType>
+													</xs:element>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+									</xs:all>
+									<xs:attribute type="xs:string" name="tablename"
+										use="required" />
+									<xs:attribute type="xs:boolean" name="autoCreate"
+										use="optional" default="false" />
+								</xs:complexType>
+							</xs:element>
+
+							<xs:element name="EntityAccess" maxOccurs="unbounded"
+								minOccurs="0">
+								<xs:complexType>
+									<xs:all>
+										<xs:element ref="EntityReadKeysMapping"
+											minOccurs="0" maxOccurs="1">
+										</xs:element>
+										<xs:element name="EntityUpdateKeysMapping"
+											minOccurs="0" maxOccurs="1">
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element ref="EntityKey"
+														maxOccurs="unbounded" minOccurs="0">
+													</xs:element>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="EntityFilterKeysMapping"
+											minOccurs="0" maxOccurs="1">
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element ref="EntityKey"
+														maxOccurs="unbounded" minOccurs="0">
+													</xs:element>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="EntityInsertKeysMapping"
+											minOccurs="0" maxOccurs="1">
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element ref="EntityKey"
+														maxOccurs="unbounded" minOccurs="0">
+													</xs:element>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+										<xs:element ref="LDCResponseConfigs" minOccurs="0"
+											maxOccurs="1">
+										</xs:element>
+									</xs:all>
+									<xs:attribute type="xs:string" name="accessType"
+										use="required" />
+									<xs:attribute type="xs:string"
+										name="authorizedResource" use="required" />
+									<xs:attribute type="xs:boolean"
+										name="isCollection" use="optional" default="false" />
+									<xs:attribute type="xs:string" name="accessMethod"
+										use="required" />
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="EntityRestConfig" minOccurs="0"
+								maxOccurs="1">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="EntityBaseRestURL" minOccurs="1"
+											maxOccurs="1">
+											<xs:complexType>
+												<xs:simpleContent>
+													<xs:extension base="xs:string">
+														<xs:attribute name="sslRequried"
+															use="required">
+															<xs:simpleType>
+																<xs:restriction base="xs:string">
+																	<xs:enumeration value="true"></xs:enumeration>
+																	<xs:enumeration value="false"></xs:enumeration>
+																</xs:restriction>
+															</xs:simpleType>
+														</xs:attribute>
+														<xs:attribute name="isAuthenticated"
+															type="xs:boolean" use="required"></xs:attribute>
+													</xs:extension>
+												</xs:simpleContent>
+
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="SSLConfig" minOccurs="0"
+											maxOccurs="1">
+											<xs:complexType>
+												<xs:all>
+													<xs:element name="SSLFilePath">
+														<xs:simpleType>
+															<xs:restriction base="xs:string">
+																<xs:minLength value="1" />
+															</xs:restriction>
+														</xs:simpleType>
+													</xs:element>
+													<xs:element name="keyPassword">
+														<xs:simpleType>
+															<xs:restriction base="xs:string">
+																<xs:minLength value="1" />
+															</xs:restriction>
+														</xs:simpleType>
+													</xs:element>
+												</xs:all>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="AuthenticationConfig"
+											minOccurs="0" maxOccurs="1">
+											<xs:complexType>
+												<xs:all>
+													<xs:element name="BasicAuthentication"
+														minOccurs="0" maxOccurs="1">
+														<xs:complexType>
+															<xs:all>
+																<xs:element name="UserName">
+																	<xs:simpleType>
+																		<xs:restriction base="xs:string">
+																			<xs:minLength value="1" />
+																		</xs:restriction>
+																	</xs:simpleType>
+																</xs:element>
+																<xs:element name="Password">
+																	<xs:simpleType>
+																		<xs:restriction base="xs:string">
+																			<xs:minLength value="1" />
+																		</xs:restriction>
+																	</xs:simpleType>
+																</xs:element>
+															</xs:all>
+														</xs:complexType>
+													</xs:element>
+												</xs:all>
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="FeatureServiceConfig" minOccurs="0"
+								maxOccurs="1">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="FeatureServiceRouteURI"
+											minOccurs="0" maxOccurs="1">
+											<xs:complexType>
+												<xs:simpleContent>
+													<xs:extension base="xs:string">
+														<xs:attribute name="endpoint"
+															type="xs:string" use="optional"></xs:attribute>
+														<xs:attribute name="featureServiceName"
+															type="xs:string" use="required"></xs:attribute>
+														<xs:attribute name="serviceName"
+															type="xs:string" use="required"></xs:attribute>
+													</xs:extension>
+												</xs:simpleContent>
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="EntityRestAccess" minOccurs="0"
+								maxOccurs="unbounded">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element ref="EntityReadKeysMapping"
+											minOccurs="0" maxOccurs="1">
+										</xs:element>
+										<xs:element name="EntityRestRequest" minOccurs="1"
+											maxOccurs="1">
+											<xs:complexType>
+												<xs:all>
+													<xs:element name="EntityRestRequestHeaders"
+														minOccurs="0" maxOccurs="1">
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element name="EntityRestRequestHeader"
+																	minOccurs="0" maxOccurs="unbounded">
+																	<xs:complexType>
+																		<xs:attribute name="name"
+																			type="xs:string" use="required"></xs:attribute>
+																		<xs:attribute name="source"
+																			type="xs:string" use="required"></xs:attribute>
+																		<xs:attribute name="entityKey"
+																			type="xs:string" use="optional"></xs:attribute>
+																		<xs:attribute name="value"
+																			type="xs:string" use="optional"></xs:attribute>
+																	</xs:complexType>
+																</xs:element>
+															</xs:sequence>
+														</xs:complexType>
+													</xs:element>
+													<xs:element name="EntityRestRequestBody"
+														minOccurs="1" maxOccurs="1">
+														<xs:complexType>
+															<xs:all>
+																<xs:element name="TransformationConfig"
+																	minOccurs="0" maxOccurs="1">
+																	<xs:complexType>
+																		<xs:attribute name="required"
+																			type="xs:boolean" use="required"></xs:attribute>
+																		<xs:attribute name="fileName"
+																			type="xs:string" use="required"></xs:attribute>
+																	</xs:complexType>
+																</xs:element>
+																<xs:element name="LDCRequestConfigs"
+																	minOccurs="0" maxOccurs="1">
+																	<xs:complexType>
+																		<xs:all>
+																			<xs:element ref="ApplyLDCConfig"
+																				minOccurs="0" maxOccurs="1"></xs:element>
+																		</xs:all>
+																	</xs:complexType>
+																</xs:element>
+																<xs:element name="RequestBody" minOccurs="0"
+																	maxOccurs="1">
+																	<xs:simpleType>
+																		<xs:restriction base="xs:string">
+																			<xs:minLength value="1"></xs:minLength>
+																		</xs:restriction>
+																	</xs:simpleType>
+																</xs:element>
+															</xs:all>
+															<xs:attribute type="xs:string" name="source"
+																use="required"></xs:attribute>
+														</xs:complexType>
+													</xs:element>
+												</xs:all>
+												<xs:attribute name="contentType"
+													type="xs:string" use="required"></xs:attribute>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="EntityRestResponse" minOccurs="0"
+											maxOccurs="1">
+											<xs:complexType>
+												<xs:all>
+													<xs:element ref="LDCResponseConfigs"
+														minOccurs="0" maxOccurs="1">
+													</xs:element>
+												</xs:all>
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+									<xs:attribute type="xs:string" name="accessType"
+										use="required" />
+									<xs:attribute type="xs:string"
+										name="authorizedResource" use="required" />
+									<xs:attribute type="xs:string" name="serviceName"
+										use="required" />
+									<xs:attribute type="xs:string" name="accessMethod"
+										use="required" />
+									<xs:attribute type="xs:string"
+										name="serviceMethod" use="required" />
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+						<xs:attribute type="xs:string" name="configType"
+							use="required" />
+						<xs:attribute type="xs:string" name="dbType"
+							use="optional" />
+					</xs:complexType>
+
+				</xs:element>
+			</xs:sequence>
+			<xs:attribute type="xs:string" name="name"
+				use="required" />
+			<xs:attribute type="xs:boolean" name="isEnable"
+				use="optional" default="false" />
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="EntityKey">
+		<xs:complexType>
+			<xs:attribute name="name" type="xs:string"
+				use="required" />
+			<xs:attribute name="Sequence" type="xs:unsignedByte"
+				use="optional" />
+			<xs:attribute name="required" type="xs:string"
+				use="optional" />
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ApplyLDCConfig">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="LDCSchema" minOccurs="1" maxOccurs="1">
+					<xs:complexType>
+						<xs:attribute type="xs:boolean" name="required"
+							use="required" />
+						<xs:attribute type="xs:string" name="schemaFileName"
+							use="optional" />
+
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="LDCProjection" minOccurs="1"
+					maxOccurs="1">
+					<xs:complexType>
+						<xs:attribute type="xs:boolean" name="required"
+							use="required" />
+						<xs:attribute type="xs:string"
+							name="projectionFileName" use="optional" />
+						<xs:attribute type="xs:string"
+							name="projectionSource" use="optional" />
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="LDCTaxonomy" minOccurs="1"
+					maxOccurs="1">
+					<xs:complexType>
+
+						<xs:attribute type="xs:boolean" name="required"
+							use="required" />
+						<xs:attribute type="xs:string"
+							name="taxonomyFileName" use="required" />
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+			<xs:attribute type="xs:string" name="applyAt"
+				use="optional" />
+			<xs:attribute type="xs:byte" name="sequence"
+				use="optional" />
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="EntityReadKeysMapping">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="EntityKey" minOccurs="1"
+					maxOccurs="unbounded">
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="LDCResponseConfigs">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="ApplyLDCConfig" maxOccurs="1"
+					minOccurs="0">
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PermaStoreConfigurations xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="permastoreconfig.xsd">
+	<PermaStoreConfiguration>
+		<Name>TestName</Name>
+		<isEnabled>true</isEnabled>
+		<featureInfo featureName="TestFeature" featureGroup="TestFeatureGroup" />
+		<DataType>Map</DataType>
+		<ConfigurationBuilder type="INLINE">
+			<InlineBuilder type="JSON-TO-Map">
+				{"third":101,"four":102}
+			</InlineBuilder>
+		</ConfigurationBuilder>
+		<PublishPermaStoreEvent>
+			<OnConfigDelete></OnConfigDelete>
+			<OnConfigStatusChange></OnConfigStatusChange>
+			<OnConfigEntryDelete></OnConfigEntryDelete>
+			<OnConfigEntryAdd></OnConfigEntryAdd>
+			<OnConfigEntryUpdate></OnConfigEntryUpdate>
+		</PublishPermaStoreEvent>
+		<SubscribePermaStoreEvents>
+			<PermaStoreEvent onEvent="reload">
+				<EventName>TerminologyChange</EventName>
+				<PermaStoreEventHandler>com.attunedlabs.inventory.HandlePicAddressAddition
+				</PermaStoreEventHandler>
+			</PermaStoreEvent>
+		</SubscribePermaStoreEvents>
+	</PermaStoreConfiguration>
+</PermaStoreConfigurations>

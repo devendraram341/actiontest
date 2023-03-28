@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+	<property name="LEAP_LOG" value="LEAP_SYSTEM_LOG" />
+	<!-- CONSOLE APPENDER -->
+	<appender name="CONSOLE"
+		class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<pattern>%d{"yyyy-MM-dd'T'HH:mm:ss.SSS"} %X{system} [%thread]
+				%-5level %logger{36} [%M] - %replace(%msg){'${LEAP_LOG}', ''}%n
+			</pattern>
+		</encoder>
+	</appender>
+
+	<!-- Turning off c3p0 warning logs -->
+	<logger name="com.mchange.v2.c3p0.SQLWarnings" level="OFF" />
+	<!-- Apache Camel Logs -->
+	<logger name="org.apache.camel" level="ERROR" />
+	<!-- DBCP Connection Pool Logs -->
+	<logger name="com.mchange" level="ERROR" />
+	<!-- Spring Framework Logs -->
+	<logger name="org.springframework" level="ERROR" />
+	<!-- Quartz Logs -->
+	<logger name="org.quartz" level="ERROR" />
+	<!-- Apache ActiveMQ Logs -->
+	<logger name="org.apache.activemq" level="ERROR" />
+	<!-- RabbitMQ Logs -->
+	<logger name="com.rabbitmq" level="ERROR" />
+	<!-- Apache Camel Logs -->
+	<logger name="org.apache.metamodel" level="ERROR" />
+	<!-- Leap Framework Logs -->
+	<logger name="com.attunedlabs" level="ERROR" />
+	<!-- ROOT -->
+	<root level="ERROR">
+		<appender-ref ref="CONSOLE" />
+	</root>
+</configuration>

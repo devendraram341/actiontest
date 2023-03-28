@@ -1,0 +1,543 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd">
+
+	<routeContext id="authenticationExecution" xmlns="http://camel.apache.org/schema/spring">
+
+		<route id="loginTransformation">
+			<from uri="direct:authenticationservice-login-executionEnrichmentRoute" />
+			<log message="inside authenticationservice-login  execution route" />
+			<to uri="direct:authenticationservice-login-ER" />
+		</route>
+		<route id="loginExecution">
+			<from uri="direct:authenticationservice-login-ER" />
+			<log
+				message="inside authenticationservice-login executionroute before calling feature execution" />
+			<to uri="bean:executionFeatureDynamic?method=route" />
+			<!-- <log message="value of Impl route : ${in.header.implroute}" /> -->
+			<!-- <toD uri="direct:${in.header.implroute}" /> -->
+			<toD uri="direct:authenticationservice-login-IR" />
+			<log
+				message="inside authenticationservice-login executionroute after calling feature execution" />
+		</route>
+
+		<route id="loginWithCookieTransformation">
+			<from uri="direct:authenticationservice-loginWithCookie-executionEnrichmentRoute" />
+			<log message="inside authenticationservice-loginWithCookie  execution route" />
+			<to uri="direct:authenticationservice-loginWithCookie-ER" />
+		</route>
+		<route id="loginWithCookieExecution">
+			<from uri="direct:authenticationservice-loginWithCookie-ER" />
+			<log
+				message="inside authenticationservice-loginWithCookie executionroute before calling feature execution" />
+			<to uri="bean:executionFeatureDynamic?method=route" />
+			<log message="value of Impl route : ${in.header.implroute}" />
+			<toD uri="direct:${in.header.implroute}" />
+			<log
+				message="inside authenticationservice-loginWithCookie executionroute after calling feature execution" />
+		</route>
+
+		<route id="encryptUserDataInfoTransformation">
+			<from uri="direct:authenticationservice-encryptUserDataInfo-executionEnrichmentRoute" />
+			<log
+				message="inside authenticationservice-encryptUserDataInfo  execution route" />
+			<to uri="direct:authenticationservice-encryptUserDataInfo-ER" />
+		</route>
+		<route id="encryptUserDataInfoExecution">
+			<from uri="direct:authenticationservice-encryptUserDataInfo-ER" />
+			<log
+				message="inside authenticationservice-encryptUserDataInfo executionroute before calling feature execution" />
+			<to uri="bean:executionFeatureDynamic?method=route" />
+			<toD uri="direct:${in.header.implroute}" />
+		</route>
+
+		<route id="encryptloginTransformation">
+			<from uri="direct:authenticationservice-encryptlogin-executionEnrichmentRoute" />
+			<log message="inside authenticationservice-encryptlogin  execution route" />
+			<to uri="direct:authenticationservice-encryptlogin-ER" />
+		</route>
+		<route id="encryptloginExecution">
+			<from uri="direct:authenticationservice-encryptlogin-ER" />
+			<log
+				message="inside authenticationservice-encryptlogin executionroute before calling feature execution" />
+			<to uri="bean:executionFeatureDynamic?method=route" />
+			<toD uri="direct:${in.header.implroute}" />
+		</route>
+
+		<route id="logoutTransformation">
+			<from uri="direct:authenticationservice-logout-executionEnrichmentRoute" />
+			<log message="inside authenticationservice-logout execution route" />
+			<to uri="direct:authenticationservice-logout-ER" />
+		</route>
+		<route id="logoutExecution">
+			<from uri="direct:authenticationservice-logout-ER" />
+			<log
+				message="inside authenticationservice-logout executionroute before calling feature execution" />
+			<to uri="bean:executionFeatureDynamic?method=route" />
+			<log message="value of Impl route : ${in.header.implroute}" />
+			<toD uri="direct:${in.header.implroute}" />
+			<log
+				message="inside authenticationservice-logout executionroute after calling feature execution" />
+		</route>
+
+		<route id="getAllUserDomainsTransformation">
+			<from uri="direct:authenticationservice-getAllUserDomains-executionEnrichmentRoute" />
+			<log
+				message="inside authenticationservice-getAllUserDomains  execution route" />
+			<to uri="direct:authenticationservice-getAllUserDomains-ER" />
+		</route>
+		<route id="getAllUserDomainsExecution">
+			<from uri="direct:authenticationservice-getAllUserDomains-ER" />
+			<log
+				message="inside authenticationservice-getAllUserDomains executionroute before calling feature execution" />
+			<to uri="bean:executionFeatureDynamic?method=route" />
+			<log message="value of Impl route : ${in.header.implroute}" />
+			<toD uri="direct:${in.header.implroute}" />
+			<log
+				message="inside authenticationservice-getAllUserDomains executionroute after calling feature execution" />
+		</route>
+
+		<route id="getUserInfoTransformation">
+			<from uri="direct:authenticationservice-getUserInfo-executionEnrichmentRoute" />
+			<log message="inside authenticationservice-getUserInfo execution route" />
+			<to uri="direct:authenticationservice-getUserInfo-ER" />
+		</route>
+		<route id="getUserInfoExecution">
+			<from uri="direct:authenticationservice-getUserInfo-ER" />
+			<log
+				message="inside authenticationservice-getUserInfo executionroute before calling feature execution" />
+			<to uri="bean:executionFeatureDynamic?method=route" />
+			<log message="value of Impl route : ${in.header.implroute}" />
+			<toD uri="direct:${in.header.implroute}" />
+			<log
+				message="inside authenticationservice-getUserInfo executionroute after calling feature execution" />
+		</route>
+
+		<route id="getUserInfoByNameAndDomainTransformation">
+			<from uri="direct:authenticationservice-getUserInfoByNameAndDomain-executionEnrichmentRoute" />
+			<log
+				message="inside authenticationservice-getUserInfoByNameAndDomain execution route" />
+			<to uri="direct:authenticationservice-getUserInfoByNameAndDomain-ER" />
+		</route>
+		<route id="getUserInfoByNameAndDomainExecution">
+			<from uri="direct:authenticationservice-getUserInfoByNameAndDomain-ER" />
+			<log
+				message="inside authenticationservice-getUserInfoByNameAndDomain executionroute before calling feature execution" />
+			<to uri="bean:executionFeatureDynamic?method=route" />
+			<log message="value of Impl route : ${in.header.implroute}" />
+			<toD uri="direct:${in.header.implroute}" />
+			<log
+				message="inside authenticationservice-getUserInfoByNameAndDomain executionroute after calling feature execution" />
+		</route>
+
+		<route id="validateTokenTransformation">
+			<from uri="direct:authenticationservice-validateToken-executionEnrichmentRoute" />
+			<log message="inside authenticationservice-validateToken execution route" />
+			<to uri="direct:authenticationservice-validateToken-ER" />
+		</route>
+		<route id="validateTokenExecution">
+			<from uri="direct:authenticationservice-validateToken-ER" />
+			<log
+				message="inside authenticationservice-validateToken executionroute before calling feature execution" />
+			<to uri="bean:executionFeatureDynamic?method=route" />
+			<log message="value of Impl route : ${in.header.implroute}" />
+			<toD uri="direct:${in.header.implroute}" />
+			<log
+				message="inside authenticationservice-validateToken executionroute after calling feature execution" />
+		</route>
+
+		<route id="changeUserPasswordTransformation">
+			<from uri="direct:authenticationservice-changeUserPassword-executionEnrichmentRoute" />
+			<log
+				message="inside authenticationservice-changeUserPassword execution route" />
+			<to uri="direct:authenticationservice-changeUserPassword-ER" />
+		</route>
+		<route id="changeUserPasswordExecution">
+			<from uri="direct:authenticationservice-changeUserPassword-ER" />
+			<log
+				message="inside authenticationservice-changeUserPassword executionroute before calling feature execution" />
+			<to uri="bean:executionFeatureDynamic?method=route" />
+			<log message="value of Impl route : ${in.header.implroute}" />
+			<toD uri="direct:${in.header.implroute}" />
+			<log
+				message="inside authenticationservice-changeUserPassword executionroute after calling feature execution" />
+		</route>
+
+		<route id="resetPasswordTransformation">
+			<from uri="direct:authenticationservice-resetPassword-executionEnrichmentRoute" />
+			<log message="inside authenticationservice-resetPassword execution route" />
+			<to uri="direct:authenticationservice-resetPassword-ER" />
+		</route>
+		<route id="resetPasswordExecution">
+			<from uri="direct:authenticationservice-resetPassword-ER" />
+			<log
+				message="inside authenticationservice-resetPassword executionroute before calling feature execution" />
+			<to uri="bean:executionFeatureDynamic?method=route" />
+			<log message="value of Impl route : ${in.header.implroute}" />
+			<toD uri="direct:${in.header.implroute}" />
+			<log
+				message="inside authenticationservice-resetPassword executionroute after calling feature execution" />
+		</route>
+
+		<route id="createUsersTransformation">
+			<from uri="direct:authenticationservice-createUsers-executionEnrichmentRoute" />
+			<log message="inside authenticationservice-createUsers execution route" />
+			<to uri="direct:authenticationservice-createUsers-ER" />
+		</route>
+		<route id="createUsersExecution">
+			<from uri="direct:authenticationservice-createUsers-ER" />
+			<log
+				message="inside authenticationservice-createUsers executionroute before calling feature execution" />
+			<to uri="bean:executionFeatureDynamic?method=route" />
+			<log message="value of Impl route : ${in.header.implroute}" />
+			<toD uri="direct:${in.header.implroute}" />
+			<log
+				message="inside authenticationservice-createUsers executionroute after calling feature execution" />
+		</route>
+
+		<route id="newUserRegistrationTransformation">
+			<from uri="direct:authenticationservice-newUserRegistration-executionEnrichmentRoute" />
+			<log
+				message="inside authenticationservice-newUserRegistration execution route" />
+			<to uri="direct:authenticationservice-newUserRegistration-ER" />
+		</route>
+		<route id="newUserRegistrationExecution">
+			<from uri="direct:authenticationservice-newUserRegistration-ER" />
+			<log
+				message="inside authenticationservice-newUserRegistration executionroute before calling feature execution" />
+			<to uri="bean:executionFeatureDynamic?method=route" />
+			<log message="value of Impl route : ${in.header.implroute}" />
+			<toD uri="direct:${in.header.implroute}" />
+			<log
+				message="inside authenticationservice-newUserRegistration executionroute after calling feature execution" />
+		</route>
+
+		<route id="renewTokenTransformation">
+			<from uri="direct:authenticationservice-renewToken-executionEnrichmentRoute" />
+			<log message="inside authenticationservice-renewToken execution route" />
+			<to uri="direct:authenticationservice-renewToken-ER" />
+		</route>
+		<route id="renewTokenExecution">
+			<from uri="direct:authenticationservice-renewToken-ER" />
+			<log
+				message="inside authenticationservice-renewToken executionroute before calling feature execution" />
+			<to uri="bean:executionFeatureDynamic?method=route" />
+			<log message="value of Impl route : ${in.header.implroute}" />
+			<toD uri="direct:${in.header.implroute}" />
+			<log
+				message="inside authenticationservice-renewToken executionroute after calling feature execution" />
+		</route>
+
+		<!-- getDomainByCompany -->
+		<route id="getDomainsByAccountTransformation">
+			<from uri="direct:authenticationservice-getDomainsByAccount-executionEnrichmentRoute" />
+			<log message="inside authenticationservice-renewToken execution route" />
+			<to uri="direct:authenticationservice-getDomainsByAccount-ER" />
+		</route>
+		<route id="getDomainByCompanyExecution">
+			<from uri="direct:authenticationservice-getDomainsByAccount-ER" />
+			<log
+				message="inside authenticationservice-getDomainsByAccount executionroute before calling feature execution" />
+			<to uri="bean:executionFeatureDynamic?method=route" />
+			<log message="value of Impl route : ${in.header.implroute}" />
+			<toD uri="direct:${in.header.implroute}" />
+			<log
+				message="inside authenticationservice-getDomainsByAccount executionroute after calling feature execution" />
+		</route>
+
+		<!-- selfRegisterUser -->
+		<route id="selfRegisterUserTransformation">
+			<from uri="direct:authenticationservice-selfRegisterUser-executionEnrichmentRoute" />
+			<log message="inside authenticationservice-selfRegisterUser execution route" />
+			<to uri="direct:authenticationservice-selfRegisterUser-ER" />
+		</route>
+		<route id="selfRegisterUserExecution">
+			<from uri="direct:authenticationservice-selfRegisterUser-ER" />
+			<log
+				message="inside authenticationservice-selfRegisterUser executionroute before calling feature execution" />
+			<to uri="bean:executionFeatureDynamic?method=route" />
+			<log message="value of Impl route : ${in.header.implroute}" />
+			<toD uri="direct:${in.header.implroute}" />
+			<log
+				message="inside authenticationservice-selfRegisterUser executionroute after calling feature execution" />
+		</route>
+
+		<!-- newCompanyRegistration -->
+		<route id="newCompanyRegistrationTransformation">
+			<from uri="direct:authenticationservice-registerNewAccount-executionEnrichmentRoute" />
+			<log
+				message="inside authenticationservice-registerNewAccount execution route" />
+			<to uri="direct:authenticationservice-registerNewAccount-ER" />
+		</route>
+		<route id="newCompanyRegistrationExecution">
+			<from uri="direct:authenticationservice-registerNewAccount-ER" />
+			<log
+				message="inside authenticationservice-registerNewAccount executionroute before calling feature execution" />
+			<to uri="bean:executionFeatureDynamic?method=route" />
+			<log message="value of Impl route : ${in.header.implroute}" />
+			<toD uri="direct:${in.header.implroute}" />
+			<log
+				message="inside authenticationservice-registerNewAccount executionroute after calling feature execution" />
+		</route>
+
+		<!-- registerDomainByAccount -->
+		<route id="registerDomainByAccountTransformation">
+			<from uri="direct:authenticationservice-registerDomainByAccount-executionEnrichmentRoute" />
+			<log
+				message="inside authenticationservice-registerDomainByAccount execution route" />
+			<to uri="direct:authenticationservice-registerDomainByAccount-ER" />
+		</route>
+		<route id="newDomainegistrationExecution">
+			<from uri="direct:authenticationservice-registerDomainByAccount-ER" />
+			<log
+				message="inside authenticationservice-registerDomainByAccount executionroute before calling feature execution" />
+			<to uri="bean:executionFeatureDynamic?method=route" />
+			<log message="value of Impl route : ${in.header.implroute}" />
+			<toD uri="direct:${in.header.implroute}" />
+			<log
+				message="inside authenticationservice-registerDomainByAccount executionroute after calling feature execution" />
+		</route>
+
+		<!-- newConfirmationCodeReq -->
+		<route id="newConfirmationCodeReqTransformation">
+			<from uri="direct:authenticationservice-requestPasswordResetCode-executionEnrichmentRoute" />
+			<log
+				message="inside authenticationservice-requestPasswordResetCode execution route" />
+			<to uri="direct:authenticationservice-requestPasswordResetCode-ER" />
+		</route>
+		<route id="newConfirmationCodeReqExecution">
+			<from uri="direct:authenticationservice-requestPasswordResetCode-ER" />
+			<log
+				message="inside authenticationservice-requestPasswordResetCode executionroute before calling feature execution" />
+			<to uri="bean:executionFeatureDynamic?method=route" />
+			<log message="value of Impl route : ${in.header.implroute}" />
+			<toD uri="direct:${in.header.implroute}" />
+			<log
+				message="inside authenticationservice-requestPasswordResetCode executionroute after calling feature execution" />
+		</route>
+
+		<!-- newPasswordResetReq -->
+		<route id="newPasswordResetReqTransformation">
+			<from uri="direct:authenticationservice-requestPasswordReset-executionEnrichmentRoute" />
+			<log
+				message="inside authenticationservice-requestPasswordReset execution route" />
+			<to uri="direct:authenticationservice-requestPasswordReset-ER" />
+		</route>
+		<route id="newPasswordResetReqExecution">
+			<from uri="direct:authenticationservice-requestPasswordReset-ER" />
+			<log
+				message="inside authenticationservice-requestPasswordReset executionroute before calling feature execution" />
+			<to uri="bean:executionFeatureDynamic?method=route" />
+			<log message="value of Impl route : ${in.header.implroute}" />
+			<toD uri="direct:${in.header.implroute}" />
+			<log
+				message="inside authenticationservice-requestPasswordReset executionroute after calling feature execution" />
+		</route>
+
+		<route id="userExistTransformation">
+			<from uri="direct:authenticationservice-userExist-executionEnrichmentRoute" />
+			<log
+				message="inside authenticationservice-requestPasswordReset execution route" />
+			<to uri="direct:authenticationservice-userExist-ER" />
+		</route>
+		<route id="userExistExecution">
+			<from uri="direct:authenticationservice-userExist-ER" />
+			<log
+				message="inside authenticationservice-userExist executionroute before calling feature execution" />
+			<to uri="bean:executionFeatureDynamic?method=route" />
+			<log message="value of Impl route : ${in.header.implroute}" />
+			<toD uri="direct:${in.header.implroute}" />
+			<log
+				message="inside authenticationservice-userExist executionroute after calling feature execution" />
+		</route>
+
+		<route id="removeUserTransformation">
+			<from uri="direct:authenticationservice-deleteUser-executionEnrichmentRoute" />
+			<log message="inside authenticationservice-deleteUser execution route" />
+			<to uri="direct:authenticationservice-deleteUser-ER" />
+		</route>
+		<route id="removeUserExecution">
+			<from uri="direct:authenticationservice-deleteUser-ER" />
+			<log
+				message="inside authenticationservice-deleteUser executionroute before calling feature execution" />
+			<to uri="bean:executionFeatureDynamic?method=route" />
+			<log message="value of Impl route : ${in.header.implroute}" />
+			<toD uri="direct:${in.header.implroute}" />
+			<log
+				message="inside authenticationservice-deleteUser executionroute after calling feature execution" />
+		</route>
+
+		<route id="getAllDomainsTransformation">
+			<from uri="direct:authenticationservice-getAllDomains-executionEnrichmentRoute" />
+			<log message="inside getAllDomains execution route" />
+			<to uri="direct:authenticationservice-getAllDomains-ER" />
+		</route>
+		<route id="getAllDomainsExecution">
+			<from uri="direct:authenticationservice-getAllDomains-ER" />
+			<log
+				message="inside getAllDomains executionroute before calling feature execution" />
+			<to uri="bean:executionFeatureDynamic?method=route" />
+			<log message="value of Impl route : ${in.header.implroute}" />
+			<toD uri="direct:${in.header.implroute}" />
+			<log
+				message="inside getAllDomains executionroute after calling feature execution" />
+		</route>
+
+		<route id="findUsersByNameTransformation">
+			<from uri="direct:authenticationservice-findUsersByName-executionEnrichmentRoute" />
+			<log message="inside findUsersByName execution route" />
+			<to uri="direct:authenticationservice-findUsersByName-ER" />
+		</route>
+		<route id="findUsersByNameExecution">
+			<from uri="direct:authenticationservice-findUsersByName-ER" />
+			<log
+				message="inside findUsersByName executionroute before calling feature execution" />
+			<to uri="bean:executionFeatureDynamic?method=route" />
+			<log message="value of Impl route : ${in.header.implroute}" />
+			<toD uri="direct:${in.header.implroute}" />
+			<log
+				message="inside findUsersByName executionroute after calling feature execution" />
+		</route>
+
+		<route id="findUsersByEmailTransformation">
+			<from uri="direct:authenticationservice-findUsersByEmail-executionEnrichmentRoute" />
+			<log message="inside findUsersByEmail execution route" />
+			<to uri="direct:authenticationservice-findUsersByEmail-ER" />
+		</route>
+		<route id="findUsersByEmailExecution">
+			<from uri="direct:authenticationservice-findUsersByEmail-ER" />
+			<log
+				message="inside findUsersByEmail executionroute before calling feature execution" />
+			<to uri="bean:executionFeatureDynamic?method=route" />
+			<log message="value of Impl route : ${in.header.implroute}" />
+			<toD uri="direct:${in.header.implroute}" />
+			<log
+				message="inside findUsersByEmail executionroute after calling feature execution" />
+		</route>
+
+		<route id="getAllUsersTransformation">
+			<from uri="direct:authenticationservice-getAllUsers-executionEnrichmentRoute" />
+			<log message="inside getAllUsers execution route" />
+			<to uri="direct:authenticationservice-getAllUsers-ER" />
+		</route>
+		<route id="getAllUsersExecution">
+			<from uri="direct:authenticationservice-getAllUsers-ER" />
+			<log
+				message="inside getAllUsers executionroute before calling feature execution" />
+			<to uri="bean:executionFeatureDynamic?method=route" />
+			<log message="value of Impl route : ${in.header.implroute}" />
+			<toD uri="direct:${in.header.implroute}" />
+			<log
+				message="inside getAllUsers executionroute after calling feature execution" />
+		</route>
+
+		<route id="updateUserStatus-executionEnrichmentRoute">
+			<from uri="direct:authenticationservice-updateUserStatus-executionEnrichmentRoute" />
+			<log message="inside updateUserStatusexecution route" />
+			<to uri="direct:authenticationservice-updateUserStatus-ER" />
+		</route>
+		<route id="updateUserStatus-ER">
+			<from uri="direct:authenticationservice-updateUserStatus-ER" />
+			<log
+				message="inside updateUserStatus executionroute before calling feature execution" />
+			<to uri="bean:executionFeatureDynamic?method=route" />
+			<log message="value of Impl route : ${in.header.implroute}" />
+			<toD uri="direct:${in.header.implroute}" />
+			<log
+				message="inside updateUserStatus executionroute after calling feature execution" />
+		</route>
+		<route id="updateUser-executionEnrichmentRoute">
+			<from uri="direct:authenticationservice-updateUser-executionEnrichmentRoute" />
+			<log message="inside updateUserStatusexecution route" />
+			<to uri="direct:authenticationservice-updateUser-ER" />
+		</route>
+		<route id="updateUser-ER">
+			<from uri="direct:authenticationservice-updateUser-ER" />
+			<log
+				message="inside updateUser executionroute before calling feature execution" />
+			<to uri="bean:executionFeatureDynamic?method=route" />
+			<log message="value of Impl route : ${in.header.implroute}" />
+			<toD uri="direct:${in.header.implroute}" />
+			<log
+				message="inside updateUser executionroute after calling feature execution" />
+		</route>
+		<route id="lockUser-executionEnrichmentRoute">
+			<from uri="direct:authenticationservice-lockUser-executionEnrichmentRoute" />
+			<log message="inside lockUserexecution route" />
+			<to uri="direct:authenticationservice-lockUser-ER" />
+		</route>
+		<route id="lockUser-ER">
+			<from uri="direct:authenticationservice-lockUser-ER" />
+			<log
+				message="inside lockUser executionroute before calling feature execution" />
+			<to uri="bean:executionFeatureDynamic?method=route" />
+			<log message="value of Impl route : ${in.header.implroute}" />
+			<toD uri="direct:${in.header.implroute}" />
+			<log message="inside lockUser executionroute after calling feature execution" />
+		</route>
+		<route id="deleteDomain-executionEnrichmentRoute">
+			<from uri="direct:authenticationservice-deleteDomain-executionEnrichmentRoute" />
+			<log message="inside deleteDomainexecution route" />
+			<to uri="direct:authenticationservice-deleteDomain-ER" />
+		</route>
+		<route id="deleteDomain-ER">
+			<from uri="direct:authenticationservice-deleteDomain-ER" />
+			<log
+				message="inside deleteDomain executionroute before calling feature execution" />
+			<to uri="bean:executionFeatureDynamic?method=route" />
+			<log message="value of Impl route : ${in.header.implroute}" />
+			<toD uri="direct:${in.header.implroute}" />
+			<log
+				message="inside deleteDomain executionroute after calling feature execution" />
+		</route>
+
+		<route id="getDefaultAppAcessToken-executionEnrichmentRoute">
+			<from uri="direct:authenticationservice-getDefaultAppAcessToken-executionEnrichmentRoute" />
+			<log message="inside getDefaultAppAcessToken route" />
+			<to uri="direct:authenticationservice-getDefaultAppAcessToken-ER" />
+		</route>
+		<route id="getDefaultAppAcessToken-ER">
+			<from uri="direct:authenticationservice-getDefaultAppAcessToken-ER" />
+			<log
+				message="inside getDefaultAppAcessToken executionroute before calling feature execution" />
+			<to uri="bean:executionFeatureDynamic?method=route" />
+			<log message="value of Impl route : ${in.header.implroute}" />
+			<toD uri="direct:${in.header.implroute}" />
+			<log
+				message="inside getDefaultAppAcessToken executionroute after calling feature execution" />
+		</route>
+		
+		<route id="createAutoLoginTxtFile-executionEnrichmentRoute">
+			<from uri="direct:authenticationservice-createAutoLoginTxtFile-executionEnrichmentRoute" />
+			<log message="inside createAutoLoginTxtFile route" />
+			<to uri="direct:authenticationservice-createAutoLoginTxtFile-ER" />
+		</route>
+		<route id="createAutoLoginTxtFile-ER">
+			<from uri="direct:authenticationservice-createAutoLoginTxtFile-ER" />
+			<log
+				message="inside createAutoLoginTxtFile executionroute before calling feature execution" />
+			<to uri="bean:executionFeatureDynamic?method=route" />
+			<log message="value of Impl route : ${in.header.implroute}" />
+			<toD uri="direct:${in.header.implroute}" />
+			<log
+				message="inside createAutoLoginTxtFile executionroute after calling feature execution" />
+		</route>
+		
+		 <route id="getJwtToken">
+			<from uri="direct:authenticationservice-getJwtToken-executionEnrichmentRoute" />
+			<log message="inside authenticationservice-getJwtToken  execution route" />
+			<to uri="direct:authenticationservice-getJwtToken-ER" />
+		</route>
+		<route id="getJwtTokenExecution">
+			<from uri="direct:authenticationservice-getJwtToken-ER" />
+			<log
+				message="inside authenticationservice-getJwtToken executionroute before calling feature execution" />
+			<to uri="bean:executionFeatureDynamic?method=route" />
+			<!-- <log message="value of Impl route : ${in.header.implroute}" /> -->
+			<toD uri="direct:${in.header.implroute}" />
+		</route>
+
+	</routeContext>
+</beans>

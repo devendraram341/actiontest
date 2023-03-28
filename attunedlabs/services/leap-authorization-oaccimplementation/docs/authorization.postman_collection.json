@@ -1,0 +1,1199 @@
+{
+	"info": {
+		"_postman_id": "ec27da6a-950a-41c5-8f93-0c74c62e7444",
+		"name": "authorization",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "http://localhost:9060/ecomm/rest/authorization/authorizationservice/createTenant",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "accountId",
+						"value": "ALL",
+						"type": "text"
+					},
+					{
+						"key": "siteId",
+						"value": "all",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"Tenant\": \"GetUsRoi\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9060/ecomm/rest/authorization/authorizationservice/createTenant",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9060",
+					"path": [
+						"ecomm",
+						"rest",
+						"authorization",
+						"authorizationservice",
+						"createTenant"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "createTenant",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "accountId",
+						"value": "ALL",
+						"type": "text"
+					},
+					{
+						"key": "siteId",
+						"value": "a;;",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"Tenant\" : \"TCS\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9060/ecomm/rest/authorization/authorizationservice/createTenant",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9060",
+					"path": [
+						"ecomm",
+						"rest",
+						"authorization",
+						"authorizationservice",
+						"createTenant"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "createResourceType",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "accountId",
+						"value": "ALL",
+						"type": "text"
+					},
+					{
+						"key": "siteId",
+						"value": "all",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"ResourceType\": \"Viewer\", \"Permissions\":[\"View\" ,\"Edit\", \"Delete\"]}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9060/ecomm/rest/authorization/authorizationservice/createResourceType",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9060",
+					"path": [
+						"ecomm",
+						"rest",
+						"authorization",
+						"authorizationservice",
+						"createResourceType"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "createResourceTypePermission",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "accountId",
+						"value": "ALL",
+						"type": "text"
+					},
+					{
+						"key": "siteId",
+						"value": "all",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"ResourceType\": \"Item\", \"Permissions\":[\"Fetch\", \"Write\"]}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9060/ecomm/rest/authorization/authorizationservice/createResourceTypePermission",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9060",
+					"path": [
+						"ecomm",
+						"rest",
+						"authorization",
+						"authorizationservice",
+						"createResourceTypePermission"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "createChildTenant",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "accountId",
+						"value": "ALL",
+						"type": "text"
+					},
+					{
+						"key": "siteId",
+						"value": "all",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"Tenant\" : \"Telsa\", \"Parent\" : \"all\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9060/ecomm/json/authorization/authorizationservice/createChildTenant",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9060",
+					"path": [
+						"ecomm",
+						"json",
+						"authorization",
+						"authorizationservice",
+						"createChildTenant"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "createResources",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "accountId",
+						"value": "ALL",
+						"type": "text"
+					},
+					{
+						"key": "siteId",
+						"value": "all",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"Resources\":[\"Inventory\" ,\"Shipping\", \"PutAway\"], \"ResourceType\": \"Item\", “Tenant” : “GetUsRoi”}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9060/ecomm/json/authorization/authorizationservice/createResources",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9060",
+					"path": [
+						"ecomm",
+						"json",
+						"authorization",
+						"authorizationservice",
+						"createResources"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "registerRoles",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "accountId",
+						"value": "ALL",
+						"type": "text"
+					},
+					{
+						"key": "siteId",
+						"value": "all",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"Roles\":[\"Admin\", \"Manager\"], \"Tenant\": \"GetUsRoi\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9060/ecomm/json/authorization/authorizationservice/registerRoles",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9060",
+					"path": [
+						"ecomm",
+						"json",
+						"authorization",
+						"authorizationservice",
+						"registerRoles"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "createResource",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "accountId",
+						"value": "ALL",
+						"type": "text"
+					},
+					{
+						"key": "siteId",
+						"value": "all",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"Resource\": \"Inbound\" , \"ResourceType\": \"Item\", \"Tenant\":\"GetusRoi\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9060/ecomm/json/authorization/authorizationservice/createResource",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9060",
+					"path": [
+						"ecomm",
+						"json",
+						"authorization",
+						"authorizationservice",
+						"createResource"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "registerRole",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "accountId",
+						"value": "ALL",
+						"type": "text"
+					},
+					{
+						"key": "siteId",
+						"value": "all",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"Role\": \"Developer\", \"Tenant\": \"GetUsRoi\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9060/ecomm/json/authorization/authorizationservice/registerRole",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9060",
+					"path": [
+						"ecomm",
+						"json",
+						"authorization",
+						"authorizationservice",
+						"registerRole"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "createResourceTypePermission",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "accountId",
+						"value": "ALL",
+						"type": "text"
+					},
+					{
+						"key": "siteId",
+						"value": "all",
+						"type": "text"
+					},
+					{
+						"key": "provider",
+						"value": "oacc",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"ResourceType\": \"Item\", \"Permissions\":[\"Fetch\", \"Write\"]}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9060/ecomm/rest/authorization/authorizationservice/getPermissionForUser",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9060",
+					"path": [
+						"ecomm",
+						"rest",
+						"authorization",
+						"authorizationservice",
+						"getPermissionForUser"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getPermissionForUser",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "accountId",
+						"value": "ALL",
+						"type": "text"
+					},
+					{
+						"key": "siteId",
+						"value": "all",
+						"type": "text"
+					},
+					{
+						"key": "provider",
+						"value": "oacc",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"User\":\"John\",\"ResourceName\":\"Putaway\",\"Tenant\":\"GetUsRoi\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9060/ecomm/rest/authorization/authorizationservice/getPermissionForUser",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9060",
+					"path": [
+						"ecomm",
+						"rest",
+						"authorization",
+						"authorizationservice",
+						"getPermissionForUser"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getResourceTypePermission",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "accountId",
+						"value": "ALL",
+						"type": "text"
+					},
+					{
+						"key": "siteId",
+						"value": "all",
+						"type": "text"
+					},
+					{
+						"key": "provider",
+						"value": "oacc",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"User\":\"John\",\"ResourceName\":\"Putaway\",\"Tenant\":\"GetUsRoi\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9060/ecomm/rest/authorization/authorizationservice/getResourceTypePermission?ResourceType=Users",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9060",
+					"path": [
+						"ecomm",
+						"rest",
+						"authorization",
+						"authorizationservice",
+						"getResourceTypePermission"
+					],
+					"query": [
+						{
+							"key": "ResourceType",
+							"value": "Users"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "registerUsers",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "accountId",
+						"value": "ALL",
+						"type": "text"
+					},
+					{
+						"key": "siteId",
+						"value": "all",
+						"type": "text"
+					},
+					{
+						"key": "provider",
+						"value": "oacc",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"Users\" : [\"John:password1\", \"Mark:password2\"], \"PasswordEnabled\": \"False\", \"Tenant\" : \"GetUsRoi\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9060/ecomm/rest/authorization/authorizationservice/registerUsers",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9060",
+					"path": [
+						"ecomm",
+						"rest",
+						"authorization",
+						"authorizationservice",
+						"registerUsers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "registerUser",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "accountId",
+						"value": "ALL",
+						"type": "text"
+					},
+					{
+						"key": "siteId",
+						"value": "all",
+						"type": "text"
+					},
+					{
+						"key": "provider",
+						"value": "oacc",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"User\": \"Tom\", \"PasswordEnabled\": \"False\", \"Password\": \"abc\", \"Tenant\": \"GetUsRoi\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9060/ecomm/rest/authorization/authorizationservice/registerUser",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9060",
+					"path": [
+						"ecomm",
+						"rest",
+						"authorization",
+						"authorizationservice",
+						"registerUser"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "grantPermissionForUser",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "accountId",
+						"value": "ALL",
+						"type": "text"
+					},
+					{
+						"key": "siteId",
+						"value": "all",
+						"type": "text"
+					},
+					{
+						"key": "provider",
+						"value": "oacc",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"TENANT\": \"GetUsRoi\", \"Permissions\":[\"View\"],\"User\":\"John\",\"Resource\":\"Inventory\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9060/ecomm/rest/authorization/authorizationservice/grantPermissionForUser",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9060",
+					"path": [
+						"ecomm",
+						"rest",
+						"authorization",
+						"authorizationservice",
+						"grantPermissionForUser"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "associateRoleToUser",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "accountId",
+						"value": "ALL",
+						"type": "text"
+					},
+					{
+						"key": "siteId",
+						"value": "all",
+						"type": "text"
+					},
+					{
+						"key": "provider",
+						"value": "oacc",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"User\": \"John\", \"Role\": \"Admin\", \"TENANT\": \"GetUsRoi\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9060/ecomm/rest/authorization/authorizationservice/associateRoleToUser",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9060",
+					"path": [
+						"ecomm",
+						"rest",
+						"authorization",
+						"authorizationservice",
+						"associateRoleToUser"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "grantPermissionForRole",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "accountId",
+						"value": "ALL",
+						"type": "text"
+					},
+					{
+						"key": "siteId",
+						"value": "all",
+						"type": "text"
+					},
+					{
+						"key": "provider",
+						"value": "oacc",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"TENANT\": \"GetUsRoi\", \"Permission\": \"View\", \"Role\": \"Admin\", \"Resource\": \"Inventory\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9060/ecomm/rest/authorization/authorizationservice/grantPermissionForRole",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9060",
+					"path": [
+						"ecomm",
+						"rest",
+						"authorization",
+						"authorizationservice",
+						"grantPermissionForRole"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getAllUserAccessibleResource",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "accountId",
+						"value": "ALL",
+						"type": "text"
+					},
+					{
+						"key": "siteId",
+						"value": "all",
+						"type": "text"
+					},
+					{
+						"key": "provider",
+						"value": "oacc",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"User\":\"John\", \"ResourceType\":\"Users\", \"Permissions\":[\"View\",\"Edit\"], \"Tenant\": \"GetUsRoi\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9060/ecomm/rest/authorization/authorizationservice/getAllUserAccessibleResource",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9060",
+					"path": [
+						"ecomm",
+						"rest",
+						"authorization",
+						"authorizationservice",
+						"getAllUserAccessibleResource"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getAllRoleAccessibleResource",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "accountId",
+						"value": "ALL",
+						"type": "text"
+					},
+					{
+						"key": "siteId",
+						"value": "all",
+						"type": "text"
+					},
+					{
+						"key": "provider",
+						"value": "oacc",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"Role\":\"Admin\", \"ResourceType\":\"Item\", \"Permissions\":[\"View\"], \"Tenant\":\"GetUsRoi\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9060/ecomm/rest/authorization/authorizationservice/getAllRoleAccessibleResource",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9060",
+					"path": [
+						"ecomm",
+						"rest",
+						"authorization",
+						"authorizationservice",
+						"getAllRoleAccessibleResource"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "hasUserPermission",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "accountId",
+						"value": "ALL",
+						"type": "text"
+					},
+					{
+						"key": "siteId",
+						"value": "all",
+						"type": "text"
+					},
+					{
+						"key": "provider",
+						"value": "oacc",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"User\":\"John\",\"Resource\":\"Inventory\",\"Permission\":\"View\",\"Tenant\":\"GetUsRoi\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9060/ecomm/rest/authorization/authorizationservice/hasUserPermission",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9060",
+					"path": [
+						"ecomm",
+						"rest",
+						"authorization",
+						"authorizationservice",
+						"hasUserPermission"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "hasRolePermission",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "accountId",
+						"value": "ALL",
+						"type": "text"
+					},
+					{
+						"key": "siteId",
+						"value": "all",
+						"type": "text"
+					},
+					{
+						"key": "provider",
+						"value": "oacc",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"Role\":\"Admin\",\"Resource\":\"Inventory\",\"Permission\":\"View\",\"Tenant\":\"GetUsRoi\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9060/ecomm/rest/authorization/authorizationservice/hasRolePermission",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9060",
+					"path": [
+						"ecomm",
+						"rest",
+						"authorization",
+						"authorizationservice",
+						"hasRolePermission"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "createMenuItems",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "accountId",
+						"value": "ALL",
+						"type": "text"
+					},
+					{
+						"key": "siteId",
+						"value": "all",
+						"type": "text"
+					},
+					{
+						"key": "provider",
+						"value": "oacc",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"MenuItems\":[\"OutBound\" ,\"Printer\"] ,\"Tenant\": \"GetUsRoi\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9060/ecomm/rest/authorization/authorizationservice/createMenuItems",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9060",
+					"path": [
+						"ecomm",
+						"rest",
+						"authorization",
+						"authorizationservice",
+						"createMenuItems"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "hasMenuItemUserPermission",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "accountId",
+						"value": "ALL",
+						"type": "text"
+					},
+					{
+						"key": "siteId",
+						"value": "all",
+						"type": "text"
+					},
+					{
+						"key": "provider",
+						"value": "oacc",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"User\":\"John\", \"MenuItem\":\"Outbound\", \"Permission\":\"Delete\", \"Tenant\":\"GetUsRoi\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9060/ecomm/rest/authorization/authorizationservice/hasMenuItemUserPermission",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9060",
+					"path": [
+						"ecomm",
+						"rest",
+						"authorization",
+						"authorizationservice",
+						"hasMenuItemUserPermission"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getAllAccessibleMenuItemsForUser",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "accountId",
+						"value": "ALL",
+						"type": "text"
+					},
+					{
+						"key": "siteId",
+						"value": "all",
+						"type": "text"
+					},
+					{
+						"key": "provider",
+						"value": "oacc",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"User\":\"John\", \"MenuItem\":\"Outbound\", \"Permission\":\"Delete\", \"Tenant\":\"GetUsRoi\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9060/ecomm/rest/authorization/authorizationservice/getAllAccessibleMenuItemsForUser?User=John&Tenant=GetUsRoi",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9060",
+					"path": [
+						"ecomm",
+						"rest",
+						"authorization",
+						"authorizationservice",
+						"getAllAccessibleMenuItemsForUser"
+					],
+					"query": [
+						{
+							"key": "User",
+							"value": "John"
+						},
+						{
+							"key": "Tenant",
+							"value": "GetUsRoi"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getAllAccessibleMenuItemsForRole",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "accountId",
+						"value": "ALL",
+						"type": "text"
+					},
+					{
+						"key": "siteId",
+						"value": "all",
+						"type": "text"
+					},
+					{
+						"key": "provider",
+						"value": "oacc",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"User\":\"John\", \"MenuItem\":\"Outbound\", \"Permission\":\"Delete\", \"Tenant\":\"GetUsRoi\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9060/ecomm/rest/authorization/authorizationservice/getAllAccessibleMenuItemsForRole?Role=Admin&Tenant=GetUsRoi",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9060",
+					"path": [
+						"ecomm",
+						"rest",
+						"authorization",
+						"authorizationservice",
+						"getAllAccessibleMenuItemsForRole"
+					],
+					"query": [
+						{
+							"key": "Role",
+							"value": "Admin"
+						},
+						{
+							"key": "Tenant",
+							"value": "GetUsRoi"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
