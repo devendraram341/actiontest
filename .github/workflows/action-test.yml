@@ -28,9 +28,9 @@ jobs:
         distribution: 'temurin'
       
     - name: Build with Maven
-    #  run: attunedlabs/services/maven-build.bat
-      run: mvn -B package --file attunedlabs/services/leap-core/pom.xml
-      shell: cmd
+      run: attunedlabs/services/maven-build.bat
+      #run: mvn -B package --file attunedlabs/services/leap-core/pom.xml
+      shell: bash
 
     # Optional: Uploads the full dependency graph to GitHub to improve the quality of Dependabot alerts this repository can receive
     #- name: Update dependency graph
