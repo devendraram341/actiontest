@@ -3,7 +3,7 @@
 ECHO ----------------------------------------------------------------------
 ECHO Maven build for leap-DdlUtils-jdbc
 ECHO ----------------------------------------------------------------------
-cd %cd%\leap-DdlUtils-jdbc
+cd leap-DdlUtils-jdbc
 del *.classpath
 del *.project
 rmdir /s /q "%cd%/target"
