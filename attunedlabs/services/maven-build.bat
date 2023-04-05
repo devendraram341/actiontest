@@ -4,8 +4,8 @@ ECHO ----------------------------------------------------------------------
 ECHO Maven build for leap-DdlUtils-jdbc
 ECHO ----------------------------------------------------------------------
 cd attunedlabs/services/leap-DdlUtils-jdbc
-del *.classpath
-del *.project
+del attunedlabs/services/leap-DdlUtils-jdbc/*.classpath
+del attunedlabs/services/leap-DdlUtils-jdbc/*.project
 rmdir /s /q "%cd%/target"
 rmdir /s /q "%cd%/.settings"
 call mvn clean install -DskipTests
