@@ -1,11 +1,12 @@
+
 @echo off
 
 ECHO ----------------------------------------------------------------------
 ECHO Maven build for leap-DdlUtils-jdbc
 ECHO ----------------------------------------------------------------------
-cd attunedlabs/services/leap-DdlUtils-jdbc
-del attunedlabs/services/leap-DdlUtils-jdbc/*.classpath
-del attunedlabs/services/leap-DdlUtils-jdbc/*.project
+cd %cd%\leap-DdlUtils-jdbc
+del *.classpath
+del *.project
 rmdir /s /q "%cd%/target"
 rmdir /s /q "%cd%/.settings"
 call mvn clean install -DskipTests
@@ -17,9 +18,9 @@ call mvn eclipse:eclipse
 ECHO ----------------------------------------------------------------------
 ECHO Maven build for leap-MetaModel-jdbc
 ECHO ----------------------------------------------------------------------
-cd attunedlabs/services/leap-MetaModel-jdbc
-del attunedlabs/services/leap-MetaModel-jdbc/*.classpath
-del attunedlabs/services/leap-MetaModel-jdbc/*.project
+cd ..\leap-MetaModel-jdbc
+del *.classpath
+del *.project
 rmdir /s /q "%cd%/target"
 rmdir /s /q "%cd%/.settings"
 call mvn clean install -DskipTests
@@ -32,9 +33,9 @@ call mvn eclipse:eclipse
 ECHO ----------------------------------------------------------------------
 ECHO Maven build for leap-MetaModel-cassandra
 ECHO ----------------------------------------------------------------------
-cd attunedlabs/services/leap-MetaModel-cassandra
-del attunedlabs/services/leap-MetaModel-cassandra/*.classpath
-del attunedlabs/services/leap-MetaModel-cassandra/*.project
+cd ..\leap-MetaModel-cassandra
+del *.classpath
+del *.project
 rmdir /s /q "%cd%/target"
 rmdir /s /q "%cd%/.settings"
 call mvn clean install -DskipTests
@@ -47,9 +48,9 @@ call mvn eclipse:eclipse
 ECHO ----------------------------------------------------------------------
 ECHO Maven build for leap-token-generator
 ECHO ----------------------------------------------------------------------
-cd attunedlabs/services/leap-token-generator
-del attunedlabs/services/leap-token-generator/*.classpath
-del attunedlabs/services/leap-token-generator/*.project
+cd ..\leap-token-generator
+del *.classpath
+del *.project
 rmdir /s /q "%cd%/target"
 rmdir /s /q "%cd%/.settings"
 call mvn clean install -DskipTests
@@ -62,9 +63,9 @@ call mvn eclipse:eclipse
 ECHO ----------------------------------------------------------------------
 ECHO Maven build for leap-framework
 ECHO ----------------------------------------------------------------------
-cd attunedlabs/services/leap-framework
-del attunedlabs/services/leap-framework/*.classpath
-del attunedlabs/services/leap-framework/*.project
+cd ..\leap-framework
+del *.classpath
+del *.project
 rmdir /s /q "%cd%/target"
 rmdir /s /q "%cd%/.settings"
 call mvn clean install
@@ -76,9 +77,9 @@ call mvn eclipse:eclipse
 ECHO ----------------------------------------------------------------------
 ECHO Maven build for leap-core
 ECHO ----------------------------------------------------------------------
-cd attunedlabs/services/leap-core
-del attunedlabs/services/leap-core/*.classpath
-del attunedlabs/services/leap-core/*.project
+cd ..\leap-core
+del *.classpath
+del *.project
 rmdir /s /q "%cd%/target"
 rmdir /s /q "%cd%/.settings"
 call mvn clean install
@@ -91,12 +92,12 @@ call mvn eclipse:eclipse
 ECHO ----------------------------------------------------------------------
 ECHO Maven build for features-installer
 ECHO ----------------------------------------------------------------------
-cd attunedlabs/services/features-installer
-del attunedlabs/services/features-installer/*.classpath
-del attunedlabs/services/features-installer/*.project
-del attunedlabs/services/features-installer/tm.out.*
-del attunedlabs/services/features-installer/tmlog*
-del attunedlabs/services/features-installer/*.epoch
+cd ..\features-installer
+del *.classpath
+del *.project
+del tm.out.*
+del tmlog*
+del *.epoch
 rmdir /s /q "%cd%/target"
 rmdir /s /q "%cd%/.settings"
 call mvn clean install
