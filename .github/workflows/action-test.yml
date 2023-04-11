@@ -25,5 +25,6 @@ jobs:
         
     - name: Build with Maven
       run: attunedlabs/services/maven-build.bat
+      working-directory: attunedlabs
       #run: mvn -B package --file attunedlabs/services/leap-core/pom.xml
       shell: cmd
