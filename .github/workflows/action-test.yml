@@ -21,31 +21,31 @@ jobs:
         include:
         - runtime: linux-x64
           os: ubuntu-latest
-          devScript: attunedlabs/services/maven-build.bat
+          devScript: D:\a\actiontest\actiontest\attunedlabs/services/maven-build.bat
 
         - runtime: linux-arm64
           os: ubuntu-latest
-          devScript: attunedlabs/services/maven-build.bat
+          devScript: D:\a\actiontest\actiontest\attunedlabs/services/maven-build.bat
 
         - runtime: linux-arm
           os: ubuntu-latest
-          devScript: attunedlabs/services/maven-build.bat
+          devScript: D:\a\actiontest\actiontest\attunedlabs/services/maven-build.bat
 
         - runtime: osx-x64
           os: macOS-latest
-          devScript: attunedlabs/services/maven-build.bat
+          devScript: D:\a\actiontest\actiontest\attunedlabs/services/maven-build.bat
 
         - runtime: osx-arm64
           os: macOS-latest
-          devScript: attunedlabs/services/maven-build.bat
+          devScript: D:\a\actiontest\actiontest\attunedlabs/services/maven-build.bat
 
         - runtime: win-x64
           os: windows-2019
-          devScript: attunedlabs/services/maven-build.bat
+          devScript: D:\a\actiontest\actiontest\attunedlabs/services/maven-build.bat
 
         - runtime: win-arm64
           os: windows-latest
-          devScript: attunedlabs/services/maven-build.bat
+          devScript: D:\a\actiontest\actiontest\attunedlabs/services/maven-build.bat
 
     runs-on: ${{ matrix.os }}
     steps:
