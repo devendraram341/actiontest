@@ -21,11 +21,11 @@ jobs:
         include:
         - runtime: win-x64
           os: windows-2019
-          devScript: D:\a\actiontest\actiontest\attunedlabs/services/maven-build.bat
+          devScript: attunedlabs/services/maven-build.bat
 
         - runtime: win-arm64
           os: windows-latest
-          devScript: D:\a\actiontest\actiontest\attunedlabs/services/maven-build.bat
+          devScript: attunedlabs/services/maven-build.bat
 
     runs-on:  windows-latest
     steps:
