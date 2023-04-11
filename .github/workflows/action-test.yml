@@ -39,5 +39,5 @@ jobs:
     - name: Build
       run: |
         ${{ matrix.devScript }} layout Release ${{ matrix.runtime }}
-      working-directory: attunedlabs
+      working-directory: D:\a\actiontest\actiontest
     
