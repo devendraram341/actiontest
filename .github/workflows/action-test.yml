@@ -19,26 +19,6 @@ jobs:
       matrix:
         runtime: [ linux-x64, linux-arm64, linux-arm, win-x64, win-arm64, osx-x64, osx-arm64 ]
         include:
-        - runtime: linux-x64
-          os: ubuntu-latest
-          devScript: D:\a\actiontest\actiontest\attunedlabs/services/maven-build.bat
-
-        - runtime: linux-arm64
-          os: ubuntu-latest
-          devScript: D:\a\actiontest\actiontest\attunedlabs/services/maven-build.bat
-
-        - runtime: linux-arm
-          os: ubuntu-latest
-          devScript: D:\a\actiontest\actiontest\attunedlabs/services/maven-build.bat
-
-        - runtime: osx-x64
-          os: macOS-latest
-          devScript: D:\a\actiontest\actiontest\attunedlabs/services/maven-build.bat
-
-        - runtime: osx-arm64
-          os: macOS-latest
-          devScript: D:\a\actiontest\actiontest\attunedlabs/services/maven-build.bat
-
         - runtime: win-x64
           os: windows-2019
           devScript: D:\a\actiontest\actiontest\attunedlabs/services/maven-build.bat
@@ -49,12 +29,12 @@ jobs:
 
     runs-on: ${{ matrix.os }}
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/setup-java@v3
 
     # Build runner layout
     - name: Build
       run: |
         ${{ matrix.devScript }} layout Release ${{ matrix.runtime }}
-      working-directory: attunedlabs
+      working-directory: D:\a\actiontest\actiontest\attunedlabs/services
 
     
