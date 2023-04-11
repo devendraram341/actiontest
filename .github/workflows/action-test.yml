@@ -27,7 +27,7 @@ jobs:
           os: windows-latest
           devScript: D:\a\actiontest\actiontest\attunedlabs/services/maven-build.bat
 
-    runs-on: ${{ matrix.os }}
+    runs-on:  windows-latest
     steps:
     - uses: actions/setup-java@v3
 
