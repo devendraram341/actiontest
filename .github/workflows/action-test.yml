@@ -1,30 +1,60 @@
-name: test CI with Maven build 
+name: Runner CI
 
 on:
+  workflow_dispatch:
   push:
-    branches: [ "test" ]
+    branches:
+    - test
+    paths-ignore:
+    - '**.md'
   pull_request:
-    branches: [ "test" ]
+    branches:
+    - '**'
+    paths-ignore:
+    - '**.md'
 
 jobs:
   build:
+    strategy:
+      matrix:
+        runtime: [ linux-x64, linux-arm64, linux-arm, win-x64, win-arm64, osx-x64, osx-arm64 ]
+        include:
+        - runtime: linux-x64
+          os: ubuntu-latest
+          devScript: attunedlabs/services/maven-build.bat
 
-    runs-on: windows-latest
-    permissions:
-      contents: read
-      packages: write
+        - runtime: linux-arm64
+          os: ubuntu-latest
+          devScript: attunedlabs/services/maven-build.bat
 
+        - runtime: linux-arm
+          os: ubuntu-latest
+          devScript: attunedlabs/services/maven-build.bat
+
+        - runtime: osx-x64
+          os: macOS-latest
+          devScript: attunedlabs/services/maven-build.bat
+
+        - runtime: osx-arm64
+          os: macOS-latest
+          devScript: attunedlabs/services/maven-build.bat
+
+        - runtime: win-x64
+          os: windows-2019
+          devScript: attunedlabs/services/maven-build.bat
+
+        - runtime: win-arm64
+          os: windows-latest
+          devScript: attunedlabs/services/maven-build.bat
+
+    runs-on: ${{ matrix.os }}
     steps:
     - uses: actions/checkout@v3
-    - name:  Run build script
-      uses: actions/setup-java@v3
-      with:
-        java-version: '17'
-        distribution: 'temurin'
-        settings-path: ${{ github.workspace }}
-        
-    - name: Build with Maven
-      run: attunedlabs/services/maven-build.bat
+
+    # Build runner layout
+    - name: Build
+      run: |
+        ${{ matrix.devScript }} layout Release ${{ matrix.runtime }}
       working-directory: attunedlabs
-      #run: mvn -B package --file attunedlabs/services/leap-core/pom.xml
-      shell: cmd
+
+    
