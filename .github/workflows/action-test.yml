@@ -1,43 +1,30 @@
-name: Runner CI
+name: test CI with Maven build 
 
 on:
-  workflow_dispatch:
   push:
-    branches:
-    - test
-    paths-ignore:
-    - '**.md'
+    branches: [ "test" ]
   pull_request:
-    branches:
-    - '**'
-    paths-ignore:
-    - '**.md'
+    branches: [ "test" ]
 
 jobs:
   build:
-    strategy:
-      matrix:
-        runtime: [ win-x64, win-arm64 ]
-        include:
-        - runtime: win-x64
-          os: windows-2019
-          devScript: attunedlabs/services/maven-build.bat
 
-        - runtime: win-arm64
-          os: windows-latest
-          devScript: attunedlabs/services/maven-build.bat
+    runs-on: windows-latest
+    permissions:
+      contents: read
+      packages: write
 
-    runs-on:  windows-latest
     steps:
-    - uses: actions/setup-java@v3
+    - uses: actions/checkout@v3
+    - name:  Run build script
+      uses: actions/setup-java@v3
       with:
         java-version: '17'
         distribution: 'temurin'
         settings-path: ${{ github.workspace }}
-
-    # Build runner layout
-    - name: Build
-      run: |
-        ${{ matrix.devScript }} layout Release ${{ matrix.runtime }}
-      working-directory: D:\a\actiontest\actiontest
-    
+        
+    - name: Build with Maven
+      #run: attunedlabs/services/maven-build.bat
+      working-directory: attunedlabs
+      run: mvn -B package --file attunedlabs/services/leap-core/pom.xml
+      shell: cmd
